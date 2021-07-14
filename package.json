@@ -1,0 +1,13 @@
+{
+  "name": "1sc-project",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "packages/client/**",
+    "packages/server/**"
+  ],
+  "devDependencies": {
+    "lerna": "^4.0.0",
+    "prettier": "^2.3.2"
+  }
+}
