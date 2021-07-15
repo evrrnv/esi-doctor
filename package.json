@@ -3,11 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "workspaces": [
-    "packages/client/**",
-    "packages/server/**"
+      "packages/server",
+      "packages/client"
   ],
   "devDependencies": {
-    "lerna": "^4.0.0",
     "prettier": "^2.3.2"
   }
 }

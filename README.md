@@ -12,8 +12,7 @@ $ git clone https://github.com/evrrnv/1sc-project.git
 
 ```
 $ cd 1sc-project
-$ yarn/npm -g add lerna
-$ lerna bootstrap
+$ yarn install
 ```
 
 ## Packages

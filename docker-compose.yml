@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  1sc-project:
+    image: ccacc/1sc-project
+    container_name: 1sc-project
+    networks:
+      - docker_proxy
+
+networks:
+  docker_proxy:
+    external: true

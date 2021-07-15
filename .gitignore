@@ -1,4 +1,8 @@
+.vscode/
 node_modules/
 build/
-.vscode/
+web/
+packages/*/package-lock.json
+packages/*/yarn.lock
+packages/*/yarn-error.log
 yarn-error.log

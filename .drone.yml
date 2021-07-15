@@ -1,0 +1,38 @@
+kind: pipeline
+type: docker
+name: default
+steps:
+  - name: install
+    image: node:14
+    commands:
+      - yarn install --frozen-lockfile
+  - name: build
+    image: node:14
+    commands:
+      - yarn workspace client build
+  - name: publish
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      repo: ccacc/1sc-project
+      auto_tag: true
+  - name: deploy
+    image: docker/compose
+    commands:
+      - docker pull ccacc/1sc-project
+      - docker-compose up -d
+    volumes:
+    - name: docker
+      path: /var/run/docker.sock
+
+trigger:
+  branch:
+  - master
+
+volumes:
+- name: docker
+  host:
+    path: /var/run/docker.sock
