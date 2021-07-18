@@ -4,15 +4,19 @@
   "private": "true",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon -e js,gql src/index.js",
     "start": "NODE_ENV=production node src/index.js"
   },
   "dependencies": {
     "@graphql-tools/load-files": "^6.3.2",
     "@graphql-tools/merge": "^6.2.14",
+    "@graphql-tools/schema": "^7.1.5",
     "apollo-server-express": "^3.0.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "graphql": "^15.5.1"
+    "graphql": "^15.5.1",
+    "keycloak-connect": "^14.0.0",
+    "keycloak-connect-graphql": "^0.7.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.12"

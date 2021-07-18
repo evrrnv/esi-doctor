@@ -1,8 +1,9 @@
-.vscode/
-node_modules/
-build/
-web/
+.vscode
+node_modules
+build
+web
 packages/*/package-lock.json
 packages/*/yarn.lock
 packages/*/yarn-error.log
 yarn-error.log
+.env
