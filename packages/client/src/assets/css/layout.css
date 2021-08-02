@@ -1,0 +1,137 @@
+/*** Side Bar ****/
+
+.sideBar__container{
+    height: 100vh;
+    width: 238px;
+    margin-right: auto;
+    background-color: #FBFBFB;
+    padding: 15px 0px 20px 25px;
+    box-shadow: 1px 3px 7px 4px rgba(0,0,0,.2);
+}
+
+.dash__logo{
+    font-size: 20px;
+    margin-bottom: 25px;
+    font-weight: 500;
+}
+
+.dash__avatar{
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.avatar__infos >span{
+    font-size: 16px;
+    cursor: pointer;
+}
+.avatar__name{
+    color: #000 !important;
+    font-weight: 500;
+}
+.avatar__title{
+    color: #8A8F9C;
+    font-size: 14px !important;
+}
+.arrow__title{
+    font-size: 14px !important;
+    margin-top: -3px;
+    margin-right: 3px;
+    margin-left: -2px;
+}
+
+
+.menu__items  {
+    text-decoration: none;
+    list-style-type: none;
+    margin-bottom: 5px;
+    font-size: 14px;
+    max-width: 195px;
+    padding: 6px 0px 6px 9px;
+    border-radius: 5px;
+
+}
+
+.menu__items:hover{
+    background-color: rgb(230, 230, 230);
+}
+
+.menu__links{
+    color: #8A8F9C;
+    font-weight: 500;
+}
+.menu__links:hover{
+    text-decoration: none;
+    color: #24A9E2;
+}
+
+.menu{
+    margin-top: 25px;
+    margin-left: -37px;
+    margin-bottom: 20px;
+}
+
+.dash__icons{
+    margin-top: -3px;
+    margin-right: 10px;
+    width: 16px;
+    height: 16px;
+
+}
+.selected__item {
+    color: white !important;
+    background-color: #24A9E2;
+}
+
+.selected__item:hover{
+    background-color: #24A9E2;
+    color: #fff;
+}
+
+
+
+.dash__titles{
+    font-size: 12px !important;
+    font-weight: 500;
+    color: #8A8F9C;
+    margin-left: 37px;
+}
+
+.other__menu{
+    margin-left: -37px !important;
+}
+
+#support{
+    margin-top: 25px;
+}
+
+.logout__btn{
+    background-color: unset;
+    border: unset;
+    color: #8A8F9C;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: underline;
+    margin-left: -10px;
+}
+
+.logout__btn:hover{
+    color: #24A9E2;
+}
+
+.logout__icon{
+    margin-right: 17px;
+    width: 22px;
+    height: 20px;
+}
+
+
+.logout__item{
+    position: absolute;
+    bottom: 2%;
+}
+.logout__item:hover{
+    background-color: unset;
+}
