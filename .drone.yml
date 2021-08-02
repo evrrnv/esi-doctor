@@ -9,6 +9,7 @@ steps:
   - name: build
     image: node:14
     commands:
+      - unset CI
       - yarn workspace client build
   - name: publish
     image: plugins/docker

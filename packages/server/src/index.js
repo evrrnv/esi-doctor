@@ -1,5 +1,6 @@
 require('dotenv').config()
 const express = require('express')
+const path = require('path')
 const { ApolloServer } = require('apollo-server-express')
 const { makeExecutableSchema } = require('@graphql-tools/schema')
 const {
@@ -17,6 +18,10 @@ const { typeDefs, resolvers } = require('./graphql')
 
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static('web'))
+    app.get('*', (req, res, next) => {
+      if (req.url === graphqlPath) return next()
+      res.sendFile('index.html', { root: 'web' });
+    });
   }
 
   const { keycloak } = configureKeycloak(app, graphqlPath)
