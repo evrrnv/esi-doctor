@@ -1,0 +1,39 @@
+/*** Patient Card ***/
+*{box-sizing: border-box;}
+
+.patient__card{
+    background-color: white;
+    border: white 3px solid;
+    margin-bottom: 10px;
+    padding: 20px;
+    height: 85px;
+    cursor: pointer;
+}
+
+.patient__card:hover{
+    background-color: #E8EDF5;
+}
+
+
+.dm__avatar{
+    width: 56px;
+    height: 56px;
+    margin-right: 20px;
+    border-radius: 3px;
+    border: 1px solid gray;
+}
+
+.infos{
+    margin-top: -5px;
+}
+
+
+.card__name{
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.card__email{
+    font-size: 15px;
+    color: #8A8F9C;
+}

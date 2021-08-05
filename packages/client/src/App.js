@@ -1,5 +1,5 @@
 import './App.css'
-import { BrowserRouter,Switch, Route } from 'react-router-dom'
+import { BrowserRouter,Switch, Route,Redirect } from 'react-router-dom'
 import Dashboard from './views/DashBoard'
 import RdvList from './views/RdvList'
 import Patients from './views/Patients'
@@ -17,6 +17,10 @@ function App() {
       <div className="App">
         <BrowserRouter>
          <Switch>
+
+            <Route exact  path="/">
+             <Redirect to="/dashboard" />
+            </Route>
 
             <Route path="/dashboard" component={Dashboard} />
 

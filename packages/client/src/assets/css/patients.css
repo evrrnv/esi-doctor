@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+*{
+    font-family: 'Roboto', sans-serif;
+}
+.main{
+
+    background-color: #E8EDF5;
+}
+
+.patients__content{
+    padding-left: 295px;
+    padding-top: 30px;
+    padding-right: 70px;
+}
+
+.head__txt{
+    max-width: 250px;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.head__tot{
+    max-width: 120px;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 600 !important;
+    color: #8A8F9C;
+}
+
+#tot__nbr{
+    font-size: 35px;
+}
+
+.patients__types{
+    margin-top: 15px;
+    padding-bottom: 25px;
+    border-bottom: #707070 solid 2px;
+}
+.types{
+    background-color: #24A9E2;
+    background-repeat: no-repeat;
+    background-position: 50% 30%;
+    background-size: 84px 87px;
+    padding-top: 100px;
+    width: 225px;
+    height: 216px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: white;
+}
+
+.types:hover{
+    background-color: white;
+    color: #24A9E2;
+    transition: all 0.2s ease;
+}
+
+#student{
+    background-image: url('../images/student.png');
+}
+#student:hover{
+    background-image: url('../images/studentB.png');
+}
+
+#teacher{
+    background-image: url('../images/teacher.png');
+}
+#teacher:hover{
+    background-image: url('../images/teacherB.png');
+}
+
+#ats{
+    background-image: url('../images/ATS.png');
+}
+#ats:hover{
+    background-image: url('../images/ATSB.png');
+}
+
+.type__txt{
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.modif__rec{
+    margin-top: 15px;
+    padding-bottom: 30px;
+}
+
+.dm__rec{
+    margin-top: 20px;
+}
