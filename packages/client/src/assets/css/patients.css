@@ -5,92 +5,148 @@
 }
 .main{
 
-    background-color: #E8EDF5;
+    background-color: #D1F1E6;
 }
 
 .patients__content{
-    padding-left: 295px;
-    padding-top: 30px;
-    padding-right: 70px;
+    padding-left: 280px;
+    padding-top:  30px;
+    padding-right: 40px;
+    padding-bottom: 30px;
 }
 
 .head__txt{
     max-width: 250px;
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 700;
 }
 
-.head__tot{
-    max-width: 120px;
-    text-align: center;
-    font-size: 30px;
-    font-weight: 600 !important;
-    color: #8A8F9C;
+#notif__icon{
+    width: 30px;
+    margin-left: 50px;
+    cursor: pointer;
 }
-
-#tot__nbr{
-    font-size: 35px;
-}
-
-.patients__types{
-    margin-top: 15px;
-    padding-bottom: 25px;
-    border-bottom: #707070 solid 2px;
+.patients__body{
+    margin-top: 40px;
 }
 .types{
-    background-color: #24A9E2;
-    background-repeat: no-repeat;
-    background-position: 50% 30%;
-    background-size: 84px 87px;
-    padding-top: 100px;
-    width: 225px;
-    height: 216px;
+    background-color: #fff;
     border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    padding: 20px 20px 0px 20px;
+    width: 210px;
     cursor: pointer;
-    color: white;
 }
-
 .types:hover{
-    background-color: white;
+    background-color: #24A9E2;
+    transition: all 0.3s ease;
+}
+
+
+.types__tx{
+    margin-bottom: 5px;
+}
+.nbr__tot{
+    font-size: 14px;
+    color: #8A8F9C;
+    margin-top: -10px;
+}
+.patients__types{
+    width: 65%;
+}
+.patients__examen{
+    width: 30%;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 15px;
+}
+
+.avatar__title__ex {
     color: #24A9E2;
-    transition: all 0.2s ease;
+    font-size: 11px;
+    font-weight: 600;
 }
-
-#student{
-    background-image: url('../images/student.png');
+.dash__avatar__ex{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
 }
-#student:hover{
-    background-image: url('../images/studentB.png');
+.avatar__name__ex{
+    font-size: 14px;
 }
-
-#teacher{
-    background-image: url('../images/teacher.png');
+.avatar__infos__ex{
+    margin-left: 15px;
 }
-#teacher:hover{
-    background-image: url('../images/teacherB.png');
-}
-
-#ats{
-    background-image: url('../images/ATS.png');
-}
-#ats:hover{
-    background-image: url('../images/ATSB.png');
-}
-
-.type__txt{
-    margin-top: 10px;
+.pers{
+    margin: 5px;
+    border-radius: 10px;
+    border: 1px #F6F7FB solid;
+    padding: 10px;
     cursor: pointer;
+}
+.pers:hover{
+    background-color: #F6F7FB;
+}
+
+.pers__recherche{
+    border: none;
+    padding: 10px;
+    outline: none;
+    margin-bottom: 10px;
+}
+.pers__recherche:focus{
+    border: none;
+}
+.pers__recherche:active{
+    border: none;
+}
+#search__icon{
+    color: #8A8F9C;
 }
 
 .modif__rec{
     margin-top: 15px;
-    padding-bottom: 30px;
+    background-color: #fff;
+    border-radius: 20px;
+    margin-left: -15px;
+    margin-right: -15px;
+    padding: 15px;
+    margin-bottom: 0px;
+}
+.modif__txt{
+    color: #8A8F9C;
 }
 
-.dm__rec{
-    margin-top: 20px;
+.titles{
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+.modif__titles{
+    color: #D8EAE6;
+    font-size: 12px;
+    text-align: center;
+}
+
+.modif__elem{
+    font-size: 14px;
+    color: #8A8F9C;
+    font-weight: 400;
+    text-align: center;
+}
+.modif__list:hover{
+    background-color: #F6F7FB;
+}
+
+.modif__list{
+    border-top: #D8EAE6 solid 2px;
+    padding-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-bottom: 5px;
+    cursor: pointer;
+}
+
+.medecin__elem{
+    color: #24A9E2;
 }

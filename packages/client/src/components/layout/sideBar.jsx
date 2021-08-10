@@ -50,14 +50,6 @@ useEffect(() => {
 
         <div className="sideBar__container">
             <h1 className="dash__logo">LOGO</h1>
-            <div className="d-flex align-items-center mt-3">
-                <img className="dash__avatar" src={avatar} alt="" />
-                <span className="avatar__infos">
-                    <span className="avatar__name">M.Amin Mesmoudi</span><br></br>
-                    <span className="avatar__title"><ArrowForwardIosIcon className="arrow__title"/>Médecin</span>
-                </span>
-            </div>
-
         <div className="menu">
             <ul>
             <NavLink className="menu__links" to="/dashboard"><li id="dashboard" className="menu__items"><DashboardIcon className="dash__icons"/>Dashboard</li></NavLink>
