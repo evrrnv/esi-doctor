@@ -1,7 +1,10 @@
 package dev.diltheyaislan.app.keycloak.provider.appdb;
 
+import java.sql.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.jboss.logging.Logger;
 import org.keycloak.component.ComponentModel;
@@ -81,47 +84,44 @@ public class AppUserAdapter extends AbstractUserAdapterFederatedStorage {
 	}
 
 	@Override
-	public String getFirstAttribute(String name) {
-		log.infov("[Keycloak UserModel Adapter] Getting first value of attribute {0} ....", name);
-		return getFederatedStorage().getAttributes(realm, this.getId()).getFirst(name);
-	}
-
-	@Override
-	public Map<String, List<String>> getAttributes() {
-		log.infov("[Keycloak UserModel Adapter] Getting all attributes ....");
-		return getFederatedStorage().getAttributes(realm, this.getId());
-	}
-
-	@Override
-	public List<String> getAttribute(String name) {
-		log.infov("[Keycloak UserModel Adapter] Getting values of attribute {0} ....", name);
-		return getFederatedStorage().getAttributes(realm, this.getId()).get(name);
-	}
-
-	@Override
-	public void setSingleAttribute(String name, String value) {
-		log.infov("[Keycloak UserModel Adapter] Setting attribute {0} with value {1}", name, value);
-		getFederatedStorage().setSingleAttribute(realm, this.getId(), name, value);
-	}
-
-	@Override
 	public void setAttribute(String name, List<String> values) {
 		log.infov("[Keycloak UserModel Adapter] Setting attribute {0} with values {1}", name, values);
 
 		switch(name){
-			case "firstName": 
+			case "firstName":
 				user.setFirstName(values.get(0));
 				break;
-			case "lastName": 
+			case "lastName":
 				user.setLastName(values.get(0));
 				break;
-			case "email": 
-				user.setUsername(values.get(0));
+			case "email":
 				user.setEmail(values.get(0));
 				break;
-			case "username": 
-				user.setUsername(values.get(0));
-				user.setEmail(values.get(0));
+			case "telephone":
+				user.setPhone(values.get(0));
+				break;
+			case "sexe":
+				user.setSexe(values.get(0));
+				break;
+			case "specialite":
+				user.setSpecialty(values.get(0));
+				break;
+			case "adresse":
+				user.setAddress(values.get(0));
+				break;
+			case "password":
+				user.setAddress(values.get(0));
+				break;
+			case "niveau":
+				try {
+					user.setLevel(Integer.parseInt(values.get(0)));
+				} catch (NumberFormatException e) {}
+				break;
+			case "datedenaissance":
+				try {
+					Date date = Date.valueOf(values.get(0));
+					user.setBirthDate(date);
+				} catch (IllegalArgumentException e) {}
 				break;
 		}
 

@@ -13,6 +13,7 @@ import org.keycloak.credential.CredentialInputValidator;
 import org.keycloak.models.GroupModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
+import org.keycloak.models.RoleModel;
 import org.keycloak.models.UserCredentialModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.storage.StorageId;
@@ -21,6 +22,7 @@ import org.keycloak.storage.user.UserLookupProvider;
 import org.keycloak.storage.user.UserQueryProvider;
 import org.keycloak.storage.user.UserRegistrationProvider;
 
+import dev.diltheyaislan.app.keycloak.provider.appdb.entity.Role;
 import dev.diltheyaislan.app.keycloak.provider.appdb.entity.User;
 import dev.diltheyaislan.app.keycloak.provider.appdb.repository.IUserRepository;
 
@@ -55,10 +57,8 @@ public class AppUserStorageProvider implements
 			log.infov("Adding new user to repository: username={0}", username);
 			
 			User user = new User();
-			user.setFirstName("");
-			user.setLastName("");
 			user.setUsername(username);
-			user.setEmail(username);
+			user.setRole(Role.ETUDIANT);
 			
 			String insertedId = userRepository.insert(user);
 
@@ -155,7 +155,7 @@ public class AppUserStorageProvider implements
 
 		@Override
 		public boolean isConfiguredFor(RealmModel realm, UserModel user, String credentialType) {
-			String password = userRepository.get(user.getUsername()).getPassword();
+			String password = userRepository.getByUsername(user.getUsername()).getPassword();
 			log.infov("Checking authentication setup ...");
 			return credentialType.equals("password") && password != null;
 		}
@@ -165,10 +165,27 @@ public class AppUserStorageProvider implements
 			if (!supportsCredentialType(input.getType()) || !(input instanceof UserCredentialModel)) return false;
 
 			UserCredentialModel cred = (UserCredentialModel) input;
-			String password = userRepository.get(user.getUsername()).getPassword();
+			User userEntity = userRepository.getByUsername(user.getUsername());
+			String password = userEntity.getPassword();
 
 			if (password == null) return false;
-			return password.equals(HashUtil.hashString(cred.getValue()));
+			// return password.equals(HashUtil.hashString(cred.getValue()));
+
+			log.infov("PASSWORD ..." + cred.getValue());
+
+			if (password.equals(cred.getValue())) {
+				RoleModel defaultRole = realm.getRole("default-roles-1sc_project");
+				RoleModel role = realm.getRole(userEntity.getRole());
+				if (defaultRole != null && !user.hasRole(defaultRole)) {
+					user.grantRole(defaultRole);
+				}
+				if (role != null && !user.hasRole(role)) {
+					user.grantRole(role);
+				}
+				return true;
+			}
+
+			return false;
 		}
 
 		@Override
@@ -187,7 +204,7 @@ public class AppUserStorageProvider implements
 					log.infov("User in federated storage: {0}", user);
 					log.infov("Attributes: {0}", session.userFederatedStorage().getAttributes(realm, user));
 				});
-				User user = userRepository.get(username);
+				User user = userRepository.getByUsername(username);
 				log.infov("found user with {0} for load users: {1}", username, user);
 				if (user != null) {
 					adapter = new AppUserAdapter(session, realm, model, user);
@@ -199,7 +216,19 @@ public class AppUserStorageProvider implements
 
 		@Override
 		public UserModel getUserByEmail(String email, RealmModel realm) {
-			log.infov("Looking up user via email: email={0} realm={1}", email, realm.getId());
-        	return getUserByUsername(email, realm);
+			UserModel adapter = loadedUsers.get(email);
+			if (adapter == null) {
+				session.userFederatedStorage().getStoredUsersStream(realm, 0, Integer.MAX_VALUE).forEach(user -> {
+					log.infov("User in federated storage: {0}", user);
+					log.infov("Attributes: {0}", session.userFederatedStorage().getAttributes(realm, user));
+				});
+				User user = userRepository.getByEmail(email);
+				log.infov("found user with {0} for load users: {1}", email, user);
+				if (user != null) {
+					adapter = new AppUserAdapter(session, realm, model, user);
+					loadedUsers.put(email, adapter);
+				}
+			}
+			return adapter;
 		}
 }

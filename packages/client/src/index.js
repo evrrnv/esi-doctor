@@ -11,9 +11,9 @@ import { setContext } from '@apollo/client/link/context'
 
 const Apollo = ({ children }) => {
   const { keycloak } = useKeycloak()
-
+  console.log(keycloak.token)
   const httpLink = createHttpLink({
-    uri: 'http://localhost:4000/api',
+    uri: 'http://localhost:4000/graphql',
   })
   const authLink = setContext((_, { headers }) => {
     const token = keycloak.token

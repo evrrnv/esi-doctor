@@ -1,0 +1,9 @@
+DROP TABLE public.users;
+
+DROP TYPE SEXE;
+
+DROP TYPE SPECIALITE;
+
+DROP TYPE ROLE;
+
+DROP EXTENSION "uuid-ossp";

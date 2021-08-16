@@ -7,7 +7,8 @@ import dev.diltheyaislan.app.keycloak.provider.appdb.entity.User;
 public interface IUserRepository {
 
 	String insert(User user);
-    User get(String username);
+    User getByUsername(String username);
+    User getByEmail(String email);
     void update(User user);
     void remove(String username);
 	int count();

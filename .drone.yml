@@ -25,15 +25,31 @@ steps:
     commands:
       - docker pull ccacc/1sc-project
       - docker-compose up -d
+    environment:
+      KEYCLOAK_URL:
+        from_secret: keycloak_url
+      KEYCLOAK_REALME:
+        from_secret: keycloak_realme
+      POSTGRES_HOST:
+        from_secret: postgres_host
+      POSTGRES_DB:
+        from_secret: postgres_db
+      POSTGRES_USER:
+        from_secret: postgres_user
+      POSTGRES_PASSWORD:
+        from_secret: postgres_password
+      POSTGRES_PORT:
+        from_secret: postgres_port
     volumes:
-    - name: docker
-      path: /var/run/docker.sock
+      - name: docker
+        path: /var/run/docker.sock
 
 trigger:
   branch:
-  - master
+    - master
 
 volumes:
-- name: docker
-  host:
-    path: /var/run/docker.sock
+  - name: docker
+    host:
+      path: /var/run/docker.sock
+

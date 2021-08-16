@@ -1,47 +1,56 @@
 require('dotenv').config()
 const express = require('express')
-const path = require('path')
-const { ApolloServer } = require('apollo-server-express')
-const { makeExecutableSchema } = require('@graphql-tools/schema')
-const {
-  KeycloakContext,
-  KeycloakTypeDefs,
-  KeycloakSchemaDirectives
-} = require('keycloak-connect-graphql')
-const { configureKeycloak } = require('./lib/configKeycloak')
-const { typeDefs, resolvers } = require('./graphql')
+const { postgraphile } = require('postgraphile')
+const Keycloak = require("./lib/keycloak-verify")
 
-;(async () => {
-  const graphqlPath = '/api'
+const app = express()
 
-  const app = express()
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('web'))
+  app.get('*', (req, res, next) => {
+    console.log(req.url)
+    if (req.url === "/graphiql" || req.url === "/graphql") return next()
+    res.sendFile('index.html', { root: 'web' });
+  });
+}
 
-  if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('web'))
-    app.get('*', (req, res, next) => {
-      if (req.url === graphqlPath) return next()
-      res.sendFile('index.html', { root: 'web' });
-    });
-  }
+const config = { realm: process.env.KEYCLOAK_REALME, authServerUrl: process.env.KEYCLOAK_URL }
+const keycloak = Keycloak(config);
 
-  const { keycloak } = configureKeycloak(app, graphqlPath)
+const DATABASE_URL = `postgresql://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@${process.env.POSTGRES_HOST}:5432/${process.env.POSTGRES_DB}`
 
-  const server = new ApolloServer({
-    schema: makeExecutableSchema({
-      typeDefs: [KeycloakTypeDefs, typeDefs],
-      resolvers,
-      schemaDirectives: KeycloakSchemaDirectives
-    }),
-    context: ({ req }) => {
-      return {
-        kauth: new KeycloakContext({ req }, keycloak)
+app.use(
+  postgraphile(
+    DATABASE_URL,
+    "public",
+    {
+      watchPg: true,
+      graphiql: true,
+      enhanceGraphiql: true,
+      pgSettings: async req => {
+        const authorization = req.headers.authorization
+        if (canSplit(authorization)) {
+          const token = authorization.split('Bearer');
+          if (token.length > 1) { 
+            try {
+                const user = await keycloak.verifyOnline(token[1])
+                const role = user.resourceAccess.web.roles[0]
+                return {
+                  'jwt.claims.user_id': 1,
+                  role
+                }
+            } catch (e) {
+  
+            }
+          }
+        }
       }
     }
-  })
-  await server.start()
+  )
+);
 
-  server.applyMiddleware({ app, path: graphqlPath })
+app.listen(process.env.PORT || 4000);
 
-  await new Promise((resolve) => app.listen({ port: 4000 }, resolve))
-  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
-})()
+const canSplit = (str, token) => {
+  return (str || '').split(token).length > 1;         
+}
