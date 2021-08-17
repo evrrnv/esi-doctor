@@ -22,7 +22,7 @@ const DATABASE_URL = `postgresql://${process.env.POSTGRES_USER}:${process.env.PO
 app.use(
   postgraphile(
     DATABASE_URL,
-    "public",
+    "app",
     {
       watchPg: true,
       graphiql: true,
