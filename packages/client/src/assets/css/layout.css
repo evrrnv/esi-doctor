@@ -5,7 +5,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    min-width: 238px;
+    width: 238px;
     margin-right: auto;
     background-color: #FBFBFB;
     padding: 15px 0px 20px 25px;
@@ -137,4 +137,18 @@
 }
 .logout__item:hover{
     background-color: unset;
+}
+@media screen and (max-width:767px){
+    .sideBar__container{
+        display: none;
+    }
+}
+@media screen and (max-width:992px){
+    .sideBar__container{
+        width: 180px ;
+        padding: 5px;
+    }
+    .menu__items {
+        font-size: 12px !important;
+    }
 }

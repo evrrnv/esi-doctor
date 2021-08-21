@@ -14,6 +14,9 @@
     padding-right: 40px;
     padding-bottom: 30px;
 }
+.patients__header{
+    font-size: 3vw;
+}
 
 .head__txt{
     max-width: 250px;
@@ -22,31 +25,46 @@
 }
 
 #notif__icon{
-    width: 30px;
+    font-size: 35px;
     margin-left: 50px;
     cursor: pointer;
 }
 .patients__body{
     margin-top: 40px;
 }
+.avatar__infos{
+    line-height: 18px;
+}
+
 .types{
     background-color: #fff;
     border-radius: 20px;
     padding: 20px 20px 0px 20px;
-    width: 210px;
+    width: 31%;
+
     cursor: pointer;
+  
 }
 .types:hover{
     background-color: #24A9E2;
     transition: all 0.3s ease;
+    color: white;
+    
+}
+.types:hover > .types__txt> .nbr__tot{
+    color: white;
 }
 
-
-.types__tx{
-    margin-bottom: 5px;
+.types__imgs{
+    width: 100%;
+    height: 65%;
 }
-.nbr__tot{
-    font-size: 14px;
+.types__title{
+    font-size: 2vw;
+}
+
+p.nbr__tot{
+    font-size: 1.2vw;
     color: #8A8F9C;
     margin-top: -10px;
 }
@@ -56,10 +74,18 @@
 .patients__examen{
     width: 30%;
     background-color: #fff;
-    border-radius: 20px;
-    padding: 15px;
-}
+    border-radius: 15px;
+    max-height: 26vw;
+    min-height: 270px !important;
+    padding: 0px 10px;
+    overflow: hidden;
 
+
+}
+.lastExam__txt{
+    font-size: 1.4vw;
+    margin: 10px 10px;
+}
 .avatar__title__ex {
     color: #24A9E2;
     font-size: 11px;
@@ -71,27 +97,36 @@
     border-radius: 50%;
 }
 .avatar__name__ex{
-    font-size: 14px;
+    font-size: 1.1vw;
+}
+.avatar__title__ex{
+    font-size: 1vw;
 }
 .avatar__infos__ex{
     margin-left: 15px;
+    line-height: 20px;
 }
 .pers{
-    margin: 5px;
+    margin: 4px;
     border-radius: 10px;
     border: 1px #F6F7FB solid;
-    padding: 10px;
+    padding: 0.8vw;
     cursor: pointer;
 }
 .pers:hover{
     background-color: #F6F7FB;
 }
+.pers__examen{
+    overflow: scroll;
+    max-height: 18vw !important;
+}
 
 .pers__recherche{
     border: none;
-    padding: 10px;
+    padding: 0px;
     outline: none;
-    margin-bottom: 10px;
+    width: 90%;
+    font-size: 1.4vw;
 }
 .pers__recherche:focus{
     border: none;
@@ -101,6 +136,11 @@
 }
 #search__icon{
     color: #8A8F9C;
+    font-size: 1.7vw !important;
+}
+.search__exam{
+    margin-left: 10px !important;
+    margin-right: 5px !important;
 }
 
 .modif__rec{
@@ -124,12 +164,12 @@
 }
 .modif__titles{
     color: #D8EAE6;
-    font-size: 12px;
+    font-size: 1.2vw;
     text-align: center;
 }
 
 .modif__elem{
-    font-size: 14px;
+    font-size: 1.3vw;
     color: #8A8F9C;
     font-weight: 400;
     text-align: center;
@@ -137,7 +177,9 @@
 .modif__list:hover{
     background-color: #F6F7FB;
 }
-
+.modif__txt{
+    font-size: 2vw;
+}
 .modif__list{
     border-top: #D8EAE6 solid 2px;
     padding-top: 20px;
@@ -149,4 +191,306 @@
 
 .medecin__elem{
     color: #24A9E2;
+}
+
+#lastExam__time{
+    font-size: 11px;
+    color: #8A8F9C;
+}
+.burger{
+    font-size: 30px;
+}
+
+
+@media screen and (max-width:992px){
+    .patients__content{
+        padding-left: 210px;
+        padding-right: 25px;
+        padding: 10px 25px 10px 210px;
+    }
+
+    .types{
+        padding: 10px 10px 0px 10px;
+    }
+    .dash__avatar__ex{
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+    }
+    .patients__examen{
+        padding: 5px 3px;
+        min-height: 250px;
+    }
+    .avatar__infos__ex{
+        margin-left: 8px;
+        line-height: 15px;
+    }
+    .pers{
+        margin: 3px;
+        border-radius: 10px;
+        border: 1px #F6F7FB solid;
+        padding: 5px;
+        cursor: pointer;
+    }
+    .pers:hover{
+        background-color: #F6F7FB;
+    }
+    .pers__examen{
+        min-height: 190px ;
+    }
+    
+    .pers__recherche{
+        border: none;
+        padding: 0px;
+        margin: 5px;
+        outline: none;
+        width: 95%;
+    }
+    .modif__list{
+        padding-top: 10px;
+    }
+    .head__txt{
+        font-size: 20px;
+    }
+    .dash__avatar{
+        width: 35px;
+        height: 35px;
+    }
+    .avatar__name{
+        font-size: 13px !important;
+    }
+    .avatar__title{
+        font-size: 11px !important;
+    }
+    #notif__icon{
+        font-size: 25px;
+        margin-left: 20px !important;
+    }
+}
+
+@media screen and (max-width:767px){
+    .patients__content{
+        padding: 7px 30px !important;
+    }
+    .patients__examen{
+        max-height: 100px !important;
+        padding: 5px;
+    }
+    .pers__examen{
+        min-height: 215px ;
+    }
+    .avatar__name__ex{
+        font-size: 1.5vw;
+    }
+    .avatar__title__ex{
+        font-size: 1.3vw;
+    }
+    .lastExam__txt{
+        font-size: 12px;
+        margin: 5px 0px;
+    }
+    .types__txt{
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+    .patients__types{
+        width: 50%;
+    }
+    .patients__examen{
+        width: 45%;
+    }
+    .types{
+        width: 100%;
+        margin-top: 10px;
+        position: relative;
+    }
+    .types__title{
+        font-size: 18px !important;
+    }
+    .nbr__tot{
+        font-size: 11px !important;
+    }
+    .search__exam{
+        margin-left: 15px !important;
+        margin-right: 15px !important;
+
+    }
+    .types__imgs{
+        width: 18%;
+        height: 87%;
+        position: absolute;
+        left: 3%;
+        top: 8%;
+    }
+
+
+    .modif__titles{
+       
+        font-size: 11px !important;
+       
+    }
+    
+    .modif__elem{
+        font-size: 10px;
+      
+      
+    }
+    .modif__list:hover{
+        background-color: #F6F7FB;
+    }
+   
+ 
+  
+}
+
+
+@media screen and (max-width:575px){
+    .patients__types{
+        width: 93% !important;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .patients__content{
+        padding-top: 0px !important;
+    }
+    .patients__examen{
+        width: 93% !important;
+        margin-top: 20px;
+        border-radius: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 100px;
+    }
+    .pers__examen{
+        min-height: 200px !important;
+    }
+    .types__imgs{
+        width: 18% !important;
+    }
+    .patients__header{
+        font-size: 20px;
+        margin-bottom: 20px !important;
+        margin-top: -10px;
+    }
+    .patients__content{
+        padding: 6px 15px !important;
+    }
+    .modif__rec{
+        margin-left: auto;
+        margin-right: auto;
+        padding: 15px 5px;
+        border-radius: 10px;
+        
+    }
+  
+    .modif__rec__content{
+        padding: 0px 5px;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+        position: relative;
+   
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+    .titles{
+        flex-wrap: nowrap;
+        min-width: 540px;
+        margin-left: 0 ;
+        margin-right: 0;
+    }
+  
+    .modif__list{
+        flex-wrap: nowrap;
+        min-width: 540px;
+    }
+    .lastExam__txt{
+        font-size: 16px;
+        margin-bottom: 10px;
+
+    }
+    .avatar__title__ex {
+        color: #24A9E2;
+        font-size: 12px !important;
+        font-weight: 600;
+    }
+    .dash__avatar__ex{
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+    .avatar__name__ex{
+        font-size: 15px;
+    }
+   
+    .avatar__infos__ex{
+        margin-left: 15px;
+        line-height: 20px;
+    }
+    .pers{
+        margin: 6px;
+        border-radius: 10px;
+        border: 1px #F6F7FB solid;
+        padding: 5px;
+        cursor: pointer;
+    }
+    .pers:hover{
+        background-color: #F6F7FB;
+    }
+
+    
+    .pers__recherche{
+        border: none;
+        padding: 0px;
+        outline: none;
+        width: 90%;
+        font-size: 15px !important;
+    }
+   
+    #search__icon{
+        color: #8A8F9C;
+        font-size: 17px !important;
+    }
+    .search__exam{
+        margin-left: 20px !important;
+        margin-right: 20px !important;
+    }
+    
+    
+    .modif__titles{
+        color: #D8EAE6;
+        font-size: 10px;
+        text-align: center;
+    }
+    
+    .modif__elem{
+        font-size: 10px;
+        color: #8A8F9C;
+        font-weight: 400;
+        text-align: center;
+    }
+    .modif__list:hover{
+        background-color: #F6F7FB;
+    }
+    .modif__txt{
+        font-size: 13px;
+    }
+    .modif__list{
+        border-top: #D8EAE6 solid 2px;
+        padding-top: 10px;
+        margin-left: 0px !important;
+        margin-right: 0px !important;
+        padding-bottom: 3px;
+        cursor: pointer;
+    }
+    
+    .medecin__elem{
+        color: #24A9E2;
+    }
+    
+    #lastExam__time{
+        font-size: 11px;
+        color: #8A8F9C;
+    }
+
 }
