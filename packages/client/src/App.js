@@ -8,7 +8,7 @@ import Stat from "./views/Stat"
 import Listes from './views/Listes'
 import Param from './views/Param'
 import Contact from './views/Contact'
-
+import PatientInfos from './components/shared/patientInfos'
 function App() {
  
 
@@ -37,6 +37,7 @@ function App() {
             <Route path="/param" component={Param} />
 
             <Route path="/contact" component={Contact} />
+            <Route path="/patientsListInfos" component={PatientInfos}/>
 
          </Switch>
         </BrowserRouter>

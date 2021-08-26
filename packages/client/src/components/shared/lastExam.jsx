@@ -1,8 +1,15 @@
 import React from 'react';
-
+import {Link} from 'react-router-dom';
 const LastExam = (props) => {
     return (
-        <>
+        <Link to={{
+            pathname:"/patientsListInfos",
+            state:{
+                props:props   
+            }
+        }}
+        className="link_patientInfos"
+        >
             <div className="pers d-flex justify-content-between align-items-center">
                 <div className="d-flex align-items-center"> 
                     <img className="dash__avatar__ex" src={props.avatar} alt={props.name} />
@@ -13,7 +20,7 @@ const LastExam = (props) => {
                 </div>
                 <span id="lastExam__time">{props.time}</span>
             </div>
-        </>
+        </Link>
     );
 }
 

@@ -1,5 +1,8 @@
 /*** Patient Card ***/
-*{box-sizing: border-box;}
+*{
+    box-sizing: border-box;
+    
+}
 
 .patient__card{
     background-color: white;
@@ -36,4 +39,227 @@
 .card__email{
     font-size: 15px;
     color: #8A8F9C;
+}
+/**PatientsInfos**/
+.main_{
+    background-color: #20c9966c;   
+    overflow: hidden; 
+}
+.patient_infos{
+    padding-left: 350px;
+    padding-top: 30px;
+    width: 100%;
+    height: auto;
+    padding-right: 10%;
+    flex-direction: column;
+
+}
+.general_infos{
+    background-color:transparent;
+    display: flex;
+    padding: 30px 0px;
+    width: 100%;
+    height: auto;
+}
+.personal_img img{
+    border-radius: 10px;
+    float: left;
+    height: auto;
+    width: 10vw;
+    margin-right: 20px;
+}
+.informations{
+    display: flex;
+    flex-direction: column;
+    color: #3b4255;
+    width: 200px;
+    align-items: flex-start;
+    justify-content: center;
+}
+.informations .titre,.nomEtprenom,.email {
+    padding: 3px 0px;
+}
+.informations .nomEtprenom{
+    color: rgb(37, 37, 37);
+    font-size: 1.2rem;
+    font-weight: 500;
+    width: 200px;
+}
+.numbers{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    color: rgb(37, 37, 37);
+    font-size: 90%;
+    /*width: 180px;*/
+    font-weight: 100;
+    margin-left: 40%;
+}
+.numbers .visits_num{
+    font-size: 3rem;
+    color: #8A8F9C;
+    font-weight: small;
+}
+.numbers span{
+    float: left;
+}
+.personal_infos{
+    background-color: white;
+    padding-top:40px;
+    padding-bottom: 40px;
+    padding-right: 40px;
+    border-radius: 10px;
+    margin-top: 10px;
+    width: 100%;
+}
+.head_infos{
+    display: flex;  
+    padding-left: 50px;
+    padding-right: 10px;
+
+
+}
+.head_infos img{
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
+}
+.head_infos h1{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 25px;
+    padding-top: 10px;
+    width: 340px;
+}
+.head_infos button{
+    margin-left: 320px;
+}
+.modifier_button{
+    background-color: transparent;
+    height: 40px;
+    width: 100px;
+    color: black;
+    display: flex;
+    border: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.modifier_button span{
+    padding-top: 2.5px;
+    letter-spacing: .3px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 100;
+}
+.modifier_button img{
+    width: 25px;
+    height: 20px;
+}
+.all_infos{
+    display: grid;
+    grid: 100% / auto auto auto;
+    padding-left: 50px;
+    padding-top: 40px;
+    padding-bottom: 30px;
+}
+.list_item{
+    display: grid;
+    grid: 50% / auto auto;
+}
+.item{
+    display: flex;
+    flex-direction: column;
+    font-weight: 900;
+}
+.item span{
+    padding: 8px 0px;
+    font-size: .9rem;
+}
+.item:nth-child(2){
+    color: #51555d;
+    font-weight: 100;
+}
+.details_infos{
+    margin: 10px 0px;
+    display: flex;
+    background-color: white;
+    border-radius: 10px;
+}
+.details_infos .head_infos{
+    padding: 10px 0px;
+    padding-left: 25px;
+    justify-content: center;
+}
+
+.details_infos .head_infos .detaills_text{
+    font-family: Arial, Helvetica, sans-serif;
+    height: auto;
+    width: 330px;
+    font-size: 1.3rem;
+    font-weight: 500;
+    padding-top: 10px;
+    padding-left: 10px;
+}
+.details_infos .head_infos img{
+    object-fit: contain;
+}
+.infoTabs_items .head_infos .modifier_button{
+    margin-left: 250px;
+} 
+.empty{
+    padding-left: 25px;
+    background-color: red;
+    border-radius: 10px 0px 0px 10px;
+}
+
+.infoTabs_items .details_infos:nth-child(1) .empty{
+    background-color: rgba(63, 172, 63, 0.753);
+}
+@media only screen and (max-width:992px){
+    .patient_infos{
+        padding-left: 210px;
+        padding-right: 25px;
+        padding: 10px 25px 10px 210px;
+    }
+    .general_infos{
+        align-items: center;
+        font-size: .8rem;
+    }   
+    .personal_img img{
+        height: 100px;
+        width: 100px;
+    }
+    .numbers{
+        font-size: 1rem;
+        margin-left: 250px;
+    }
+    .all_infos{
+        padding-top: 20px;
+        padding-bottom: 0px;
+    }
+    .head_infos h1{
+        font-family: Arial, Helvetica, sans-serif;
+        padding-top: 15px;
+        font-size: 20px;
+        width: 400px;
+    }
+    .head_infos button{
+        margin-left: 250px;
+    }
+    .details_infos .head_infos .detaills_text{
+        font-size: 20px;
+        width: 350px;
+    }
+    .infoTabs_items .head_infos .modifier_button{
+        margin-left: 157px;
+    } 
+}
+@media screen and (max-width:767px){
+    .patient_infos{
+        background-color: red;
+    }
+}
+@media screen and (max-width:575px){
+
 }
