@@ -16,15 +16,22 @@ import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import MenuIcon from '@material-ui/icons/Menu';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faBars} from '@fortawesome/free-solid-svg-icons'
+import { showSidebarAction } from '../redux/actions';
+import { useSelector,useDispatch } from 'react-redux'; 
+
 
 const Patients = () => {
+
+    const dispatch = useDispatch(); 
+    const showSidebar = useSelector(showSide => showSide.showSidebar)
+
     return (
         <div className="main">
-            <SideBar className="sideBar" />
+            <SideBar  />
             <div className="patients__content">
                 <div className="patients__head d-flex justify-content-between align-items-center">
-                    <span className="d-block d-md-none burger"><FontAwesomeIcon icon={faBars}/></span>
-                    <h2 className="head__txt d-none d-md-block">Bonjour,<br></br> Dr.Mesmoudi </h2>
+                    <button onClick={()=> dispatch(showSidebarAction())} className="d-block d-sm-none burger"><FontAwesomeIcon icon={faBars}/></button>
+                    <h2 className="head__txt d-none d-sm-block">Bonjour,<br></br> Dr.Mesmoudi </h2>
                     <div className="d-flex align-items-center">
                          <img className="dash__avatar" src={avatar} alt="" />
                          <span className="avatar__infos">
