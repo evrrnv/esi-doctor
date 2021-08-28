@@ -7,6 +7,9 @@ import { ReactKeycloakProvider, useKeycloak } from '@react-keycloak/web'
 import keycloak from './keycloak'
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
+import {createStore} from 'redux'
+import allReducers from './redux/reducers'
+import {Provider} from 'react-redux'
 
 
 const Apollo = ({ children }) => {
@@ -33,6 +36,10 @@ const Apollo = ({ children }) => {
   return <ApolloProvider client={client}>{children}</ApolloProvider>
 }
 
+const store = createStore(allReducers,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+
+
 ReactDOM.render(
   <React.StrictMode>
     <ReactKeycloakProvider
@@ -41,7 +48,9 @@ ReactDOM.render(
       LoadingComponent={<span>Loading...</span>}
     >
       <Apollo>
+      <Provider store ={store}>
         <App />
+      </Provider>
       </Apollo>
     </ReactKeycloakProvider>
   </React.StrictMode>,

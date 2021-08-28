@@ -5,7 +5,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    min-width: 238px;
+    width: 238px;
     margin-right: auto;
     background-color: #FBFBFB;
     padding: 15px 0px 20px 25px;
@@ -51,9 +51,10 @@
     list-style-type: none;
     margin-bottom: 5px;
     font-size: 14px;
-    max-width: 195px;
+  
     padding: 6px 0px 6px 9px;
     border-radius: 5px;
+    display: flex;
 
 }
 
@@ -74,6 +75,8 @@
     margin-top: 25px;
     margin-left: -37px;
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .dash__icons{
@@ -104,6 +107,8 @@
 
 .other__menu{
     margin-left: -37px !important;
+    display: flex;
+    flex-direction: column;
 }
 
 #support{
@@ -137,4 +142,101 @@
 }
 .logout__item:hover{
     background-color: unset;
+}
+
+#logout_icon{
+    font-size: 25px;
+    transform: rotate(180deg);
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+@media  (min-width:993px){
+    .menu__items{
+        max-width: 195px !important;
+    }
+}
+@media screen and (max-width:992px){
+    .sideBar__container{
+        width: 180px ;
+        padding: 5px;
+    }
+    .menu__items {
+        font-size: 12px !important;
+    }
+}
+
+@media screen and (max-width:767px){
+    .sideBar__container{
+        z-index: 1;
+        width: 60px  !important;
+    }
+    .menu__items{
+        width: 45px;
+        height: 45px;
+        padding: 13px 10px;
+        text-align: center;
+    }
+    .showSidebar{
+        display: block;
+    }
+}
+@media screen and (max-width:575px){
+    .sideBar__container{
+        width: 100% !important;
+       
+    }
+    .menu__items{
+        width: 340px !important;
+        justify-content: center;
+        font-size: 20px !important;
+        padding: 8px 0px 8px 0 ;
+        margin: 10px;
+
+       
+    }
+    .dash__logo{
+        margin-bottom: 40px;
+    }
+    .dash__titles{
+        padding: 0;
+    }
+    .dash__icons{
+        display: none !important;
+    }
+    .menu__links{
+        width: 100% ;
+    }
+    ul{
+        padding: 0;
+    }
+   .menu{
+       align-items: center;
+       width: 100%;
+       margin: 0;
+   }
+   .logout__btn{
+       font-size: 20px;
+    }
+
+
+   .other__menu{
+       align-items: center;
+       width: 100%;
+       margin: 0 !important;
+   }
+    .showSidebar{
+        display: block;
+    }
+    .hideSidebar{
+        display: none;
+    }
+    .closeSide__btn{
+        background-color: unset;
+        border: none;
+        font-size: 25px;
+        font-weight: 100 !important;
+        color: #8A8F9C;
+        padding: 0px 15px 0 0;
+    }
 }

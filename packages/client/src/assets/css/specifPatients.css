@@ -1,0 +1,128 @@
+.specifPatients__main{
+    background-color: #D1F1E6;
+    min-height: 100vh;
+}
+
+.typeHero__main{
+    background-color: #FBFBFB;
+    border-radius: 15px;
+    padding: 10px 15px 2px 15px;
+    max-height: 240px;
+}
+
+.typeHero__nbr{
+    color: #8A8F9C;
+    margin-left: 20px;
+}
+.typeHero__txt{
+    font-weight: 700;
+    font-size: 5vw;
+
+}
+
+.typeHero__img{
+    max-width: 250px;
+    max-height: 180px;
+}
+.typeHero__infos__txt{
+    border: 1px solid;
+    padding: 13px 0px;
+    border-radius: 12px;
+    margin-right: 10px;
+    width: 190px;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+}
+
+#Dm__complet{
+    color: #56C596;
+    border-color: #56C596;
+}
+#Dm__noncomplet{
+    color: #F63232;
+    border-color: #F63232;
+}
+
+
+
+
+
+
+.Dm__search{
+    width: 100%;
+    margin-top: 8px;
+    border-radius: 10px;
+    height: 45px;
+    font-size: 16px;
+    border: none;
+    padding: 10px;
+}
+.Dm__search:focus{
+    outline: none;
+    border: #24A9E2 solid 2px;
+}
+
+.Dm__searchIcon{
+    position: absolute;
+    top: 40%;
+    right: 2%;
+    font-size: 18px;
+    color: #8A8F9C;
+    font-weight: 100;
+}
+.Dm__search:focus > .Dm__searchIcon{
+    color: #24A9E2 !important;
+}
+.Dm__search__container{
+    position: relative;
+}
+
+.Dm__container{
+    margin-top: 15px;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 10px 15px;
+}
+
+.Dm__txt{
+    color: #24A9E2;
+}
+
+
+
+.dossier__card{
+    border: #24A9E2 1px solid;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin-bottom: 5px;
+}
+.dossier__img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.dossier__btns{
+    height: 40px;
+    margin-right: 10px;
+    background-color: unset;
+    border-radius: 13px;
+    border: 1px solid;
+    padding: 3px 10px;
+}
+
+.dossier__btns:hover{
+    color: #fff;
+    background-color: #000;
+    transition: all 0.2s ease;
+}
+.dossierCard__icons{
+    margin-left: 5px;
+}
+
+.dossier__title{
+    color: #8A8F9C;
+}
+
