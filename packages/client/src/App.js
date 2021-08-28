@@ -8,6 +8,7 @@ import Stat from "./views/Stat"
 import Listes from './views/Listes'
 import Param from './views/Param'
 import Contact from './views/Contact'
+import Examen from './views/Examen'
 
 function App() {
  
@@ -22,7 +23,7 @@ function App() {
              <Redirect to="/dashboard" />
             </Route>
 
-            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/dashboard" component={Examen} />
 
             <Route path="/rdvList" component={RdvList} />
 

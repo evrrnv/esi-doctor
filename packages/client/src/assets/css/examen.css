@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+*{
+    font-family: 'Roboto', sans-serif;
+}
+.main{
+
+    background-color: #D1F1E6;
+}
+
+.examen_content{
+    padding-left: 280px;
+    padding-top:  30px;
+    padding-right: 40px;
+    padding-bottom: 30px;
+}
+.emptyContent{
+    background-color: white;
+    border-radius: 5px;
+    height: 80px;
+    width: 300px;
+}
+.personal_img{
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    margin-right: 20px;
+} 
+.personal_infos , .empty , .exams{
+    margin-bottom: 40px;
+}
+.exam{
+    width: 95%;
+    padding-left:5%;   
+    margin-bottom: 20px;
+    border-radius:10px;
+    background:linear-gradient(to left, white 98%,red 2%);
+}
+.exam_paragraph{
+    margin: 20px;
+    font: normal normal 800 22px/30px OpenSans;
+}
+.icon_img{
+    width: 40px;
+height: 50px;
+}
+.email , .title , .name{
+    font: normal normal medium 20px/31px Roboto;
+    font-size: 20px;
+}
+.title{
+    color: #8A8F9C;
+}
+.email{
+    color: #8A8F9C;
+
+}
+.number{
+    font: normal normal medium 40px/53px Roboto ;
+    color: #8A8F9C;
+}
+.text{
+    font: normal normal 600 16px/22px OpenSans;
+}
+.details {
+    height: 350px;
+}
+#noteinput{
+    border: none;
+    outline: none;
+    width:70%;
+    
+}
+
+.addNote{
+    border: 1px solid #E3E3E3;
+    outline: none;
+    width: 347px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.notes{
+    display: flex;
+    align-items: flex-start;
+    padding: 10px;
+    width: 347px;
+    margin-bottom: 10px;
+    height: 50px;
+    text-align: center;
+    background-color:#E3E3E3;
+}
+.allNote{
+    margin-top: 30px;
+}
+.buttons {
+    height: 95%;
+    padding: 20px;
+    
+}
+#confirm {
+    width: 147px;
+height: 47px;
+border: 3px solid var(--unnamed-color-56c596);
+border: 3px solid #56C596;
+border-radius: 14px;
+opacity: 1;
+}
+#demiss{
+    width: 147px;
+height: 47px;
+border: 3px solid var(--unnamed-color-f63232);
+border: 3px solid #F63232;
+border-radius: 14px;
+opacity: 1;
+}
+.accept{
+    font: var(--unnamed-font-style-normal) normal medium 17px/23px Roboto;
+    letter-spacing: var(--unnamed-character-spacing-0);
+    color: var(--unnamed-color-56c596);
+    text-align: left;
+    font: normal normal medium 17px/23px Roboto;
+    letter-spacing: 0px;
+    color: #56C596;
+    opacity: 1;
+}
+.retry{
+    font: var(--unnamed-font-style-normal) normal medium 17px/23px Roboto;
+letter-spacing: var(--unnamed-character-spacing-0);
+color: var(--unnamed-color-f63232);
+text-align: left;
+font: normal normal medium 17px/23px Roboto;
+letter-spacing: 0px;
+color: #F63232;
+opacity: 1;
+}

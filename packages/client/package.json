@@ -6,6 +6,7 @@
     "@apollo/client": "^3.3.21",
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
+    "@fortawesome/fontawesome-free": "^5.15.4",
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
