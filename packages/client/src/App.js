@@ -9,6 +9,15 @@ import Listes from './views/Listes'
 import Param from './views/Param'
 import Contact from './views/Contact'
 import PatientInfos from './components/shared/patientInfos'
+import Examen from './views/Examen'
+import SpecifPatients from './views/SpecifPatients'
+import studentOnly from './assets/images/studentOnly.svg'
+import studentBag from './assets/images/studentBag.svg'
+import teacherOnly from './assets/images/teacherOnly.svg'
+import teacherEarth from './assets/images/teacherEarth.svg'
+import atsOnly from './assets/images/atsOnly.svg'
+import atsWesmo from './assets/images/atsWesmo.svg'
+ 
 function App() {
  
 
@@ -22,9 +31,26 @@ function App() {
              <Redirect to="/dashboard" />
             </Route>
 
-            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/dashboard" component={Examen} />
 
             <Route path="/rdvList" component={RdvList} />
+
+          
+
+            
+
+            <Route
+              path='/patientsList/student'
+              render={() => <SpecifPatients  type="Etudiants" nbr="900" data="Only students" complet="330" nonComplet="20" img1={studentOnly} img2={studentBag}/>}
+            />
+            <Route
+              path='/patientsList/teacher'
+              component={() => <SpecifPatients type="Enseignants" nbr="55" data="Only teachers" complet="30" nonComplet="15" img1={teacherOnly} img2={teacherEarth} />}
+            />
+            <Route
+              path='/patientsList/ats'
+              component={() => <SpecifPatients type="ATS" nbr="20" data="Only ATS" complet="15" nonComplet="3" img1={atsOnly} img2={atsWesmo}/>}
+            />
 
             <Route path="/patientsList" component={Patients} />
 

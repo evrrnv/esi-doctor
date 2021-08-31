@@ -208,13 +208,13 @@
 .details_infos .head_infos img{
     object-fit: contain;
 }
-.empty{
+.empty_{
     padding-left: 25px;
     background-color: #F63232;
     border-radius: 10px 0px 0px 10px;
 }
 
-.infoTabs_items .details_infos:nth-child(1) .empty{
+.infoTabs_items .details_infos:nth-child(1) .empty_{
     background-color: #56C596;
 }
 @media only screen and (max-width:992px){

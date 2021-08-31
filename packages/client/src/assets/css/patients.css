@@ -9,13 +9,13 @@
 }
 
 .patients__content{
-    padding-left: 280px;
-    padding-top:  30px;
-    padding-right: 40px;
+    padding-left: 265px;
+    padding-top:  10px;
+    padding-right: 20px;
     padding-bottom: 30px;
 }
 .patients__header{
-    font-size: 3vw;
+    font-size: 2.5vw;
 }
 
 .head__txt{
@@ -30,19 +30,22 @@
     cursor: pointer;
 }
 .patients__body{
-    margin-top: 40px;
+    margin-top: 20px;
 }
 .avatar__infos{
     line-height: 18px;
 }
 
+.typesLink{
+    width: 31%;
+}
 .types{
     background-color: #fff;
     border-radius: 20px;
     padding: 20px 20px 0px 20px;
-    width: 31%;
-
     cursor: pointer;
+    height: 100%;
+    color: black;
   
 }
 .types:hover{
@@ -157,8 +160,6 @@ p.nbr__tot{
     margin-top: 15px;
     background-color: #fff;
     border-radius: 20px;
-    margin-left: -15px;
-    margin-right: -15px;
     padding: 15px;
     margin-bottom: 0px;
 }
@@ -217,9 +218,7 @@ p.nbr__tot{
 
 @media screen and (max-width:992px){
     .patients__content{
-        padding-left: 210px;
-        padding-right: 25px;
-        padding: 10px 25px 10px 210px;
+        padding: 10px 15px 10px 200px;
     }
 
     .types{
@@ -279,11 +278,15 @@ p.nbr__tot{
         font-size: 25px;
         margin-left: 20px !important;
     }
+    .modif__rec{
+        padding-right: 5px;
+        padding-left: 5px;
+    }
 }
 
 @media screen and (max-width:767px){
     .patients__content{
-        padding: 7px 30px 7px 85px !important;
+        padding: 7px 15px 7px 80px !important;
     }
     .patients__examen{
         max-height: 100px !important;
@@ -343,6 +346,10 @@ p.nbr__tot{
         font-size: 11px !important;
        
     }
+    .modif__rec{
+        padding-right: 5px;
+        padding-left: 5px;
+    }
     
     .modif__elem{
         font-size: 10px;
@@ -360,15 +367,16 @@ p.nbr__tot{
 
 @media screen and (max-width:575px){
     .patients__types{
-        width: 93% !important;
+        width: 100% !important;
         margin-left: auto;
         margin-right: auto;
     }
+  
     .patients__content{
         padding: 5px 15px  !important;
     }
     .patients__examen{
-        width: 93% !important;
+        width: 100% !important;
         margin-top: 20px;
         border-radius: 10px;
         margin-left: auto;
@@ -384,7 +392,7 @@ p.nbr__tot{
     .patients__header{
         font-size: 20px;
         margin-bottom: 20px !important;
-        margin-top: -10px;
+        margin-top: 30px !important;
     }
    
     .modif__rec{
