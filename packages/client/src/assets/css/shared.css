@@ -42,12 +42,16 @@
 }
 /**PatientsInfos**/
 .main_{
-    background-color: #20c9966c;   
+    background-color: #D1F1E6;   
     overflow: hidden; 
+}
+.drop_down{
+    padding-left: 280px;
+    padding-top: 25px;
 }
 .patient_infos{
     padding-left: 350px;
-    padding-top: 30px;
+    
     width: 100%;
     height: auto;
     padding-right: 10%;
@@ -56,7 +60,6 @@
 }
 .general_infos{
     background-color:transparent;
-    display: flex;
     padding: 30px 0px;
     width: 100%;
     height: auto;
@@ -71,33 +74,36 @@
 .informations{
     display: flex;
     flex-direction: column;
-    color: #3b4255;
+    color:#8A8F9C;
+    float: left;
     width: 200px;
-    align-items: flex-start;
     justify-content: center;
 }
 .informations .titre,.nomEtprenom,.email {
+    font-size: 1.25vw;
     padding: 3px 0px;
 }
+.informations .titre{
+    color: #59626A;
+}
 .informations .nomEtprenom{
-    color: rgb(37, 37, 37);
-    font-size: 1.2rem;
+    color: #262626;
+    font-size: 1.3vw;
     font-weight: 500;
     width: 200px;
 }
 .numbers{
-    display: flex;
     flex-direction: column;
     align-items: flex-end;
     justify-content: center;
-    color: rgb(37, 37, 37);
-    font-size: 90%;
-    /*width: 180px;*/
+    color: #262626;
+    font-size: 1.2vw;
+    width: 180px;
     font-weight: 100;
-    margin-left: 40%;
 }
 .numbers .visits_num{
-    font-size: 3rem;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 5vw;
     color: #8A8F9C;
     font-weight: small;
 }
@@ -105,7 +111,7 @@
     float: left;
 }
 .personal_infos{
-    background-color: white;
+    background-color: #FBFBFB;
     padding-top:40px;
     padding-bottom: 40px;
     padding-right: 40px;
@@ -114,31 +120,29 @@
     width: 100%;
 }
 .head_infos{
-    display: flex;  
     padding-left: 50px;
     padding-right: 10px;
-
-
 }
 .head_infos img{
-    height: 40px;
-    width: 40px;
+    height: 3vw;
+    width: 3vw;
     margin-right: 10px;
 }
 .head_infos h1{
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 25px;
-    padding-top: 10px;
-    width: 340px;
+    font-size: 1.8vw;
+    padding-top: 5%;
+    font-weight: 500;
+    width: 30vw;
 }
 .head_infos button{
-    margin-left: 320px;
+    margin-left: 10%;
 }
 .modifier_button{
     background-color: transparent;
     height: 40px;
     width: 100px;
-    color: black;
+    color: #262626;
     display: flex;
     border: none;
     flex-direction: row;
@@ -149,12 +153,12 @@
     padding-top: 2.5px;
     letter-spacing: .3px;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 1.1rem;
+    font-size: 1.3vw;
     font-weight: 100;
 }
-.modifier_button img{
-    width: 25px;
-    height: 20px;
+.modifier_button img{    
+    width: 1.6vw;
+    height: 1.5vw;
 }
 .all_infos{
     display: grid;
@@ -174,92 +178,251 @@
 }
 .item span{
     padding: 8px 0px;
-    font-size: .9rem;
+    font-size: 1.1vw;
+    color: #59626A;
 }
-.item:nth-child(2){
-    color: #51555d;
+.item:nth-child(2) span{
+    color: #262626;
     font-weight: 100;
 }
 .details_infos{
     margin: 10px 0px;
-    display: flex;
-    background-color: white;
+    background-color: #FBFBFB;
     border-radius: 10px;
 }
 .details_infos .head_infos{
     padding: 10px 0px;
-    padding-left: 25px;
-    justify-content: center;
+    margin-left: 3%;
+    width: 100%;
+    padding-right: 50px;
 }
 
 .details_infos .head_infos .detaills_text{
     font-family: Arial, Helvetica, sans-serif;
     height: auto;
-    width: 330px;
-    font-size: 1.3rem;
+    width: 30vw;
+    font-size: 1.6vw;
     font-weight: 500;
     padding-top: 10px;
-    padding-left: 10px;
 }
 .details_infos .head_infos img{
     object-fit: contain;
 }
-.infoTabs_items .head_infos .modifier_button{
-    margin-left: 250px;
-} 
 .empty{
     padding-left: 25px;
-    background-color: red;
+    background-color: #F63232;
     border-radius: 10px 0px 0px 10px;
 }
 
 .infoTabs_items .details_infos:nth-child(1) .empty{
-    background-color: rgba(63, 172, 63, 0.753);
+    background-color: #56C596;
 }
 @media only screen and (max-width:992px){
     .patient_infos{
-        padding-left: 210px;
-        padding-right: 25px;
-        padding: 10px 25px 10px 210px;
+        padding: 0px 25px 10px 210px;
+    }
+    .drop_down{
+        padding: 10px 0px 0px 200px;
     }
     .general_infos{
         align-items: center;
-        font-size: .8rem;
+
     }   
     .personal_img img{
-        height: 100px;
-        width: 100px;
+        height: 10vw;
+        width: 10vw;
+    }
+    .informations .titre,.email{
+        font-size: 1.5vw;
+    }
+    .informations .nomEtprenom{
+        font-size: 1.7vw;
     }
     .numbers{
-        font-size: 1rem;
-        margin-left: 250px;
+        font-size: 1.6vw;
     }
     .all_infos{
         padding-top: 20px;
         padding-bottom: 0px;
     }
+    .all_infos .list_item .item span{
+        font-size: 1.5vw;
+    }
+    .head_infos img{
+        height: 3vw;
+        width: 3vw;
+    }
     .head_infos h1{
         font-family: Arial, Helvetica, sans-serif;
-        padding-top: 15px;
-        font-size: 20px;
-        width: 400px;
+        padding-top: 1.5vw;
+        font-size: 1.9vw;
+        width: 25vw;
+    }
+    .head_infos button img{
+        height: 2vw;
+        width: 2vw;
+    }
+    .head_infos button span{
+        font-size: 1.7vw;
     }
     .head_infos button{
-        margin-left: 250px;
+        margin-left: 20vw;
     }
     .details_infos .head_infos .detaills_text{
-        font-size: 20px;
-        width: 350px;
+        font-size: 1.7vw;
+        padding-top: 1vw;
+        width:25vw;
     }
-    .infoTabs_items .head_infos .modifier_button{
-        margin-left: 157px;
-    } 
+ 
 }
 @media screen and (max-width:767px){
     .patient_infos{
-        background-color: red;
+        padding: 0px 25px 10px 100px;
     }
+    .drop_down{
+        padding-top: 10px;
+        padding-left: 75px;
+    }
+    .general_infos{
+        padding: 2vw 0px;
+    }
+    .personal_infos{
+        padding: 5px;
+    }
+    .personal_img img{
+        width: 12vw;
+        height: 12vw;
+    }
+    .informations .titre,.nomEtprenom,.email {
+        font-size: 1.8vw;
+    }
+
+    .informations .nomEtprenom{
+        font-size: 2vw;
+    }
+    .numbers .visits_num{
+        font-size: 7vw;
+    }
+    .head_infos{
+        padding: 1.6vw 5vw;
+    }
+    .head_infos h1{
+        font-size: 2vw;
+        padding-top: 1.5vw;
+    }
+    .modifier_button span{
+        font-size: 1.6vw;
+    }
+    .modifier_button img{    
+        width: 2.5vw;
+        height: 2.5vw;
+    }
+    .all_infos{
+        grid: 100%/auto auto;
+        padding: 2vw 5vw;
+    }
+    .list_item{
+        grid: 100%/auto auto;
+    }
+    .all_infos .list_item:nth-child(3){
+        grid: 100% / auto 21vw;
+    }
+    .list_item .item span{
+        font-size: 2vw;
+    }
+    .details_infos .head_infos {
+        padding-right: 5vw;
+    }
+    .details_infos .head_infos .detaills_text{
+        font-size: 2vw;
+        width: 30vw;
+    }
+
 }
 @media screen and (max-width:575px){
-
+    .patient_infos{
+        padding: 0px 40px;
+        height: 100%;
+        overflow: hidden;
+    }
+    .drop_down{
+        padding-top: 10px;
+        padding-left: 15px;
+    }
+    .all_infos{
+        grid: 100% / 100%;
+        padding: 2% 0%;
+    }
+    .list_item{
+        grid: 100%/45vw 50vw;
+    }
+    .personal_img img{
+        height: 16vw;
+        width: 16vw;
+    }
+    .informations .titre,.email{
+        width: 25vw;
+        font-size: 2.5vw;
+    }
+    .informations .nomEtprenom{
+        width: 25vw;
+        font-size: 3vw;
+    }
+    .general_infos .main__infos{
+        width: 45vw;
+    }
+    .numbers{
+        font-size: 2.5vw;
+    }
+    .numbers .visits_num{
+        font-size: 8vw;
+    }
+    .head_infos{
+        padding:2% 6vw;
+    }
+    .head_infos img{
+        height: 5vw;
+        width: 5vw;
+    }
+    .head_infos h1{
+        font-size: 3.5vw;
+        font-weight: 400;
+        width: 44vw;
+    }
+    .head_infos button {
+        margin-left: 3vw;
+    }
+    .head_infos button img{
+        height: 3vw;
+        width: 3vw;
+    }
+    .head_infos button span{
+        font-size: 2.4vw;
+    }
+    .all_infos .list_item:nth-child(3){
+        grid: 100% / auto 32vw;
+    }
+    .all_infos .list_item .item{
+        padding: 0% 5vw;
+    }
+    .all_infos .list_item .item span{
+        padding: 10px;
+        font-size: 2.5vw;
+    }
+    .details_infos .head_infos .detaills_text{
+        font-size: 3vw;
+        width: 44vw;
+    }
+    .details_infos .head_infos .modifier_button{
+        margin-left: 0px;
+        padding-right: 10px;
+    }
+    .details_infos .head_infos .modifier_button span{
+        font-size: 2.4vw;
+    }
+    .details_infos .head_infos .modifier_button img{
+        height: 3vw;
+        width: 3vw;
+    }
+    
 }
