@@ -14,13 +14,23 @@ import Rapportmedical  from '../assets/icons/Rapportmedical.svg'
 import Rapport  from '../assets/icons/Rapport.svg'
 import Respiratoire  from '../assets/icons/Respiratoire.svg'
 import Vision  from '../assets/icons/Vision.svg'
+import examen  from '../assets/icons/examen.svg'
+import { makeStyles } from '@material-ui/core/styles' 
+
 import { useState } from 'react';
 import produce from 'immer';
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons'
-
+import RapportBlue  from '../assets/icons/RapportBlue.svg'
+import Ordonance  from '../assets/icons/Ordonance.svg'
+import Certaficat  from '../assets/icons/Certaficat.svg'
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 
 const Examen = () => {
@@ -52,10 +62,20 @@ const Examen = () => {
                         </div>
                     </div>
                 </div>
-                <div className="empty d-flex flex-row justify-content-around">
-                    <div className="emptyContent"></div>
-                    <div className="emptyContent"></div>
-                    <div className="emptyContent"></div>
+                <div className="empty d-flex flex-row align-items-center">
+                    <img className="icon_img"  src={examen} alt="Examen Médical"  />
+                    <h4 className="head">Examen Médical</h4>
+                </div>
+                <div className="empty d-flex flex-row align-self-center">
+                    <div className="emptyContent">
+                       <HeadBtn name="Rapport Médical" icon={RapportBlue} id="first" text="rapportBlue" />
+                    </div>
+                    <div className="emptyContent">
+                        <HeadBtn name="Ordonnance" icon={Ordonance} /> 
+                    </div>
+                    <div className="emptyContent">
+                        <HeadBtn name="Certeficat" icon={Certaficat}  id="last"  />
+                    </div>
                 </div>
                 <div className="exams d-flex flex-column align-items-center"> 
                     <Exam name="Rapport Médical" icon={Rapportmedical} /> 
@@ -100,6 +120,8 @@ const Exam = (props , Key) => {
         <img className="icon_img"  src={props.icon} alt={props.icon} />
         <p className="exam_paragraph">{props.name}</p>
         </div>
+        {visible && props.name=="Ophtalmologique" ? <Details1/> : null }
+        {visible && props.name=="O.R.L" ? <Details2/> : null }
         {visible && props.name=="Rapport Médical" ? <Details/> : null }
         {visible && props.name=="Peau et Muqueuses" ? <Details/> : null }
         {visible && props.name=="Respiratoire" ? <Details/> : null }
@@ -163,6 +185,141 @@ function Btn(props){
                <p className={props.text} >{props.name}</p>
            </button>     
     )
+}
+function HeadBtn(props){
+    return( 
+           <button  className="headbtn d-flex flex-row align-items-center align-self-center justify-content-center" id ={props.id} >
+               <img className="icon_img"  src={props.icon} alt ={props.icon}  />
+               <p className="btnText" id={props.text} >{props.name}</p>
+           </button>     
+    )
+}
+const Details1 = () =>{
+    const Notes = props => props.data.map(note => <div className="notes"> {note.text} </div>);
+    const initialData = [{ text: 'texte' }];
+    const [data, setData] = useState(initialData);
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            const text = document.querySelector('#noteinput').value.trim();
+            if (text) {
+              const nextState = produce(data, draftState => {
+                draftState.push({ text });
+              });
+              document.querySelector('#noteinput').value = '';
+              setData(nextState);
+            }
+        }
+      }
+      
+      
+    
+    return(
+        
+    <div className= "details d-flex flex-row align-items-start justify-content-between">
+        <div className= "allNote d-flex flex-column justify-content-between align-items-center">
+                <SelectItem label="larmolement" />
+                <SelectItem label="Douleurs" />
+                <SelectItem label="Taches devant les yeux" />
+            
+           
+
+            
+        </div> 
+        <div className= "buttons d-flex flex-column align-items-start justify-content-around" > 
+             <div>
+                <Notes data={data} />
+                <div className= "addNote d-flex flex-row align-items-center justify-content-around">
+                    <FontAwesomeIcon icon={faPlus} size="1.5x" />
+                    <input className="input" id="noteinput" type="text" onKeyDown={handleKeyDown} placeholder="Ajouter une autre note" /><span className="filetypes filetypes-e-7z"></span>
+                </div>
+             </div> 
+               
+             <div className= "d-flex flex-row align-items-end">
+                 <Btn id="demiss" icon={faAngleLeft} name="Annuler" color="red"  text="retry" />
+                 <Btn id="confirm" icon={faCheck} name="Confirmer" color="#56C596" text="accept"  />
+             </div>
+        </div>
+    </div> 
+    
+    );
+}
+const SelectItem = (props) => {
+    const useStyles = makeStyles((theme) => ({
+        formControl: {
+          margin: theme.spacing(1),
+          width : 190 ,
+
+        },
+        selectEmpty: {
+          marginTop: theme.spacing(2),
+        },
+      }));
+      
+    const classes = useStyles();
+    
+
+    return(
+        <FormControl variant="outlined" className={classes.formControl}>
+        <InputLabel id="demo-simple-select-outlined-label">{props.label}</InputLabel>
+        <Select
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          label={props.label}
+        >
+          <MenuItem value="Oui" >Oui</MenuItem>
+          <MenuItem value="Non">Non</MenuItem>
+        </Select>
+      </FormControl>
+    );
+
+}
+const Details2 = () =>{
+    const Notes = props => props.data.map(note => <div className="notes"> {note.text} </div>);
+    const initialData = [{ text: 'texte' }];
+    const [data, setData] = useState(initialData);
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            const text = document.querySelector('#noteinput').value.trim();
+            if (text) {
+              const nextState = produce(data, draftState => {
+                draftState.push({ text });
+              });
+              document.querySelector('#noteinput').value = '';
+              setData(nextState);
+            }
+        }
+      }
+      
+      
+    
+    return(
+        
+    <div className= "details d-flex flex-row align-items-start justify-content-between">
+        <div className= "allNote d-flex flex-column justify-content-between align-items-center">
+                <SelectItem label="Siflements" />
+                <SelectItem label="Angines Répétées" />
+                <SelectItem label="Expitaxis" />
+                <SelectItem label="Rhinorthée" />
+        </div> 
+        <div className= "buttons d-flex flex-column align-items-start justify-content-around" > 
+             <div>
+                <Notes data={data} />
+                <div className= "addNote d-flex flex-row align-items-center justify-content-around">
+                    <FontAwesomeIcon icon={faPlus} size="1.5x" />
+                    <input className="input" id="noteinput" type="text" onKeyDown={handleKeyDown} placeholder="Ajouter une autre note" /><span className="filetypes filetypes-e-7z"></span>
+                </div>
+             </div> 
+               
+             <div className= "d-flex flex-row align-items-end">
+                 <Btn id="demiss" icon={faAngleLeft} name="Annuler" color="red"  text="retry" />
+                 <Btn id="confirm" icon={faCheck} name="Confirmer" color="#56C596" text="accept"  />
+             </div>
+        </div>
+    </div> 
+    
+    );
+
+
 }
 export default Examen;
 
