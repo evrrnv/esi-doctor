@@ -171,8 +171,6 @@ public class AppUserStorageProvider implements
 			if (password == null) return false;
 			// return password.equals(HashUtil.hashString(cred.getValue()));
 
-			log.infov("PASSWORD ..." + cred.getValue());
-
 			if (password.equals(cred.getValue())) {
 				RoleModel defaultRole = realm.getRole("default-roles-1sc_project");
 				RoleModel role = realm.getRole(userEntity.getRole());
