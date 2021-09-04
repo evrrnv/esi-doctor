@@ -1,0 +1,77 @@
+.calend__main{
+
+  height: 100vh;
+  width: 100%;
+  
+}
+
+.calend__sidebar {
+  width: 238px;
+  height: 100vh;
+  float: left;
+}
+.calendar__container {
+  position: relative;
+  
+  height: 100vh;
+}
+.table__container {
+  background-color: rgb(232, 237, 245);
+  position: absolute;
+  padding: 20px 0 20px 0;
+  left: 20%;
+  top: 20%;
+  
+  
+}
+
+table {
+  height: 40vh;
+  width: 65vw;
+}
+thead th:not(:last-of-type) {
+  padding-right: 1%;
+}
+thead th:last-of-type {
+  width: 1%;
+}
+td {
+  text-align: left;
+  padding: 1%;
+}
+
+#temp__col {
+}
+
+.border__table {
+  border: 1px solid white;
+}
+tbody tr td {
+  padding: 0;
+  text-align: center;
+  border: 1px solid white;
+  width: 2vw;
+  height: 3vh;
+
+
+}
+tbody tr td span {
+ padding:0;
+}
+tbody tr td:first-child {
+  position: relative;
+  
+  
+  
+}
+tbody tr td:nth-child(5) {
+  display: none;
+}
+.time__col {
+  margin: 0;
+  position: absolute;
+height: 50%;
+width: 40%;
+  text-align: center;
+  left: 0;
+}
