@@ -19,6 +19,10 @@ const keycloak = Keycloak(config);
 
 const DATABASE_URL = `postgresql://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@${process.env.POSTGRES_HOST}:5432/${process.env.POSTGRES_DB}`
 
+const canSplit = (str, token) => {
+  return (str || '').split(token).length > 1;         
+}
+
 app.use(
   postgraphile(
     DATABASE_URL,
@@ -27,22 +31,28 @@ app.use(
       watchPg: true,
       graphiql: true,
       enhanceGraphiql: true,
+      allowExplain: (req) => { return true; },
       pgSettings: async req => {
-        const authorization = req.headers.authorization
-        if (canSplit(authorization)) {
-          const token = authorization.split('Bearer');
-          if (token.length > 1) { 
-            try {
-                const user = await keycloak.verifyOnline(token[1])
-                const role = user.resourceAccess.web.roles[0]
-                return {
-                  'jwt.claims.user_id': 1,
-                  role
-                }
-            } catch (e) {
+        // const authorization = req.headers.authorization
+        // const bearerStr = 'Bearer'
+        // if (canSplit(authorization, bearerStr)) {
+        //   const token = authorization.split(bearerStr);
+        //   if (token.length > 1) { 
+        //     try {
+        //         const user = await keycloak.verifyOnline(token[1])
+        //         const role = user.resourceAccess.web.roles[0]
+        //         const id = user.id.split(":")[2]
+        //         return {
+        //           'jwt.claims.user_id': id,
+        //           role
+        //         }
+        //     } catch (e) {
   
-            }
-          }
+        //     }
+        //   }
+        // }
+        return {
+          role: 'medecin'
         }
       }
     }
@@ -50,7 +60,3 @@ app.use(
 );
 
 app.listen(process.env.PORT || 4000);
-
-const canSplit = (str, token) => {
-  return (str || '').split(token).length > 1;         
-}
