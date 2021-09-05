@@ -11,7 +11,7 @@ const InfosTab = (props)=>{
                     <img alt="personal_icons" src={props.src}/>
                     <span className="detaills_text">{props.text}</span>
                 </div>
-                <ModifierButton/>
+                <ModifierButton onClick={props.onClick}/>
             </div>
         </div>
     );
