@@ -7,7 +7,7 @@ const cors = require('cors')
 const app = express()
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: process.env.NODE_ENV === 'production' ? 'https://1sc-project.moun3im.com' : 'http://localhost:3000',
   optionsSuccessStatus: 200
 }
 

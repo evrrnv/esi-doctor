@@ -19,7 +19,7 @@ const Apollo = ({ children }) => {
   const { keycloak } = useKeycloak()
   console.log(keycloak.token)
   const httpLink = createHttpLink({
-    uri: process.env.NODE_ENV === 'production' ? 'http://1sc-project.moun3im.com/graphql' : 'http://localhost:4000/graphql',
+    uri: process.env.NODE_ENV === 'production' ? 'https://1sc-project.moun3im.com/graphql' : 'http://localhost:4000/graphql',
     credentials: 'same-origin'
   })
   const authLink = setContext((_, { headers }) => {
