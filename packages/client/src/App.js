@@ -35,21 +35,17 @@ function App() {
 
             <Route path="/rdvList" component={RdvList} />
 
-          
-
-            
-
             <Route
               path='/patientsList/student'
-              render={() => <SpecifPatients  type="Etudiants" nbr="900" data="Only students" complet="330" nonComplet="20" img1={studentOnly} img2={studentBag}/>}
+              render={() => <SpecifPatients  type="Etudiants" data="Only students" img1={studentOnly} img2={studentBag}/>}
             />
             <Route
               path='/patientsList/teacher'
-              component={() => <SpecifPatients type="Enseignants" nbr="55" data="Only teachers" complet="30" nonComplet="15" img1={teacherOnly} img2={teacherEarth} />}
+              component={() => <SpecifPatients type="Enseignants" data="Only teachers" img1={teacherOnly} img2={teacherEarth} />}
             />
             <Route
               path='/patientsList/ats'
-              component={() => <SpecifPatients type="ATS" nbr="20" data="Only ATS" complet="15" nonComplet="3" img1={atsOnly} img2={atsWesmo}/>}
+              component={() => <SpecifPatients type="ATS" data="Only ATS" img1={atsOnly} img2={atsWesmo}/>}
             />
 
             <Route path="/patientsList" component={Patients} />

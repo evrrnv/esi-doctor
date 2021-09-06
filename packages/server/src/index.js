@@ -3,6 +3,7 @@ const express = require('express')
 const { postgraphile } = require('postgraphile')
 const Keycloak = require("./lib/keycloak-verify")
 const cors = require('cors')
+const ConnectionFilterPlugin = require("postgraphile-plugin-connection-filter")
 
 const app = express()
 
@@ -40,6 +41,7 @@ app.use(
       graphiql: true,
       enhanceGraphiql: true,
       allowExplain: (req) => { return true; },
+      appendPlugins: [ConnectionFilterPlugin],
       pgSettings: async req => {
         const authorization = req.headers.authorization
         const bearerStr = 'Bearer'

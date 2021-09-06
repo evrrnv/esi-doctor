@@ -4,14 +4,14 @@ import '../../assets/css/specifPatients.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArchive, faEdit,  faStethoscope } from '@fortawesome/free-solid-svg-icons';
 
-const DossierCard = () => {
+const DossierCard = ({ id, nom, prenom }) => {
     return (
   
             <div className="dossier__card d-flex justify-content-between">
                 <div className="dossier__infos d-flex align-items-center">
                     <img className="dossier__img" src={avatar}/>
                     <div>
-                        <h5>Mmed Amin Mesmoudi</h5>
+                        <h5>{prenom} {nom}</h5>
                         <h6 className="dossier__title">Etudiant</h6>
                     </div>
                 </div>

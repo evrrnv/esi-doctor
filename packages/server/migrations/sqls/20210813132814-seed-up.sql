@@ -146,7 +146,7 @@ $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER set_app_private_user_account_updated_at BEFORE UPDATE ON app_private.user_account FOR EACH ROW EXECUTE FUNCTION app.set_current_timestamp_updated_at();
 CREATE TRIGGER set_app_user_account_updated_at BEFORE UPDATE ON app.user_account FOR EACH ROW EXECUTE FUNCTION app.set_current_timestamp_updated_at();
-CREATE TRIGGER set_app_biometrique_updated_at BEFORE UPDATE ON app.biometrique FOR EACH ROW EXECUTE FUNCTION app.set_current_timestamp_updated_at();
+CREATE TRIGGER seSQLt_app_biometrique_updated_at BEFORE UPDATE ON app.biometrique FOR EACH ROW EXECUTE FUNCTION app.set_current_timestamp_updated_at();
 CREATE TRIGGER set_app_antecedents_personnelles_updated_at BEFORE UPDATE ON app.antecedents_personnelles FOR EACH ROW EXECUTE FUNCTION app.set_current_timestamp_updated_at();
 CREATE TRIGGER set_app_antecedents_medico_chirugicaux_updated_at BEFORE UPDATE ON app.antecedents_medico_chirugicaux FOR EACH ROW EXECUTE FUNCTION app.set_current_timestamp_updated_at();
 
@@ -259,12 +259,36 @@ CREATE FUNCTION app.create_patient(
             RETURNING user_id AS id;
 $$ LANGUAGE sql VOLATILE SECURITY DEFINER;
 
+-- assign medecin to patient
+
 CREATE FUNCTION app.assign_medecin_to_patient(patient_id uuid, medecin_id uuid) RETURNS SETOF app.user_account AS $$
 BEGIN
     UPDATE app.dossier_medical SET medecin = assign_medecin_to_patient.medecin_id WHERE user_id = assign_medecin_to_patient.patient_id;
     RETURN QUERY SELECT * FROM app.user_account WHERE user_id = assign_medecin_to_patient.patient_id;
 END
 $$ LANGUAGE plpgsql VOLATILE SECURITY DEFINER;
+
+-- completed dossier medicals counter
+
+-- SELECT id FROM app.dossier_medical WHERE user_id = '767f4741-4473-4d19-9e96-39b9abb01bc6'
+
+CREATE TYPE app.completed_uncompleted as (
+    completed INT,
+    not_completed INT
+);
+
+CREATE FUNCTION app.completed_dossier_medicals_counter(role ROLE) 
+    RETURNS app.completed_uncompleted AS $$
+        WITH 
+        completed_dm AS (
+            SELECT COUNT(CASE WHEN bio.is_completed IS TRUE AND atp.is_completed IS TRUE AND atc.is_completed IS TRUE THEN TRUE END) AS completed 
+            FROM app.user_account INNER JOIN app.dossier_medical ON app.user_account.user_id = app.dossier_medical.user_id AND app.user_account.role = completed_dossier_medicals_counter.role
+            INNER JOIN app.biometrique AS bio ON bio.id = app.dossier_medical.id
+            INNER JOIN app.antecedents_personnelles AS atp ON bio.id = atp.id
+            INNER JOIN app.antecedents_medico_chirugicaux AS atc ON bio.id = atc.id
+        )
+        SELECT (SELECT completed FROM completed_dm), (COUNT(user_id) - (SELECT completed FROM completed_dm)) AS not_completed FROM app.user_account WHERE role = completed_dossier_medicals_counter.role;
+$$ LANGUAGE SQL STABLE;
 
 -- insert users
 
@@ -273,17 +297,8 @@ SELECT app.create_medecin('74dc5a42-79ca-48ac-97fc-2e682e0efec7', 'mesmoudi13', 
 SELECT app.create_medecin('98f451b8-8aa4-4dc3-90a4-e745288de8bb', 'mhammed-sed', '>{j${=@XWt*"T(j[Q1LD<oni)', 'mhammed-sed@esi-sba.dz', 'Sedaoui', 'Muhammed');
 SELECT app.create_medecin('cc04529e-8e39-456f-b1f7-80bc6c726e02', 'a.boussaid', 'sKG6PUENEUlIDYWtTnQKFkFYi', 'a.boussaidd@esi-sba.dz', 'Sedaoui', 'Muhammed');
 
-SELECT app.create_patient('767f4741-4473-4d19-9e96-39b9abb01bc6', 'etudiant', 'password', 'etudiant@esi-sba.dz', 'Nome', 'Prenom');
+SELECT app.create_patient('767f4741-4473-4d19-9e96-39b9abb01bc6', 'etudiant1', 'password', 'etudiant1@esi-sba.dz', 'Alimaia', 'Bouchiba');
+SELECT app.create_patient('84fa94cc-cd5d-449d-a4fa-197d0bf195b7', 'etudiant2', 'password', 'etudiant2@esi-sba.dz', 'Amrouche', 'Aleser');
 
 SELECT app.assign_medecin_to_patient('767f4741-4473-4d19-9e96-39b9abb01bc6', 'cc04529e-8e39-456f-b1f7-80bc6c726e02');
-
--- WITH
--- ins_mdc_pvt_acc AS (INSERT INTO app_private.user_account (username, password) VALUES ('a.bousmat', 'password') RETURNING id),
--- ins_mdc_usr_acc AS (INSERT INTO app.user_account(user_id, email, role, nom, prenom) VALUES ((SELECT id FROM ins_mdc_pvt_acc), 'a.bousmat@esi-sba.dz', 'MEDECIN', 'Bousmat', 'Abdelmounaim') RETURNING user_id AS id),
-
--- ins_pvt_acc AS (INSERT INTO app_private.user_account (username, password) VALUES ('etudiant', 'password') RETURNING id),
--- ins_ds_mdc AS (INSERT INTO app.dossier_medical (user_id, medecin) VALUES ((SELECT id FROM ins_pvt_acc), (SELECT id FROM ins_mdc_pvt_acc)) RETURNING id),
--- ins_bio AS(INSERT INTO app.biometrique (id) VALUES ((SELECT id FROM ins_ds_mdc))),
--- ins_atc_prs AS (INSERT INTO app.antecedents_personnelles (id) VALUES ((SELECT id FROM ins_ds_mdc))),
--- ins_mdc_chgc AS (INSERT INTO app.antecedents_medico_chirugicaux (id) VALUES ((SELECT id FROM ins_ds_mdc)))
--- INSERT INTO app.user_account(user_id, email, role, nom, prenom) VALUES ((SELECT id FROM ins_pvt_acc), 'etudiantt@esi-sba.dz', 'ETUDIANT', 'Nom', 'Prenom') RETURNING user_id AS id;
+SELECT app.assign_medecin_to_patient('7150e9aa-b8be-4c5a-bc8d-653b0deaab96', '74dc5a42-79ca-48ac-97fc-2e682e0efec7');

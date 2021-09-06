@@ -9,8 +9,7 @@ import LastEdit from '../components/shared/lastEdit';
 import HistoLastExam from '../components/shared/histoLastExam'; 
 import DoctorHeader from '../components/shared/doctorHeader';
 import { useQuery } from '@apollo/client';
-import { GET_PATIENTS_LIST } from '../operations/queries/GET_PATIENTS_LIST';
-import { CircularProgress } from '@material-ui/core';
+import { GET_PATIENTS_LIST } from '../graphql/queries/GET_PATIENTS_LIST';
 import Loading from '../components/shared/loading';
 
 const Patients = () => {
@@ -21,8 +20,6 @@ const Patients = () => {
     if (error) return <p>Error :(</p>;
 
     const { currentUser, patientsNumberByRole: { nodes: patientsNumber }, recentUpdatedDossierMedicals } = data
-
-    console.log(data)
 
     return (
         <div className="main">
