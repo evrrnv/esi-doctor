@@ -10,7 +10,20 @@ import {
   AllDayPanel
 } from '@devexpress/dx-react-scheduler-material-ui'
 import { useState } from 'react'
+import { gql, useQuery } from '@apollo/client'
 const Calend = () => {
+  const { data: queryData } = useQuery(gql`
+    query MyQuery {
+      allUserAccounts {
+        edges {
+          node {
+            userId
+          }
+        }
+      }
+    }
+  `)
+
   const [state, setState] = useState({
     data: [
       {
@@ -103,14 +116,15 @@ const Calend = () => {
         <SideBar />
       </div>
       <div className="schedular__container"> */}
-        <Paper>
-          <Scheduler data={state.data}>
-            <ViewState defaultCurrentDate={currentDate} />
-            <WeekView startDayHour={9} endDayHour={19} />
-            <Appointments />
-            <AllDayPanel />
-          </Scheduler>
-        </Paper>
+      <Paper>
+        {console.log('this is the query ', queryData)}
+        <Scheduler data={state.data}>
+          <ViewState defaultCurrentDate={currentDate} />
+          <WeekView startDayHour={9} endDayHour={19} />
+          <Appointments />
+          <AllDayPanel />
+        </Scheduler>
+      </Paper>
       {/* </div> */}
     </div>
   )

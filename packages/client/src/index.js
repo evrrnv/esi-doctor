@@ -20,7 +20,7 @@ const Apollo = ({ children }) => {
   const { keycloak } = useKeycloak()
   console.log(keycloak.token)
   const httpLink = createHttpLink({
-    uri: 'http://localhost:4000/graphql'
+    uri: 'http://localhost:4000/graphiql'
   })
   const authLink = setContext((_, { headers }) => {
     const token = keycloak.token
