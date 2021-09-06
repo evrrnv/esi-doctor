@@ -16,6 +16,9 @@ import DateRange from '../../assets/images/date-range.png'
 import BtnChangers from './btnChanger'
 import Question from './questionInput'
 import AddIcon from '@material-ui/icons/Add';
+import NoteElm from './note'
+
+
 const PatientInfos = (props)=>{
     const location = useLocation();
     const history = useHistory();
@@ -24,10 +27,12 @@ const PatientInfos = (props)=>{
     const [antInfos,setAntInfos]=useState(false);
     const [antMedInfos,setMedInfos]=useState(false);
     const [exmInfos,setExm]=useState(false)
+    const [input,setInput] = useState("");
+    const [text,setText] = useState([])
     return(
         <div className="main_">
             <SideBar/>
-            {!patInofs&&<button onClick={()=>history.goBack()} className="drop_down d-flex  burger"><ArrowBackIosIcon fontSize="large"/></button>}
+            {(!patInofs&&!bioInfos&&!antInfos&&!antMedInfos&&!exmInfos)&&<button onClick={()=>history.goBack()} className="drop_down d-flex  burger"><ArrowBackIosIcon fontSize="large"/></button>}
             <div className="patient_infos d-flex justify-content-between align-items-flex-end">
                 <div className="general_infos d-flex justify-content-between align-items-center">
                     <div className="main__infos d-flex justify-content-between align-items-center">
@@ -55,6 +60,7 @@ const PatientInfos = (props)=>{
                             </div>
                             <ModifierButton onClick={() => setPatInfos(!patInofs)}/>
                         </div>
+                                
                         <div className="all_infos">
                             <div className="list_item">
                                 <div className="item">
@@ -168,7 +174,7 @@ const PatientInfos = (props)=>{
                                     <span>cm</span>
                                 </div>
                                 <div className="bio_inputs d-flex align-items-center">
-                                    <InfoInput text="Poids" name="poids" value="66"/>
+                                    <InfoInput  text="Poids" name="poids" value="66"/>
                                     <span>kg</span>
                                 </div>
                                 <InfoInput text="IMC" name="imc" value="text"/>
@@ -197,7 +203,7 @@ const PatientInfos = (props)=>{
                             <Question question="Médicaments?"/>
                             <div className="input__item_textarea d-flex flex-column">
                                 <span>Autres</span>
-                                <textarea className="input_textarea">text...</textarea>
+                                <textarea className="input_textarea form-control" placeholder="Text..."></textarea>
                             </div>
                         </div>
                      </div>
@@ -211,11 +217,38 @@ const PatientInfos = (props)=>{
                      <div className="inputs">
                         <div className="infos__inputs">
                             <div className="ant_textarea d-flex flex-column">
-                                <InfoInput text="Affection Congénitales" name="note" value="Text"/>
-                                <button className="btn_infos_notes d-flex  align-items-center"><AddIcon/><span>Ajouter une autre note</span></button>
+                            <div className="input__item d-flex align-items-flex-start">
+                                    <span>Affection Congénitales</span>
+                                    <input type="text" className="form-control" name="notes" placeholder="Text..." onChange={
+                                        (event) =>{
+                                            const {value} = event.target  
+                                            if (value === '') console.log(value === '' || value === ' ')
+                                            else setInput(value)
+                                        }
+                                    }/>
+                                </div>
+                                <button className="btn_infos_notes d-flex  align-items-center" onClick={() => {
+                                    if (input === "" || input === " ") return;
+                                    else{ 
+                                        setText([...text,input]);
+                                        setInput("");
+                                    }
+                                    }}>
+                                <AddIcon/>  
+                                <span>Ajouter une autre note</span>
+                                </button>
                             </div> 
                         </div>
-                     </div>
+                        
+                        <div className="infos_notes container">
+                            {
+        
+                                text.map((i) => <NoteElm text={i} />)
+                            }
+                        </div>
+                           
+                    </div>
+                    <BtnChangers onClickAnnuler={() => setMedInfos(!antMedInfos)} onClickConfirmer={() => setMedInfos(!antMedInfos)}/>
                  </div>
                 </>
                 :<></>
