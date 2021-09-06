@@ -1,8 +1,15 @@
 .calend__main{
-
+position: relative;
   height: 100vh;
   width: 100%;
   
+}
+.schedular__container {
+  position: absolute;
+width: 60%;
+  height: 25vh;
+  right: 0;
+  overflow: hidden;
 }
 
 .calend__sidebar {

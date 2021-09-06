@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.3.21",
+    "@devexpress/dx-react-core": "^2.7.6",
+    "@devexpress/dx-react-scheduler": "^2.7.6",
+    "@devexpress/dx-react-scheduler-material-ui": "^2.7.6",
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
     "@fortawesome/fontawesome-free": "^5.15.4",
@@ -15,6 +18,7 @@
     "@material-ui/icons": "^5.0.0-beta.1",
     "@material-ui/styles": "^4.11.4",
     "@react-keycloak/web": "^3.4.0",
+    "@reduxjs/toolkit": "^1.6.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
