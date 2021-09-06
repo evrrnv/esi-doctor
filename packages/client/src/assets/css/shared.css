@@ -179,7 +179,7 @@
 .item span{
     padding: 8px 0px;
     font-size: 1.1vw;
-    color: #59626A;
+    color: #59626A 1 !important;
 }
 .item:nth-child(2) span{
     color: #262626;
@@ -393,7 +393,43 @@ select option{
 .bio_div{
     padding: 4vw 0px;
 }
+.ant_textarea{
+    margin-top: .5vw;
+    margin-bottom: 5vw;
+}
+.ant_textarea .input__item_textarea{
+    height: 8vw;
+    width: 30vw;
+}
 
+.btn_infos_notes{
+    border:none;
+    background-color: #FBFBFB;
+    width: 30vw;
+    height: 3vw;
+    border-radius: 10px;
+    justify-content: space-between;
+    padding: 0px 7vw;
+}
+.ant_textarea .input__item{
+    padding-top: .4vw;
+    height: 5vw;
+    width: 30vw;
+}
+.input__item input::placeholder{
+    color:#262626;
+    opacity: 1;
+}
+.infos_notes{
+    height: 25vw !important;
+    width: 25vw;
+    overflow-x: scroll;
+}
+textarea::placeholder{
+    color:#262626;
+    opacity: 1;
+}
+/***********************************************************responsive1*****************************************************/
 @media only screen and (max-width:992px){
     .patient_infos{
         padding: 0px 25px 10px 210px;
@@ -462,6 +498,7 @@ select option{
     }
  
 }
+/***********************************************************responsive2*****************************************************/
 @media screen and (max-width:767px){
     .patient_infos{
         padding: 0px 25px 10px 100px;
@@ -553,6 +590,7 @@ select option{
  
 
 }
+/***********************************************************responsive3*****************************************************/
 @media screen and (max-width:575px){
     .patient_infos{
         padding: 0px 40px;
