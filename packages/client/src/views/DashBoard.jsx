@@ -3,8 +3,6 @@ import SideBar from '../components/layout/sideBar';
 
 const DashBoard = () => {
 
-  
-
     return (
         <>
             <div className="d-flex">

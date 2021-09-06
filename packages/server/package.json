@@ -10,6 +10,7 @@
     "rollback": "db-migrate down"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "db-migrate-pg": "^1.2.2",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
