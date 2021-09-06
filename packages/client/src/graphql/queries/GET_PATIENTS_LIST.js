@@ -17,6 +17,7 @@ const GET_PATIENTS_LIST = gql`
         currentUser {
             nom
             prenom
+            profilePicture
         }
         patientsNumberByRole {
             nodes {

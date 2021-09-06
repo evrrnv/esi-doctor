@@ -76,7 +76,7 @@ const SpecifPatients = (props) => {
         <div className="specifPatients__main">
             <SideBar />
             <div className="patients__content">
-                <DoctorHeader  nom={currentUser.nom} prenom={currentUser.prenom} />
+                <DoctorHeader  nom={currentUser.nom} prenom={currentUser.prenom} profilePictureUrl={currentUser.profilePicture} />
                 <div className="patients__body  d-block d-sm-flex justify-content-between">
                     <div className="patients__types align-self-end">
                     <h1 className="patients__header mb-3 text-center">Surveiller la santé  de vos Patients </h1>
@@ -94,7 +94,8 @@ const SpecifPatients = (props) => {
                         <h3 className="modif__txt Dm__txt mb-3 ">DOSSIERS MÉDICAUX</h3>
                         <div className="Dms ml-1  d-flex flex-column ">
                             { allUserAccounts.nodes.map(v => {
-                                return (<DossierCard key={v.id} id={v.id} nom={v.nom} prenom={v.prenom} />)
+                                console.log(v)
+                                return (<DossierCard key={v.id} id={v.id} nom={v.nom} prenom={v.prenom} profilePictureUrl={v.profilePicture} />)
                             }) }
                         </div>
                         

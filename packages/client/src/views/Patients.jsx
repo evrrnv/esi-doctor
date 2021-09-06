@@ -21,11 +21,13 @@ const Patients = () => {
 
     const { currentUser, patientsNumberByRole: { nodes: patientsNumber }, recentUpdatedDossierMedicals } = data
 
+    console.log(currentUser)
+
     return (
         <div className="main">
             <SideBar  />
             <div className="patients__content">
-                <DoctorHeader  nom={currentUser.nom} prenom={currentUser.prenom} />
+                <DoctorHeader  nom={currentUser.nom} prenom={currentUser.prenom} profilePictureUrl={currentUser.profilePicture} />
                 <div className="patients__body d-block d-sm-flex justify-content-between">
                     <div className="patients__types align-self-end">
                         <h1 className="patients__header mb-3 text-center">Surveiller la santé  de vos Patients </h1>

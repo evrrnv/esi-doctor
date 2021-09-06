@@ -3,13 +3,14 @@ import avatar  from '../../assets/images/avatar.jpg';
 import '../../assets/css/specifPatients.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArchive, faEdit,  faStethoscope } from '@fortawesome/free-solid-svg-icons';
+import { Avatar } from '@material-ui/core';
 
-const DossierCard = ({ id, nom, prenom }) => {
+const DossierCard = ({ id, nom, prenom, profilePictureUrl }) => {
     return (
   
             <div className="dossier__card d-flex justify-content-between">
                 <div className="dossier__infos d-flex align-items-center">
-                    <img className="dossier__img" src={avatar}/>
+                    <Avatar alt="profile picture" src={profilePictureUrl} style={{marginRight: "16px"}} />
                     <div>
                         <h5>{prenom} {nom}</h5>
                         <h6 className="dossier__title">Etudiant</h6>

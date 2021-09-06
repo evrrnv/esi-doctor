@@ -31,16 +31,17 @@ CREATE TABLE app_private.user_account (
 CREATE TABLE app.user_account (
     user_id uuid PRIMARY KEY REFERENCES app_private.user_account (id) ON DELETE CASCADE,
     numero SERIAL,
-    email varchar UNIQUE,
+    email VARCHAR UNIQUE,
     role ROLE DEFAULT 'ETUDIANT',
-    nom varchar,
-    prenom varchar,
+    nom VARCHAR,
+    prenom VARCHAR,
     dateDeNaissance DATE,
     sexe SEXE,
     niveau  INT CHECK (niveau >= 1 and niveau <= 5),
     specialite SPECIALITE,
-    adresse varchar,
-    telephone char(10),
+    adresse VARCHAR,
+    telephone CHAR(10),
+    profile_picture VARCHAR,
     updated_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
@@ -210,12 +211,13 @@ CREATE FUNCTION app.create_medecin(
         password VARCHAR,
         email VARCHAR DEFAULT NULL, 
         nom VARCHAR DEFAULT NULL,
-        prenom VARCHAR DEFAULT NULL
+        prenom VARCHAR DEFAULT NULL,
+        profile_picture VARCHAR DEFAULT NULL
     ) 
     RETURNS TABLE (id uuid) AS $$
         WITH
         ins_mdc_pvt_acc AS (INSERT INTO app_private.user_account (id, username, password) VALUES (create_medecin.id, create_medecin.username, create_medecin.password) RETURNING id)
-        INSERT INTO app.user_account(user_id, email, role, nom, prenom) VALUES ((SELECT id FROM ins_mdc_pvt_acc), create_medecin.email, 'MEDECIN', create_medecin.nom, create_medecin.prenom) RETURNING user_id AS id
+        INSERT INTO app.user_account(user_id, email, role, nom, prenom, profile_picture) VALUES ((SELECT id FROM ins_mdc_pvt_acc), create_medecin.email, 'MEDECIN', create_medecin.nom, create_medecin.prenom, create_medecin.profile_picture) RETURNING user_id AS id
 $$ LANGUAGE sql VOLATILE SECURITY DEFINER;
 
 -- create patients
@@ -227,6 +229,7 @@ CREATE FUNCTION app.create_patient(
         email VARCHAR DEFAULT NULL, 
         nom VARCHAR DEFAULT NULL,
         prenom VARCHAR DEFAULT NULL,
+        profile_picture VARCHAR DEFAULT NULL,
         role ROLE DEFAULT 'ETUDIANT',
         dateDeNaissance DATE DEFAULT NULL,
         sexe SEXE DEFAULT NULL,
@@ -242,7 +245,7 @@ CREATE FUNCTION app.create_patient(
         ins_bio AS(INSERT INTO app.biometrique (id) VALUES ((SELECT id FROM ins_ds_mdc))),
         ins_atc_prs AS (INSERT INTO app.antecedents_personnelles (id) VALUES ((SELECT id FROM ins_ds_mdc))),
         ins_mdc_chgc AS (INSERT INTO app.antecedents_medico_chirugicaux (id) VALUES ((SELECT id FROM ins_ds_mdc)))
-        INSERT INTO app.user_account(user_id, email, role, nom, prenom, dateDeNaissance, sexe, niveau, specialite, adresse, telephone) 
+        INSERT INTO app.user_account(user_id, email, role, nom, prenom, dateDeNaissance, sexe, niveau, specialite, adresse, telephone, profile_picture) 
         VALUES (
             (SELECT id FROM ins_pvt_acc), 
             create_patient.email, 
@@ -254,7 +257,8 @@ CREATE FUNCTION app.create_patient(
             create_patient.niveau, 
             create_patient.specialite, 
             create_patient.adresse, 
-            create_patient.telephone
+            create_patient.telephone,
+            create_patient.profile_picture
             ) 
             RETURNING user_id AS id;
 $$ LANGUAGE sql VOLATILE SECURITY DEFINER;
@@ -292,13 +296,13 @@ $$ LANGUAGE SQL STABLE;
 
 -- insert users
 
-SELECT app.create_medecin('48cfbc46-fdcd-4b97-8ab1-03c469981506', 'rakikoove', '0YAQ7j50b9vLqrgjVS2oVF8F6', 'rakikoove@esi-sba.dz', 'Bendada', 'Moncef');
-SELECT app.create_medecin('74dc5a42-79ca-48ac-97fc-2e682e0efec7', 'mesmoudi13', 'e7KHTiptaG28KkBekwOOgoCar', 'mesmoudi13@esi-sba.dz', 'Mesmoudi', 'Moudi');
-SELECT app.create_medecin('98f451b8-8aa4-4dc3-90a4-e745288de8bb', 'mhammed-sed', '>{j${=@XWt*"T(j[Q1LD<oni)', 'mhammed-sed@esi-sba.dz', 'Sedaoui', 'Muhammed');
-SELECT app.create_medecin('cc04529e-8e39-456f-b1f7-80bc6c726e02', 'a.boussaid', 'sKG6PUENEUlIDYWtTnQKFkFYi', 'a.boussaidd@esi-sba.dz', 'Sedaoui', 'Muhammed');
+SELECT app.create_medecin('48cfbc46-fdcd-4b97-8ab1-03c469981506', 'rakikoove', '0YAQ7j50b9vLqrgjVS2oVF8F6', 'rakikoove@esi-sba.dz', 'Bendada', 'Moncef', 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+SELECT app.create_medecin('74dc5a42-79ca-48ac-97fc-2e682e0efec7', 'mesmoudi13', 'e7KHTiptaG28KkBekwOOgoCar', 'mesmoudi13@esi-sba.dz', 'Mesmoudi', 'Moudi', 'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+SELECT app.create_medecin('98f451b8-8aa4-4dc3-90a4-e745288de8bb', 'mhammed-sed', '>{j${=@XWt*"T(j[Q1LD<oni)', 'mhammed-sed@esi-sba.dz', 'Sedaoui', 'Muhammed', 'https://images.pexels.com/photos/1516680/pexels-photo-1516680.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+SELECT app.create_medecin('cc04529e-8e39-456f-b1f7-80bc6c726e02', 'a.boussaid', 'sKG6PUENEUlIDYWtTnQKFkFYi', 'a.boussaidd@esi-sba.dz', 'Sedaoui', 'Muhammed', 'https://images.pexels.com/photos/2169500/pexels-photo-2169500.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
 
-SELECT app.create_patient('767f4741-4473-4d19-9e96-39b9abb01bc6', 'etudiant1', 'password', 'etudiant1@esi-sba.dz', 'Alimaia', 'Bouchiba');
-SELECT app.create_patient('84fa94cc-cd5d-449d-a4fa-197d0bf195b7', 'etudiant2', 'password', 'etudiant2@esi-sba.dz', 'Amrouche', 'Aleser');
+SELECT app.create_patient('767f4741-4473-4d19-9e96-39b9abb01bc6', 'etudiant1', 'password', 'etudiant1@esi-sba.dz', 'Alimaia', 'Bouchiba', 'https://images.pexels.com/photos/2613260/pexels-photo-2613260.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+SELECT app.create_patient('84fa94cc-cd5d-449d-a4fa-197d0bf195b7', 'etudiant2', 'password', 'etudiant2@esi-sba.dz', 'Amrouche', 'Aleser', 'https://images.pexels.com/photos/3812011/pexels-photo-3812011.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
 
 SELECT app.assign_medecin_to_patient('767f4741-4473-4d19-9e96-39b9abb01bc6', 'cc04529e-8e39-456f-b1f7-80bc6c726e02');
 SELECT app.assign_medecin_to_patient('7150e9aa-b8be-4c5a-bc8d-653b0deaab96', '74dc5a42-79ca-48ac-97fc-2e682e0efec7');

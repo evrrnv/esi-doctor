@@ -7,11 +7,13 @@ const GET_SPECIFIC_PATIENTS = gql`
                 id
                 nom
                 prenom
+                profilePicture
             }
         }
         currentUser {
             nom
             prenom
+            profilePicture
         }
         completedDossierMedicalsCounter(role: $role) {
             completed

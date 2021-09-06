@@ -16,6 +16,7 @@ const SEARCH_PATIENTS = gql`
                 id
                 nom
                 prenom
+                profilePicture
             }
         }
     }
