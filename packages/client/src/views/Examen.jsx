@@ -120,21 +120,21 @@ const Exam = (props , Key) => {
         <img className="icon_img"  src={props.icon} alt={props.icon} />
         <p className="exam_paragraph">{props.name}</p>
         </div>
-        {visible && props.name=="Ophtalmologique" ? <Details1/> : null }
-        {visible && props.name=="O.R.L" ? <Details2/> : null }
-        {visible && props.name=="Rapport Médical" ? <Details/> : null }
-        {visible && props.name=="Peau et Muqueuses" ? <Details/> : null }
-        {visible && props.name=="Respiratoire" ? <Details/> : null }
-        {visible && props.name=="Locomoteur" ? <Details/> : null }
-        {visible && props.name=="Cardio-vasculaire" ? <Details/> : null }
-        {visible && props.name=="Genito-Urinaire" ? <Details/> : null }
-        {visible && props.name=="Digestif" ? <Details/> : null }
-        {visible && props.name=="Neurologique et Psychisme" ? <Details/> : null }
-        {visible && props.name=="Hématologie et Ganglionnaire" ? <Details/> : null }
-        {visible && props.name=="Endocrinologie" ? <Details/> : null }
-        {visible && props.name=="Profile Psychologique" ? <Details/> : null }
-        {visible && props.name=="Examens Complémentaires" ? <Details/> : null }
-        {visible && props.name=="Orientation" ? <Details/> : null }
+        {visible && props.name==="Ophtalmologique" ? <Details1/> : null }
+        {visible && props.name==="O.R.L" ? <Details2/> : null }
+        {visible && props.name==="Rapport Médical" ? <Details/> : null }
+        {visible && props.name==="Peau et Muqueuses" ? <Details/> : null }
+        {visible && props.name==="Respiratoire" ? <Details/> : null }
+        {visible && props.name==="Locomoteur" ? <Details/> : null }
+        {visible && props.name==="Cardio-vasculaire" ? <Details/> : null }
+        {visible && props.name==="Genito-Urinaire" ? <Details/> : null }
+        {visible && props.name==="Digestif" ? <Details/> : null }
+        {visible && props.name==="Neurologique et Psychisme" ? <Details/> : null }
+        {visible && props.name==="Hématologie et Ganglionnaire" ? <Details/> : null }
+        {visible && props.name==="Endocrinologie" ? <Details/> : null }
+        {visible && props.name==="Profile Psychologique" ? <Details/> : null }
+        {visible && props.name==="Examens Complémentaires" ? <Details/> : null }
+        {visible && props.name==="Orientation" ? <Details/> : null }
     </div>
     );
 }

@@ -10040,6 +10040,13 @@ postgraphile-core@4.12.1:
     graphile-build-pg "4.12.1"
     tslib "^2.0.1"
 
+postgraphile-plugin-connection-filter@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/postgraphile-plugin-connection-filter/-/postgraphile-plugin-connection-filter-2.2.2.tgz#c2444a01a4a6506f9e8a485f18b6cf5bcd17e43b"
+  integrity sha512-/PkdMwaIfGM++C8G5QUAF1iosAVEyIbPaaYteCMgfNWjW215SP9+8L+ewfi6Dm9Weaf+qKnNERWx7xlY8kuWOw==
+  dependencies:
+    tslib "^2.3.0"
+
 postgraphile@^4.12.3:
   version "4.12.3"
   resolved "https://registry.yarnpkg.com/postgraphile/-/postgraphile-4.12.3.tgz#19493421b170b21428db696f04d857a5644a6b54"

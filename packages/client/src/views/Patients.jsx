@@ -9,8 +9,7 @@ import LastEdit from '../components/shared/lastEdit';
 import HistoLastExam from '../components/shared/histoLastExam'; 
 import DoctorHeader from '../components/shared/doctorHeader';
 import { useQuery } from '@apollo/client';
-import { GET_PATIENTS_LIST } from '../operations/queries/GET_PATIENTS_LIST';
-import { CircularProgress } from '@material-ui/core';
+import { GET_PATIENTS_LIST } from '../graphql/queries/GET_PATIENTS_LIST';
 import Loading from '../components/shared/loading';
 
 const Patients = () => {
@@ -22,13 +21,14 @@ const Patients = () => {
     
     const { currentUser, patientsNumberByRole: { nodes: patientsNumber }, recentUpdatedDossierMedicals } = data
 
-    
+    console.log(currentUser)
+
 
     return (
         <div className="main">
             <SideBar  />
             <div className="patients__content">
-                <DoctorHeader  nom={currentUser.nom} prenom={currentUser.prenom} />
+                <DoctorHeader  nom={currentUser.nom} prenom={currentUser.prenom} profilePictureUrl={currentUser.profilePicture} />
                 <div className="patients__body d-block d-sm-flex justify-content-between">
                     <div className="patients__types align-self-end">
                         <h1 className="patients__header mb-3 text-center">Surveiller la santé  de vos Patients </h1>
