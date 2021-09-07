@@ -16,13 +16,13 @@ import Loading from '../components/shared/loading';
 const Patients = () => {
 
     const { loading, error, data } = useQuery(GET_PATIENTS_LIST);
-
-    if (loading) return <Loading />
-    if (error) return <p>Error :(</p>;
-
+    console.log('data:{'+data+'}')
+    if (loading) return <Loading />;
+    if (error) return <p>Error(:</p>;
+    
     const { currentUser, patientsNumberByRole: { nodes: patientsNumber }, recentUpdatedDossierMedicals } = data
 
-    console.log(data)
+    
 
     return (
         <div className="main">

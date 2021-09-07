@@ -65,7 +65,7 @@
 .personal__img img{
     border-radius: 10px;
     height: auto;
-    width: 10vw;
+    width: 8vw;
     margin-right: 20px;
 }
 .informations{
@@ -73,11 +73,11 @@
     flex-direction: column;
     color:#8A8F9C;
     float: left;
-    width: 200px;
+    width: 30vw;
     justify-content: center;
 }
 .informations .titre,.nomEtprenom,.infos_email {
-    font-size: 1.25vw;
+    font-size: 1.2vw;
     padding: 3px 0px;
 }
 .informations .titre{
@@ -87,7 +87,7 @@
     color: #262626;
     font-size: 1.3vw;
     font-weight: 500;
-    width: 200px;
+    width: 30vw;
 }
 .numbers{
     flex-direction: column;
@@ -95,7 +95,7 @@
     justify-content: center;
     color: #262626;
     font-size: 1.2vw;
-    width: 180px;
+    width: 25vw;
     font-weight: 100;
 }
 .numbers .visits_num{
@@ -117,13 +117,13 @@
     width: 100%;
 }
 .head_infos{
-    padding-left: 50px;
-    padding-right: 10px;
+    padding-left: 3vw;
+    padding-right: 1vw;
 }
 .head_infos img{
     height: 3vw;
     width: 3vw;
-    margin-right: 10px;
+    margin-right: 1vw;
 }
 .head_infos h1{
     font-family: Arial, Helvetica, sans-serif;
@@ -133,12 +133,12 @@
     width: 30vw;
 }
 .head_infos button{
-    margin-left: 10%;
+    margin-left: 0px;
 }
 .modifier_button{
     background-color: transparent;
-    height: 40px;
-    width: 100px;
+    height: 5vw;
+    width: 10vw;
     color: #262626;
     display: flex;
     border: none;
@@ -163,7 +163,7 @@
 .all_infos{
     display: grid;
     grid: 100% / auto auto auto;
-    padding-left: 50px;
+    padding-left: 3vw;
     padding-top: 40px;
     padding-bottom: 30px;
 }
@@ -188,11 +188,11 @@
 .details_infos{
     margin: 10px 0px;
     background-color: #FBFBFB;
-    border-radius: 10px;
+    border-radius: 1vw;
 }
 .details_infos .head_infos{
     padding: 10px 0px;
-    margin-left: 3%;
+    margin-left: 1vw;
     width: 100%;
     padding-right: 50px;
 }
@@ -209,9 +209,9 @@
     object-fit: contain;
 }
 .empty_{
-    padding-left: 25px;
+    padding-left: 2vw;
     background-color: #F63232;
-    border-radius: 10px 0px 0px 10px;
+    border-radius: 1vw 0px 0px 1vw;
 }
 
 .infoTabs_items .details_infos:nth-child(1) .empty_{

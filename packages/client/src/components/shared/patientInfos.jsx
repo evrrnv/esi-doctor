@@ -32,7 +32,11 @@ const PatientInfos = (props)=>{
     return(
         <div className="main_">
             <SideBar/>
-            {(!patInofs&&!bioInfos&&!antInfos&&!antMedInfos&&!exmInfos)&&<button onClick={()=>history.goBack()} className="drop_down d-flex  burger"><ArrowBackIosIcon fontSize="large"/></button>}
+            {
+            (!patInofs&&!bioInfos&&!antInfos&&!antMedInfos&&!exmInfos)&&
+            <button onClick={()=>history.goBack()} className="drop_down d-flex  burger">
+            <ArrowBackIosIcon fontSize="large"/></button>
+            }
             <div className="patient_infos d-flex justify-content-between align-items-flex-end">
                 <div className="general_infos d-flex justify-content-between align-items-center">
                     <div className="main__infos d-flex justify-content-between align-items-center">
