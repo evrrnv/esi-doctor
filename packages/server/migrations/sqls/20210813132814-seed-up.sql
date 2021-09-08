@@ -7,6 +7,9 @@ CREATE ROLE MEDECIN;
 CREATE ROLE ENSEIGNANT;
 CREATE ROLE ATS;
 
+REVOKE ALL ON SCHEMA PUBLIC FROM PUBLIC;
+ALTER DEFAULT PRIVILEGES REVOKE ALL ON FUNCTIONS FROM PUBLIC;
+
 GRANT USAGE ON SCHEMA app TO ETUDIANT, MEDECIN, ENSEIGNANT, ATS, ANONYMOUS;
 
 CREATE EXTENSION "uuid-ossp";
@@ -192,7 +195,7 @@ $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER antecedents_personnelles_is_completed_trigger BEFORE UPDATE ON app.antecedents_personnelles FOR EACH ROW EXECUTE FUNCTION app.set_antecedents_personnelles_is_completed();
 
--- set antecedents medico chirugicaux is completed trigger is completed
+-- set antecedents medico chirugicaux is completed
 
 CREATE FUNCTION app.set_antecedents_medico_chirugicaux_is_completed() RETURNS TRIGGER AS $$
 BEGIN
@@ -213,6 +216,8 @@ CREATE FUNCTION app.current_user() RETURNS app.user_account AS $$
     SELECT * FROM app.user_account WHERE user_id = nullif(current_setting('jwt.claims.user_id', true), '')::uuid
 $$ LANGUAGE SQL STABLE;
 
+GRANT EXECUTE ON FUNCTION app.current_user() TO MEDECIN, ATS, ETUDIANT, ENSEIGNANT;
+
 -- patiens number by role
 
 CREATE FUNCTION app.patients_number_by_role()
@@ -224,6 +229,8 @@ CREATE FUNCTION app.patients_number_by_role()
     FROM (SELECT unnest(enum_range(NULL::ROLE)) AS role) rl LEFT JOIN app.user_account u ON u.role = rl.role
     GROUP BY rl.role) a WHERE role <> 'MEDECIN';
 $$ LANGUAGE SQL SECURITY DEFINER STABLE;
+
+GRANT EXECUTE ON FUNCTION app.patients_number_by_role() TO MEDECIN;
 
 -- recent updated medical files
 
@@ -248,8 +255,8 @@ CREATE FUNCTION app.recent_updated_dossier_medicals()
     LEAST(app.biometrique.updated_at, app.antecedents_medico_chirugicaux.updated_at, app.antecedents_personnelles.updated_at) AS date,
     (CASE LEAST(app.biometrique.updated_at, app.antecedents_medico_chirugicaux.updated_at, app.antecedents_personnelles.updated_at)
     WHEN app.biometrique.updated_at THEN 'BIOMETRIQUE'
-    WHEN app.antecedents_personnelles.updated_at THEN 'ANTECEDENTS PERSONNELLES'
-    WHEN app.antecedents_medico_chirugicaux.updated_at THEN 'AMC'
+    WHEN app.antecedents_personnelles.updated_at THEN 'A.P'
+    WHEN app.antecedents_medico_chirugicaux.updated_at THEN 'A.M.C'
     END) AS partie
     FROM app.user_account 
     INNER JOIN app.dossier_medical ON app.user_account.user_id = app.dossier_medical.user_id AND role IN ('ETUDIANT', 'ENSEIGNANT', 'ATS')
@@ -257,7 +264,9 @@ CREATE FUNCTION app.recent_updated_dossier_medicals()
     INNER JOIN app.antecedents_medico_chirugicaux ON app.antecedents_medico_chirugicaux.id = app.dossier_medical.id
     INNER JOIN app.antecedents_personnelles ON app.antecedents_personnelles.id = app.dossier_medical.id
     INNER JOIN app.user_account AS medecin_user_account ON medecin_user_account.user_id = app.dossier_medical.medecin;
-$$ LANGUAGE SQL STABLE SECURITY DEFINER;
+$$ LANGUAGE SQL STABLE;
+
+GRANT EXECUTE ON FUNCTION app.recent_updated_dossier_medicals() TO MEDECIN;
 
 -- create medecin
 
@@ -274,7 +283,9 @@ CREATE FUNCTION app.create_medecin(
         WITH
         ins_mdc_pvt_acc AS (INSERT INTO app_private.user_account (id, username, password) VALUES (create_medecin.id, create_medecin.username, create_medecin.password) RETURNING id)
         INSERT INTO app.user_account(user_id, email, role, nom, prenom, profile_picture) VALUES ((SELECT id FROM ins_mdc_pvt_acc), create_medecin.email, 'MEDECIN', create_medecin.nom, create_medecin.prenom, create_medecin.profile_picture) RETURNING user_id AS id
-$$ LANGUAGE sql VOLATILE SECURITY DEFINER;
+$$ LANGUAGE sql VOLATILE;
+
+GRANT EXECUTE ON FUNCTION app.create_medecin(uuid, varchar,  varchar, varchar, varchar, varchar, varchar) TO ANONYMOUS;
 
 -- create patients
 
@@ -319,7 +330,9 @@ CREATE FUNCTION app.create_patient(
             create_patient.family_status
             ) 
             RETURNING user_id AS id;
-$$ LANGUAGE sql VOLATILE SECURITY DEFINER;
+$$ LANGUAGE sql VOLATILE;
+
+GRANT EXECUTE ON FUNCTION app.create_patient(uuid, varchar, varchar, varchar, varchar, varchar, varchar, varchar, char, date, sexe, int, specialite, family_status, role) TO ANONYMOUS;
 
 -- assign medecin to patient
 
@@ -328,7 +341,9 @@ BEGIN
     UPDATE app.dossier_medical SET medecin = assign_medecin_to_patient.medecin_id WHERE user_id = assign_medecin_to_patient.patient_id;
     RETURN QUERY SELECT * FROM app.user_account WHERE user_id = assign_medecin_to_patient.patient_id;
 END
-$$ LANGUAGE plpgsql VOLATILE SECURITY DEFINER;
+$$ LANGUAGE plpgsql VOLATILE;
+
+GRANT EXECUTE ON FUNCTION app.assign_medecin_to_patient(uuid, uuid) TO MEDECIN;
 
 -- completed dossier medicals counter
 
@@ -350,6 +365,7 @@ CREATE FUNCTION app.completed_dossier_medicals_counter(role ROLE)
         SELECT (SELECT completed FROM completed_dm), (COUNT(user_id) - (SELECT completed FROM completed_dm)) AS not_completed FROM app.user_account WHERE role = completed_dossier_medicals_counter.role;
 $$ LANGUAGE SQL STABLE;
 
+GRANT EXECUTE ON FUNCTION app.completed_dossier_medicals_counter(role) TO MEDECIN;
 -- insert users
 
 SELECT app.create_medecin('48cfbc46-fdcd-4b97-8ab1-03c469981506', 'rakikoove', '0YAQ7j50b9vLqrgjVS2oVF8F6', 'rakikoove@esi-sba.dz', 'Bendada', 'Moncef', 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
