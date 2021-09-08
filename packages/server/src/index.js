@@ -52,7 +52,6 @@ app.use(
                 const user = await keycloak.verifyOnline(token[1])
                 const role = user.resourceAccess.web.roles[0]
                 const id = user.id.split(":")[2]
-                console.log(id)
                 return {
                   'jwt.claims.user_id': id,
                   role

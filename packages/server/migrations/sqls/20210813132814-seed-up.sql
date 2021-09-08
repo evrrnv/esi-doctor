@@ -17,6 +17,8 @@ CREATE TYPE SPECIALITE AS ENUM ('SIW', 'ISI');
 
 CREATE TYPE ROLE AS ENUM ('ETUDIANT', 'MEDECIN', 'ENSEIGNANT', 'ATS');
 
+CREATE TYPE FAMILY_STATUS AS ENUM ('Celibataire', 'Marie', 'Divorce', 'Veuf');
+
 CREATE TABLE app_private.user_account (
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     keycloak_id varchar,
@@ -42,14 +44,17 @@ CREATE TABLE app.user_account (
     adresse VARCHAR,
     telephone CHAR(10),
     profile_picture VARCHAR,
+    family_status FAMILY_STATUS,
     updated_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
 GRANT SELECT ON app.user_account TO MEDECIN, ETUDIANT, ENSEIGNANT, ATS;
+GRANT UPDATE ON app.user_account TO MEDECIN;
 
 ALTER TABLE app.user_account ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY medecin_select_user_account ON app.user_account FOR SELECT TO MEDECIN USING (TRUE);
+CREATE POLICY medecin_update_user_account ON app.user_account FOR UPDATE TO MEDECIN USING (TRUE);
 
 CREATE POLICY patient_select_user_account ON app.user_account FOR SELECT TO ETUDIANT, ENSEIGNANT, ATS USING
     (user_id = nullif (current_setting('jwt.claims.user_id', TRUE),'')::uuid);
@@ -96,7 +101,7 @@ COMMENT ON COLUMN app.biometrique.id is E'@omit update';
 
 CREATE TABLE app.antecedents_personnelles (
     id uuid PRIMARY KEY REFERENCES app.dossier_medical (id) ON DELETE CASCADE,
-    fummer BOOLEAN,
+    fumer BOOLEAN,
     nombre_de_cigarattes INT,
     joures_de_cigarattes INT,
     chiquer BOOLEAN,
@@ -151,6 +156,57 @@ CREATE TRIGGER seSQLt_app_biometrique_updated_at BEFORE UPDATE ON app.biometriqu
 CREATE TRIGGER set_app_antecedents_personnelles_updated_at BEFORE UPDATE ON app.antecedents_personnelles FOR EACH ROW EXECUTE FUNCTION app.set_current_timestamp_updated_at();
 CREATE TRIGGER set_app_antecedents_medico_chirugicaux_updated_at BEFORE UPDATE ON app.antecedents_medico_chirugicaux FOR EACH ROW EXECUTE FUNCTION app.set_current_timestamp_updated_at();
 
+-- set biometrique is completed
+
+CREATE FUNCTION app.set_biometrique_is_completed() RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.taille IS NOT NULL AND NEW.poid IS NOT NULL AND NEW.imc IS NOT NULL THEN
+        NEW.is_completed = TRUE;
+    ELSE
+        NEW.is_completed = FALSE;
+    END IF;
+    RETURN NEW;
+END
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER biometrique_is_completed_trigger BEFORE UPDATE ON app.biometrique FOR EACH ROW EXECUTE FUNCTION app.set_biometrique_is_completed();
+
+-- set biometrique is completed trigger is completed
+
+CREATE FUNCTION app.set_antecedents_personnelles_is_completed() RETURNS TRIGGER AS $$
+BEGIN
+    IF 
+    NEW.fumer IS NOT NULL AND 
+    NEW.chiquer IS NOT NULL AND 
+    NEW.prise IS NOT NULL AND
+    NEW.alcool IS NOT NULL AND
+    NEW.medicaments IS NOT NULL 
+    THEN
+        NEW.is_completed = TRUE;
+    ELSE
+        NEW.is_completed = FALSE;
+    END IF;
+    RETURN NEW;
+END
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER antecedents_personnelles_is_completed_trigger BEFORE UPDATE ON app.antecedents_personnelles FOR EACH ROW EXECUTE FUNCTION app.set_antecedents_personnelles_is_completed();
+
+-- set antecedents medico chirugicaux is completed trigger is completed
+
+CREATE FUNCTION app.set_antecedents_medico_chirugicaux_is_completed() RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.affections_congenitales IS NOT NULL THEN
+        NEW.is_completed = TRUE;
+    ELSE
+        NEW.is_completed = FALSE;
+    END IF;
+    RETURN NEW;
+END
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER antecedents_medico_chirugicaux_is_completed_trigger BEFORE UPDATE ON app.antecedents_medico_chirugicaux FOR EACH ROW EXECUTE FUNCTION app.set_antecedents_medico_chirugicaux_is_completed();
+
 -- current user
 
 CREATE FUNCTION app.current_user() RETURNS app.user_account AS $$
@@ -193,7 +249,7 @@ CREATE FUNCTION app.recent_updated_dossier_medicals()
     (CASE LEAST(app.biometrique.updated_at, app.antecedents_medico_chirugicaux.updated_at, app.antecedents_personnelles.updated_at)
     WHEN app.biometrique.updated_at THEN 'BIOMETRIQUE'
     WHEN app.antecedents_personnelles.updated_at THEN 'ANTECEDENTS PERSONNELLES'
-    WHEN app.antecedents_medico_chirugicaux.updated_at THEN 'ANTECEDENTS MEDICO CHIRUGICAUX'
+    WHEN app.antecedents_medico_chirugicaux.updated_at THEN 'AMC'
     END) AS partie
     FROM app.user_account 
     INNER JOIN app.dossier_medical ON app.user_account.user_id = app.dossier_medical.user_id AND role IN ('ETUDIANT', 'ENSEIGNANT', 'ATS')
@@ -230,13 +286,14 @@ CREATE FUNCTION app.create_patient(
         nom VARCHAR DEFAULT NULL,
         prenom VARCHAR DEFAULT NULL,
         profile_picture VARCHAR DEFAULT NULL,
-        role ROLE DEFAULT 'ETUDIANT',
+        adresse VARCHAR DEFAULT NULL,
+        telephone char(10) DEFAULT NULL,
         dateDeNaissance DATE DEFAULT NULL,
         sexe SEXE DEFAULT NULL,
         niveau INT DEFAULT NULL,
         specialite SPECIALITE DEFAULT NULL,
-        adresse VARCHAR DEFAULT NULL,
-        telephone char(10) DEFAULT NULL
+        family_status FAMILY_STATUS DEFAULT NULL,
+        role ROLE DEFAULT 'ETUDIANT'
     ) 
     RETURNS TABLE (id uuid) AS $$
         WITH
@@ -245,7 +302,7 @@ CREATE FUNCTION app.create_patient(
         ins_bio AS(INSERT INTO app.biometrique (id) VALUES ((SELECT id FROM ins_ds_mdc))),
         ins_atc_prs AS (INSERT INTO app.antecedents_personnelles (id) VALUES ((SELECT id FROM ins_ds_mdc))),
         ins_mdc_chgc AS (INSERT INTO app.antecedents_medico_chirugicaux (id) VALUES ((SELECT id FROM ins_ds_mdc)))
-        INSERT INTO app.user_account(user_id, email, role, nom, prenom, dateDeNaissance, sexe, niveau, specialite, adresse, telephone, profile_picture) 
+        INSERT INTO app.user_account(user_id, email, role, nom, prenom, dateDeNaissance, sexe, niveau, specialite, adresse, telephone, profile_picture, family_status) 
         VALUES (
             (SELECT id FROM ins_pvt_acc), 
             create_patient.email, 
@@ -258,7 +315,8 @@ CREATE FUNCTION app.create_patient(
             create_patient.specialite, 
             create_patient.adresse, 
             create_patient.telephone,
-            create_patient.profile_picture
+            create_patient.profile_picture,
+            create_patient.family_status
             ) 
             RETURNING user_id AS id;
 $$ LANGUAGE sql VOLATILE SECURITY DEFINER;
@@ -273,8 +331,6 @@ END
 $$ LANGUAGE plpgsql VOLATILE SECURITY DEFINER;
 
 -- completed dossier medicals counter
-
--- SELECT id FROM app.dossier_medical WHERE user_id = '767f4741-4473-4d19-9e96-39b9abb01bc6'
 
 CREATE TYPE app.completed_uncompleted as (
     completed INT,
@@ -301,7 +357,7 @@ SELECT app.create_medecin('74dc5a42-79ca-48ac-97fc-2e682e0efec7', 'mesmoudi13', 
 SELECT app.create_medecin('98f451b8-8aa4-4dc3-90a4-e745288de8bb', 'mhammed-sed', '>{j${=@XWt*"T(j[Q1LD<oni)', 'mhammed-sed@esi-sba.dz', 'Sedaoui', 'Muhammed', 'https://images.pexels.com/photos/1516680/pexels-photo-1516680.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
 SELECT app.create_medecin('cc04529e-8e39-456f-b1f7-80bc6c726e02', 'a.boussaid', 'sKG6PUENEUlIDYWtTnQKFkFYi', 'a.boussaidd@esi-sba.dz', 'Sedaoui', 'Muhammed', 'https://images.pexels.com/photos/2169500/pexels-photo-2169500.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
 
-SELECT app.create_patient('767f4741-4473-4d19-9e96-39b9abb01bc6', 'etudiant1', 'password', 'etudiant1@esi-sba.dz', 'Alimaia', 'Bouchiba', 'https://images.pexels.com/photos/2613260/pexels-photo-2613260.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+SELECT app.create_patient('767f4741-4473-4d19-9e96-39b9abb01bc6', 'etudiant1', 'password', 'etudiant1@esi-sba.dz', 'Alimaia', 'Bouchiba', 'https://images.unsplash.com/photo-1560329072-17f59dcd30a4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=767&q=80', '102 Rue Haddad Layachi, 19600', '0678569874', '2000-05-17', 'F', '3', 'SIW', 'Celibataire');
 SELECT app.create_patient('84fa94cc-cd5d-449d-a4fa-197d0bf195b7', 'etudiant2', 'password', 'etudiant2@esi-sba.dz', 'Amrouche', 'Aleser', 'https://images.pexels.com/photos/3812011/pexels-photo-3812011.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
 
 SELECT app.assign_medecin_to_patient('767f4741-4473-4d19-9e96-39b9abb01bc6', 'cc04529e-8e39-456f-b1f7-80bc6c726e02');

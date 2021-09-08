@@ -59,6 +59,7 @@ function App() {
             <Route path="/param" component={Param} />
 
             <Route path="/contact" component={Contact} />
+            
             <Route path="/patientsListInfos" component={PatientInfos}/> 
          </Switch>
         </BrowserRouter>

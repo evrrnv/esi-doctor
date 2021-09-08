@@ -72,6 +72,12 @@ const SpecifPatients = (props) => {
         })
     }
 
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            searchHandler()
+        }
+    }
+
     return (
         <div className="specifPatients__main">
             <SideBar />
@@ -82,7 +88,7 @@ const SpecifPatients = (props) => {
                     <h1 className="patients__header mb-3 text-center">Surveiller la santé  de vos Patients </h1>
                        <TypeHero type={props.type} nbr={total} complet={completedNb} nonComplet={notCompletedNb} img1={props.img1} img2={props.img2} /> 
                        <div className="Dm__search__container">
-                           <input name="search patient" className="Dm__search" type="text" placeholder="Rechercher un dossier" value={searchValue} onChange={searchChangeHandler} />
+                           <input name="search patient" className="Dm__search" type="text" placeholder="Rechercher un dossier" value={searchValue} onChange={searchChangeHandler} onKeyDown={handleKeyDown} />
                            <FontAwesomeIcon style={{cursor: "pointer"}} icon={faSearch} className="Dm__searchIcon" onClick={searchHandler} />
                         </div>
                     </div>
@@ -94,7 +100,6 @@ const SpecifPatients = (props) => {
                         <h3 className="modif__txt Dm__txt mb-3 ">DOSSIERS MÉDICAUX</h3>
                         <div className="Dms ml-1  d-flex flex-column ">
                             { allUserAccounts.nodes.map(v => {
-                                console.log(v)
                                 return (<DossierCard key={v.id} id={v.id} nom={v.nom} prenom={v.prenom} profilePictureUrl={v.profilePicture} />)
                             }) }
                         </div>

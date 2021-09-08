@@ -11,6 +11,7 @@ import DoctorHeader from '../components/shared/doctorHeader';
 import { useQuery } from '@apollo/client';
 import { GET_PATIENTS_LIST } from '../graphql/queries/GET_PATIENTS_LIST';
 import Loading from '../components/shared/loading';
+import { convertDateToReadable } from '../utils';
 
 const Patients = () => {
 
@@ -20,8 +21,6 @@ const Patients = () => {
     if (error) return <p>Error :(</p>;
 
     const { currentUser, patientsNumberByRole: { nodes: patientsNumber }, recentUpdatedDossierMedicals } = data
-
-    console.log(currentUser)
 
     return (
         <div className="main">
@@ -52,11 +51,7 @@ const Patients = () => {
                                 <h6 className="modif__titles col-1">№dm</h6>
                             </div>
                             { recentUpdatedDossierMedicals.nodes.map(v => {
-                                const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
-                                    "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
-                                ];
-                                let date = new Date(v.date)
-                                date = `${date.getDate()}.${monthNames[date.getMonth() - 1]}.${date.getFullYear()}`
+                                const date = convertDateToReadable(new Date(v.date))
                                 return (<LastEdit key={v.numero} NO={v.numero} patient={`${v.patientNom} ${v.patientPrenom}`} doctor={`Dr.${v.medecinNom}`} date={date}  part={v.partie} dossierNbr={v.numeroDossierMedical}/>)
                             }) }
                         </div>

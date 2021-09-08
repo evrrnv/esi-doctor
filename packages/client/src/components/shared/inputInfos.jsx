@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const InfoInput = (props) => {
+const InfoInput = React.forwardRef((props, ref) => {
 
     return(
         <div className="input__item d-flex align-items-flex-start">
@@ -9,11 +9,12 @@ const InfoInput = (props) => {
             type="text" 
             className="form-control" 
             name={props.name} 
-            placeholder={props.value}
+            defaultValue={props.value}
+            ref={ref}
             />
         </div>
     );
 
-}
+})
 
 export default InfoInput;

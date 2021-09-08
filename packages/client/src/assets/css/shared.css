@@ -210,13 +210,9 @@
 }
 .empty_{
     padding-left: 25px;
-    background-color: #F63232;
     border-radius: 10px 0px 0px 10px;
 }
 
-.infoTabs_items .details_infos:nth-child(1) .empty_{
-    background-color: #56C596;
-}
 .personal_infos_II{
     background-color: #E8EDF5;
     padding-top:40px;
