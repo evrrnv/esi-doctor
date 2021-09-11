@@ -17,6 +17,8 @@ import teacherOnly from './assets/images/teacherOnly.svg'
 import teacherEarth from './assets/images/teacherEarth.svg'
 import atsOnly from './assets/images/atsOnly.svg'
 import atsWesmo from './assets/images/atsWesmo.svg'
+
+
  
 function App() {
  
