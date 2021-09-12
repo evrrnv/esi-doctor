@@ -52,11 +52,11 @@ const Examen = () => {
                         </div>
                     </div>
                     <div className="d-flex flex-row justify-content-between align-items-center ">
-                        <div className="d-flex flex-column justify-content-between align-items-center">
+                        <div className="d-flex flex-column justify-content-between align-items-center text-align-center">
                             <h3 className="number">180 cm</h3> 
                             <h4 className="text">Taille</h4>
                         </div>
-                        <div className="d-flex flex-column justify-content-between align-items-center">
+                        <div className="d-flex flex-column justify-content-between align-items-center text-align-center">
                             <h3 className="number">65 kg</h3> 
                             <h4 className="text">Poids</h4>
                         </div>

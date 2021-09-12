@@ -28,6 +28,7 @@
 } 
 .personal_infos , .empty , .exams{
     margin-bottom: 40px;
+    background-color: transparent;
 }
 .exam{
     width: 95%;
