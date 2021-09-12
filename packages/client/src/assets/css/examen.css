@@ -181,3 +181,75 @@ opacity: 1;
     margin-bottom: 50px;
     height: 50px;
 }
+
+.certif{
+    margin-left: 60px;
+}
+.noteCertif{
+    display: flex;
+    align-items: flex-start;
+    padding: 10px;
+    width: 347px;
+    margin-bottom: 10px;
+    height: 50px;
+    text-align: center;
+    background-color:white;
+}
+.addNoteCertif{
+    border: 1px solid white;
+    outline: none;
+    width: 347px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: white;
+}
+.subtitle{
+    font-size: 10px;
+    opacity: 0.5;
+}
+#print{
+    width: 200px;
+    height: 50px;
+    border: 3px solid var(--unnamed-color-f63232);
+    border: 3px solid #24A9E2;
+    border-radius: 14px;
+    opacity: 1;
+
+}
+.print{
+   background-color: white; 
+   font-family: Roboto;
+   font-size: 20px;
+}
+.addNoteOrd{
+    border: 1px solid #E3E3E3;
+    outline: none;
+    width: 347px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: white;
+    height: 50px;
+
+}
+.imprimerOrd{
+    border: 1px solid #E3E3E3;
+    outline: none;
+    width: 347px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: white;
+    height: 50px;
+
+}
+.headTableOrd{
+    width:86% ; 
+    background-color: white;
+    margin-left: 70px;
+    height: 50px;
+    border-bottom:4px solid #000 !important ; 
+    padding: 5px;
+   
+}
+.titles{
+    opacity: 0.8;
+}
