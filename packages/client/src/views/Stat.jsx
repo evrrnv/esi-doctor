@@ -13,10 +13,52 @@ import 'react-google-flight-datepicker/dist/main.css';
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
 import CircleInfos from '../components/shared/circleInfos';
 import { DateRangePicker } from 'rsuite';
+import {
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend
+  } from "recharts";
 
+  
 
 const Stat = () => {
-    
+    const dailyStats = [
+        {
+          name: "Dim",
+          Etud: 10,
+          Ens: 2,
+          Ats: 3
+        },
+        {
+          name: "Lun",
+          Etud: 8,
+          Ens: 1,
+          Ats: 0
+        },
+        {
+          name: "Mar",
+          Etud: 5,
+          Ens: 3,
+          Ats: 1
+        },
+        {
+          name: "Merc",
+          Etud: 7,
+          Ens: 1,
+          Ats: 2
+        },
+        {
+          name: "Jeu",
+          Etud: 12,
+          Ens: 4,
+          Ats: 3
+        }
+        
+      ];
     const datas = [
         { name: 'Etudiants', value: 600 },
         { name: 'Enseignants', value: 300 },
@@ -34,7 +76,7 @@ const Stat = () => {
     
 
     return (
-        <div className="main">
+        <div className="stat__main">
             <SideBar/>
             <div className="patients__content">
             <DoctorHeader  nom={currentUser.nom} prenom={currentUser.prenom} profilePictureUrl={currentUser.profilePicture} />
@@ -57,7 +99,7 @@ const Stat = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="stat__general mt-4 mb-3 pb-4 mx-1 row">
+                        <div className="stat__general mt-4  pb-4 mx-1 row">
                             <div className="stat__cards__container col-8">
                                 <div className="stat__cards row">
                                     <div className="col-3">
@@ -89,10 +131,10 @@ const Stat = () => {
                                 </div>
                             </div>
                             <div className="stat__circle__container  col-4">
-                              <div className="stat__circle pt-4 px-5 ">
+                              <div className="stat__circle pt-4 pl-5 pr-0">
                                     
                                 <h6 className="stat__circle__txt">Dossiers médicaux</h6>
-                                <PieChart width={300} height={200} >
+                                <PieChart width={250} height={200} >
                                     <Pie
                                       data={datas}
                                       cx={120}
@@ -116,7 +158,33 @@ const Stat = () => {
                                 <span className="d-flex "><CircleInfos color="#5453CD" type="ATS" percent="10%" left="-34%"/></span>
                               </div>
                             </div>
+                            
                         </div>
+                        <div className="stats__details mt-0  row ml-3 mr-0">
+                              <div className="stat__bars  py-3 col-6"> 
+                                <h6 className="stat__circle__txt ml-3 mb-3">Visites médicaux</h6>
+                                <BarChart
+                                    width={500}
+                                    height={320}
+                                    data={dailyStats}
+                                    margin={{
+                                      top: 5,
+                                      right: 0,
+                                      left: -25,
+                                      bottom: 10
+                                    }}
+                                  >
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="name" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <Legend />
+                                    <Bar dataKey="Etud" fill="#00DE51" background={{ fill: "#eee" }} />
+                                    <Bar dataKey="Ens" fill="#FF8E00" background={{ fill: "#eee" }}/>
+                                    <Bar dataKey="Ats" fill="#5453CD" background={{ fill: "#eee" }}/>
+                                </BarChart>
+                              </div>
+                            </div>
                 </div>
             </div>
         </div>
