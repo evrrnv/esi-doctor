@@ -2,15 +2,53 @@
     box-sizing: border-box;
 }
 .notes_text{
-    background-color: #fbfbfb;
+    background-color:#FBFBFB;
     height: 4vw;
     width: 100%;
-    margin: 1vw 0px;
+    margin: .4vw 0px;
     border-radius: 1vw;
 }
 .notes_text span{
     font-size: 1.1vw;
-    padding: 1vw;
+    padding:1vw;
+    width: 100%;
     overflow-x: scroll;
     overflow-y: hidden;
+}
+.notes_text input{
+    margin-right: 1vw;
+}
+.Notes_items button{
+    width: 25vw;
+    padding: 0px 4vw;
+}
+.Notes_items{
+   height: 100%;
+}
+.notes_area{
+    height: 95%;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+@media screen and (max-width:767px){
+    .notes_text{
+        height: 5vw;
+        align-items: center;
+    }
+    .notes_text span{
+        font-size: 1.4vw;
+        font-weight: 100;
+    
+    } 
+}
+@media screen and (max-width:575px){
+    .notes_text{
+        height: 8vw;
+    }
+    .notes_text span{
+        font-size: 1.8vw;
+        font-weight: 100;
+        padding-top: 3vw;
+    }
 }

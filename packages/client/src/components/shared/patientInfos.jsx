@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import '../../assets/css/shared.css'
+import '../../assets/css/patientInfos.css'
 import {useLocation,useHistory} from 'react-router-dom'
 import SideBar from '../layout/sideBar'
 import personalIcon from '../../assets/images/open-person.png'
@@ -16,7 +16,87 @@ import DateRange from '../../assets/images/date-range.png'
 import BtnChangers from './btnChanger'
 import Question from './questionInput'
 import AddIcon from '@material-ui/icons/Add';
-import NoteElm from './note'
+import '../../assets/css/notes.css'
+import RemoveIcon from '@material-ui/icons/Remove';
+
+
+const ObjList = (i,j,k) => {
+    return {title:i,text:j,unit:k};
+}
+const InfosCont = (props) =>{
+    return(
+        <div className="text_content_dtails">
+            <div className="text_content d-flex">
+                <span>{props.title}</span>
+                <div className="infos_item_content">
+                    <span>{props.text}</span>
+                    <span>{props.unit}</span>
+                </div>
+            </div>
+        </div>
+    );
+}
+const NoteItem = (props) =>{
+    return(
+         <div className="notes_text d-flex align-items-flex-start">
+               <span>{props.text}</span>
+               <input type="checkbox" onChange={props.pushIt}/> 
+         </div>
+    );
+}
+const NoteElm = (props) =>{
+    let SuppArray = []
+    const [show,setShow] = useState(false)
+    (function(){
+        if(props.text.lenght > 0) setShow(true);
+        else setShow(false);
+    })();
+  
+    return(
+        <div className="Notes_items d-flex flex-column">
+            <div className="notes_area">
+            {  
+               
+               props.text.map((i,k) =><NoteItem key={i+'_'+k} text={i} pushIt={() =>{if(SuppArray.includes(i)) SuppArray.pop(i)
+            
+            else SuppArray.push(i)
+            }}/>) 
+            
+            }
+            </div>
+            {show&&
+             <button className="btn_infos_notes d-flex  align-items-center" 
+             onClick={() => {
+                props.onClick([...props.text].filter((i,k) => {return ! SuppArray.includes(i)}))
+                SuppArray=[]
+            }}>
+                            <div>
+                                 <RemoveIcon />  
+                                <span>Supprimer une note</span>
+                            </div>
+            </button>
+            }
+        </div>
+    );
+}
+const BioDetail = (props) =>{
+    const [indicat,setIndicat]=useState(false)
+    return(
+      <div className="details_bio d-flex" onClick={()=> setIndicat(!indicat)}>
+        <div className="empty_">
+        </div>
+        <div className="details_info_tab d-flex flex-column">
+            <InfosTab text={props.text} src={props.src} onClick={props.onClick}/>
+            {indicat && <div className="details_personal_info d-flex flex-column">
+                    {   
+                        props.items.map((elemt) =><InfosCont title={elemt.title} text={elemt.text} unit={elemt.unit}/>)
+                    }
+                </div>
+            }
+       </div>
+      </div>  
+    );
+}
 
 
 const PatientInfos = (props)=>{
@@ -105,10 +185,10 @@ const PatientInfos = (props)=>{
                         </div>
                     </div>
                     <div className="infoTabs_items">
-                        <InfosTab text="Biométriques" src={Biometric} onClick={() => setBioInfos(!bioInfos)}/>
-                        <InfosTab text="Antécédents Personnells" src={Layer2} onClick={() => setAntInfos(!antInfos)}/>
-                        <InfosTab text="Antécédents Médico-Chirugicaux" src={Layer} onClick={() => setMedInfos(!antMedInfos)}/>
-                        <InfosTab text="Examens Médicaux" src={group}/>
+                        <BioDetail items={[ObjList("taille",170,"Cm"),ObjList("Poids",66,"kg"),ObjList('IMC',"this is my test")]} text="Biométriques" src={Biometric} onClick={() => setBioInfos(!bioInfos)}/> 
+                        <BioDetail items={[ObjList("A Fumer ?","OUI"),ObjList("Jour",15),ObjList("A Chiquer?","OUI"),ObjList("A Prise?","OUI"),ObjList("Alcohol","OUI"),ObjList("Médicament","OUI"),ObjList("Autres","Text ...")]} text="Antécédents Personnells" src={Layer2} onClick={() => setAntInfos(!antInfos)}/>
+                        <BioDetail items={[ObjList("Affection Congénitales","some text")]} text="Antécédents Médico-Chirugicaux" src={Layer} onClick={() => setMedInfos(!antMedInfos)}/>
+                        <BioDetail items={[]} text="Examens Médicaux" src={group}/>
                     </div>
                     </>:patInofs?
                     <div className="personal_infos_II">
@@ -221,13 +301,14 @@ const PatientInfos = (props)=>{
                      <div className="inputs">
                         <div className="infos__inputs">
                             <div className="ant_textarea d-flex flex-column">
-                            <div className="input__item d-flex align-items-flex-start">
+                                <div className="input__item d-flex align-items-flex-start">
                                     <span>Affection Congénitales</span>
-                                    <input type="text" className="form-control" name="notes" placeholder="Text..." onChange={
+                                    <input type="text" className="form-control" name="notes" value={input} placeholder="Text..." onChange={
                                         (event) =>{
                                             const {value} = event.target  
                                             if (value === '') console.log(value === '' || value === ' ')
                                             else setInput(value)
+                                               
                                         }
                                     }/>
                                 </div>
@@ -238,17 +319,29 @@ const PatientInfos = (props)=>{
                                         setInput("");
                                     }
                                     }}>
-                                <AddIcon/>  
-                                <span>Ajouter une autre note</span>
+                                        <div>
+                                            <AddIcon />  
+                                            <span>Ajouter une autre note</span>
+                                        </div>
                                 </button>
                             </div> 
                         </div>
                         
-                        <div className="infos_notes container">
+                        <div className="infos_notes">
                             {
-        
-                                text.map((i) => <NoteElm text={i} />)
+                                <NoteElm text={text} onClick={setText}/>
+                                /*[...text].map((i) => <NoteElm text={i}/>)*/
+                                /*  <button className="btn_infos_notes d-flex  align-items-center" onClick={() => {
+                                    setText([...text].filter((e) => {return e != input}))
+                                    }}>
+                                        <div>
+                                            <RemoveIcon />  
+                                            <span>Supprimer une note</span>
+                                        </div>
+                                </button>*/
+                             
                             }
+                             
                         </div>
                            
                     </div>

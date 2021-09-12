@@ -1,0 +1,902 @@
+/**PatientsInfos**/
+*{
+    box-sizing: border-box;
+}
+.main_{
+    background-color: #D1F1E6;   
+    overflow: hidden; 
+}
+.drop_down{
+    padding-left: 280px;
+    padding-top: 25px;
+}
+.patient_infos{
+    padding-left: 320px;
+    width: 100%;
+    height: auto;
+    padding-right: 5%;
+    flex-direction: column;
+
+}
+.general_infos{
+    background-color:transparent;
+    padding: 30px 0px;
+    width: 100%;
+    height: auto;
+}
+.personal__img img{
+    border-radius: 10px;
+    height: auto;
+    width: 8vw;
+    margin-right: 20px;
+}
+.informations{
+    display: flex;
+    flex-direction: column;
+    color:#8A8F9C;
+    float: left;
+    width: 30vw;
+    justify-content: center;
+}
+.informations .titre,.nomEtprenom,.infos_email {
+    font-size: 1.2vw;
+    padding: 3px 0px;
+}
+.informations .titre{
+    color: #59626A;
+}
+.informations .nomEtprenom{
+    color: #262626;
+    font-size: 1.3vw;
+    font-weight: 500;
+    width: 30vw;
+}
+.numbers{
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    color: #262626;
+    font-size: 1.2vw;
+    width: 25vw;
+    font-weight: 100;
+}
+.numbers .visits_num{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 5vw;
+    color: #8A8F9C;
+    font-weight: small;
+}
+.numbers span{
+    float: left;
+}
+.personal_infos{
+    background-color: #FBFBFB;
+    padding-top:40px;
+    padding-bottom: 40px;
+    padding-right: 40px;
+    border-radius: 10px;
+    margin-top: 10px;
+    width: 100%;
+}
+.head_infos{
+    padding-left: 3vw;
+    padding-right: 1vw;
+}
+.head_infos .img{
+    height: 3vw;
+    width: 3vw;
+    margin-right: 1vw;
+}
+.personal_infos .head_infos img{
+    margin-right: 1vw;
+}
+.head_infos h1{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.8vw;
+    padding-top: 5%;
+    font-weight: 500;
+    width: 30vw;
+}
+.head_infos button{
+    margin-left: 0px;
+}
+.modifier_button{
+    background-color: transparent;
+    height: 5vw;
+    width: 10vw;
+    color: #262626;
+    display: flex;
+    border: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.modifier_button span{
+    padding-top: 2.5px;
+    letter-spacing: .3px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.3vw;
+    font-weight: 100;
+}
+.modifier_button img{    
+    width: 1.6vw;
+    height: 1.5vw;
+}
+.modifier_button:hover{
+    color: #24A9E2;
+}
+.all_infos{
+    display: grid;
+    grid: 100% / auto auto auto;
+    padding-left: 3vw;
+    padding-top: 40px;
+    padding-bottom: 30px;
+}
+.list_item{
+    display: grid;
+    grid: 50% / auto auto;
+}
+.item{
+    display: flex;
+    flex-direction: column;
+    font-weight: 900;
+}
+.item span{
+    padding: 8px 0px;
+    font-size: 1.1vw;
+    color: #59626A !important;
+}
+.item:nth-child(2) span{
+    color: #262626 !important;
+    font-weight: 100;
+}
+.details_bio{
+    border-radius: 1vw;
+    background-color: #FBFBFB;
+    border-radius: 1vw;
+    margin: 1vw 0px;
+}
+.details_bio:first-child .empty_{
+    background-color: #56C596;
+}
+.details_info_tab{
+    width: 100%;
+
+}
+.details_infos{
+    width: 100%;
+}
+.details_infos .head_infos{
+    padding: 10px 0px;
+    margin-left: 1vw;
+    width: 100%;
+    padding-right: 50px;
+}
+
+.details_infos .head_infos .detaills_text{
+    font-family: Arial, Helvetica, sans-serif;
+    height: auto;
+    width: 30vw;
+    font-size: 1.6vw;
+    font-weight: 500;
+    padding-top: 10px;
+}
+
+.details_infos .head_infos img{
+    object-fit: contain;
+    margin-right: 1vw;
+}
+.empty_{
+    padding-left: 2vw;
+    background-color: #F63232;
+    border-radius: 1vw 0px 0px 1vw;
+}
+.text_content{
+    padding: .3vw 2vw;
+    border-radius: 1vw;
+    margin: 10px 0px;
+    align-items: center;
+}
+
+.text_content span{
+    color: #59626A;
+    width: 25vw;
+    margin-left: 4vw;
+    text-transform: capitalize;
+
+}
+.text_content .infos_item_content{
+    width: 100%;
+}
+.text_content .infos_item_content span{
+    color: #262626 !important;
+    text-transform: capitalize !important;
+    margin: 0px .5vw;
+}
+
+
+.infoTabs_items .details_infos:nth-child(1) .empty_{
+    background-color: #56C596;
+}
+.personal_infos_II{
+    background-color: #E8EDF5;
+    padding-top:40px;
+    padding-bottom: 10px;
+    padding-right: 25px;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 55px;
+    width: 100%;
+
+}
+
+.inputs{
+    display: grid;
+    grid: 100%/auto auto;
+    margin-top: 1vw;
+}
+.infos__inputs,.inputs_const{   
+    margin-left: 55px;
+    margin-right: 2vw;
+    border-radius: 10px;
+    width: 85%;
+}
+.input__item,.input__item_sexe,.input__item_secl,.question_input,.input__item_textarea{
+    background-color: #FBFBFB;  
+    flex-direction: column;
+    width: 24vw;
+    border-radius: 10px;
+    line-height: 1px;
+    margin-bottom: 1vw;
+   
+}
+
+.input__item input,.form-control{
+    font-size: 1.2vw;
+}
+
+.date_input{
+   background-color: #FBFBFB;
+   height: 55px; 
+   border-radius: 5px;
+   width: 24vw;
+   margin-bottom: .7vw;
+   justify-content: flex-start;
+}
+.date_input .input__item{
+    background-color: #FBFBFB;  
+    border-radius: 5px;
+    float: left;
+    margin-bottom: 0vw;
+}
+.date_input img{
+    height: 2vw;
+    width: 2vw;
+    object-fit: contain;
+}
+.sexe .input__item{
+    width: 10vw;
+    border: #4c85ff91 solid;
+    border-radius: 10px;
+    margin-bottom: .6vw;
+}
+.input_select .input__item{
+    width: 15vw;
+    border: #4c85ff91 solid;
+    border-radius: 10px;
+    margin-bottom: .6vw;
+}
+.input__item span,.question_input span,.input__item_textarea span{
+    padding: 0vw 13px;
+    color: #59626A;
+    font-size: .9vw;
+    padding-top: 15px;
+    background-color: transparent;
+}
+.question_input{
+    border: solid #4c85ff91;
+    width: 15vw;
+}
+._inputs_const{
+    padding-top: .45vw;
+}
+.input__item_textarea{
+    width: 24vw; 
+    height: 10vw;
+}
+.input__item_textarea .input_textarea{
+    resize: none;
+    width: 100%;
+    margin-top: .5vw;
+    height: 8vw !important;
+    padding-top: 15px;
+    padding-left: 12px;
+    text-transform: capitalize;
+    border: none;
+    background-color: #FBFBFB;
+    border-radius: 10px;
+    font-size: 1.4vw;
+}
+.input__item_textarea .input_textarea:focus{
+    border: none;
+    outline: transparent;
+}
+.date_input .form-control{
+    width: 20vw;
+}
+.date_input .input__item{
+    width: 20vw;   
+}
+.form-control, .form-control:focus{
+    border: none;
+
+    color: #363636;
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    width: 100%;
+}
+._buttons{
+    width: 100%;
+    align-items: center;
+    justify-content: flex-end !important;
+    padding-right: 25px;
+}
+._buttons .btn-confirme,.btn-cancel{
+    margin: 0px 1vw;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 20px;
+    width: 11vw;
+}
+
+._buttons span{
+    padding-left: 5px;
+    font-size: 1.3vw;
+}
+._buttons .btn-confirme{
+    color: #56C596;
+    border: 3px #56C596 solid;
+}
+._buttons img{
+    height: 2vw;
+    width: 2.2vw;
+}
+._buttons .btn-cancel{
+    color:#F63232;
+    
+    border: 3px #F63232 solid;
+}
+._buttons .btn-cancel:hover{
+    box-shadow: 0px 0px 10px #F63232;
+}
+._buttons .btn-confirme:hover{
+    box-shadow: 0px 0px 10px #56C596;
+}
+
+.bio_inputs{
+    background-color: #FBFBFB;
+    width: 29vw;
+    margin-bottom: 1vw;
+    justify-content: flex-start;
+    border-radius: 10px;
+}
+.bio_inputs .input__item{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.bio_inputs span:nth-child(2){
+    text-transform: capitalize;
+    color: #59626A;
+    font-size: 1.2vw;
+}
+.bio_div{
+    padding: 4vw 0px;
+}
+.ant_textarea{
+    margin-top: 5vw;
+    margin-bottom: 5vw;
+}
+.ant_textarea .input__item_textarea{
+    height: 8vw;
+    width: 25vw;
+}
+
+.btn_infos_notes{
+    background-color: #FBFBFB;
+    width: 25vw;
+    height: 3vw;
+    border-radius: 1vw;
+    justify-content: space-between;
+    padding: 0px 4vw;
+    border:2px #4c85ff91 solid;
+    text-align: start;
+    margin-bottom: 10px;
+}
+.btn_infos_notes span{
+    padding-left: 10px;
+    font-size: 1.1vw;
+}
+.ant_textarea .input__item{
+    padding-top: .4vw;
+    height: 5vw;
+    width: 25vw;
+}
+.input__item input::placeholder{
+    color:#262626;
+    opacity: 1;
+}
+.infos_notes{
+    padding-top: 0px;
+    height: 25vw !important;
+    width: 25vw;
+    overflow-x: scroll;
+}
+textarea::placeholder{
+    color:#262626;
+    opacity: 1;
+}
+.btn_infos_notes .MuiSvgIcon-root{
+    height: 2.5vw;
+    width: 2.5vw;
+}
+
+/***********************************************************responsive1*****************************************************/
+@media only screen and (max-width:992px){
+    .patient_infos{
+        padding: 0px 25px 10px 210px;
+    }
+    .drop_down{
+        padding: 10px 0px 0px 200px;
+    }
+    .general_infos{
+        align-items: center;
+
+    }   
+    .personal__img img{
+        height: 10vw;
+        width: 10vw;
+    }
+    .informations .titre,.infos_email{
+        font-size: 1.5vw;
+    }
+    .informations .nomEtprenom{
+        font-size: 1.7vw;
+    }
+    .numbers{
+        font-size: 1.6vw;
+    }
+    .all_infos{
+        padding-top: 20px;
+        padding-bottom: 0px;
+    }
+    .all_infos .list_item .item span{
+        font-size: 1.5vw;
+    }
+    .head_infos img{
+        height: 3vw;
+        width: 3vw;
+    }
+    .head_infos h1{
+        font-family: Arial, Helvetica, sans-serif;
+        padding-top: 1.5vw;
+        font-size: 1.9vw;
+        width: 25vw;
+    }
+    .head_infos button img{
+        height: 2vw;
+        width: 2vw;
+    }
+    .head_infos button span{
+        font-size: 1.7vw;
+    }
+    .head_infos button{
+        margin-left: 20vw;
+    }
+    .details_infos .head_infos .detaills_text{
+        font-size: 1.7vw;
+        padding-top: 1vw;
+        width:25vw;
+    }
+    .input__item,.question_input{
+        height: 5.5vw;
+        margin-bottom: .7vw;
+    }
+    .date_input{
+        height: 5.5vw;
+    }
+    ._buttons .btn-confirme,.btn-cancel{
+        width: 15vw;
+    }
+    .personal_infos_II .head_infos{
+        padding-left: 5vw;
+    }
+    .personal_infos_II .head_infos h1{
+        width: 100%;
+    }
+    .personal_infos_II .head_infos img{
+        height: 3vw;
+    }
+
+    .ant_textarea .input__item{
+        padding-top: 0vw;
+    }
+    .ant_textarea{
+        padding-top: .4vw;
+    }
+    .text_content span{
+        width: 30vw;
+        font-size: 1.6vw;
+    }
+}
+/***********************************************************responsive2*****************************************************/
+@media screen and (max-width:767px){
+    .patient_infos{
+        padding: 0px 25px 10px 100px;
+    }
+    .drop_down{
+        padding-top: 10px;
+        padding-left: 75px;
+    }
+    .general_infos{
+        padding: 2vw 0px;
+    }
+    .personal_infos{
+        padding: 5px;
+    }
+    .personal__img img{
+        width: 12vw;
+        height: 12vw;
+    }
+    .informations .titre,.nomEtprenom,.infos_email {
+        font-size: 1.8vw;
+    }
+
+    .informations .nomEtprenom{
+        font-size: 2vw;
+    }
+    .numbers .visits_num{
+        font-size: 7vw;
+    }
+    .head_infos{
+        padding: 1.6vw 5vw;
+    }
+    .head_infos h1{
+        font-size: 2vw;
+        padding-top: 1.5vw;
+    }
+    .modifier_button span{
+        font-size: 1.6vw;
+    }
+    .modifier_button img{    
+        width: 2.5vw;
+        height: 2.5vw;
+    }
+    .all_infos{
+        grid: 100%/auto auto;
+        padding: 2vw 5vw;
+    }
+    .list_item{
+        grid: 100%/auto auto;
+    }
+    .all_infos .list_item:nth-child(3){
+        grid: 100% / auto 21vw;
+    }
+    .list_item .item span{
+        font-size: 2vw;
+    }
+    .details_infos .head_infos {
+        padding-right: 5vw;
+    }
+    .details_infos .head_infos .detaills_text{
+        font-size: 2vw;
+        width: 30vw;
+    }
+    .inputs{
+        margin-top: 0px;
+    }
+    .input__item,.question_input{
+        height: 5vw;
+        margin-bottom: .9vw;
+    }
+    .input__item span,.question_input span{
+        padding-top: 1vw;
+    }
+    .date_input{
+        height: 5vw;
+    }
+    .sexe .input__item,.input_select .input__item{
+        height: 6vw;
+        margin-bottom: .2vw;
+    }
+    ._buttons{
+        padding-top: 1vw;
+    }
+    ._buttons .btn-confirme,.btn-cancel{
+        width: 15vw;
+    }
+    .personal_infos_II{
+        margin-bottom: 25vw;
+    }
+  
+    .ant_textarea .input__item{
+        height: 6vw;
+    }
+    .ant_textarea .input__item span{
+        padding-top: 1.5vw;
+        font-size: 1.2vw;
+    }
+    .ant_textarea .input__item input{
+        font-size: 1.8vw;
+    }
+    ::placeholder{
+        font-size: 2vw;
+    }
+    .btn_infos_notes{
+        height: 4vw;
+    }
+    .btn_infos_notes span{
+        font-size: 1.2vw;
+    }
+    .infos_notes{
+        width: 35vw;
+    }
+    .text_content{
+        padding: 0vw 1vw;
+        align-items: center;
+        justify-content: center;
+    }
+    .text_content span{
+        margin-top: 1vw;
+        font-size: 1.8vw;
+    }
+}   
+/***********************************************************responsive3*****************************************************/
+@media screen and (max-width:575px){
+    .patient_infos{
+        padding: 0px 40px;
+        height: 100%;
+        overflow: hidden;
+    }
+    .drop_down{
+        padding-top: 10px;
+        padding-left: 15px;
+    }
+    .all_infos{
+        grid: 100% / 100%;
+        padding: 2% 0%;
+    }
+    .list_item{
+        grid: 100%/45vw 50vw;
+    }
+    .personal__img img{
+        height: 16vw;
+        width: 16vw;
+    }
+    .informations .titre,.infos_email{
+        width: 30vw;
+        font-size: 2.5vw;
+    }
+    .informations .nomEtprenom{
+        width: 25vw;
+        font-size: 3vw;
+    }
+    .general_infos .main__infos{
+        width: 45vw;
+    }
+    .numbers{
+        font-size: 2.5vw;
+        width: 180px;
+    }
+    .numbers .visits_num{
+        font-size: 8vw;
+    }
+    .head_infos{
+        padding:2% 6vw;
+    }
+    .head_infos img{
+        height: 5vw;
+        width: 5vw;
+    }
+    .head_infos h1{
+        font-size: 3.5vw;
+        font-weight: 400;
+        width: 44vw;
+    }
+    .head_infos button {
+        margin-left: 3vw;
+    }
+    .head_infos button img{
+        height: 3vw;
+        width: 3vw;
+    }
+    .head_infos button span{
+        font-size: 2.4vw;
+    }
+    .all_infos .list_item:nth-child(3){
+        grid: 100% / auto 32vw;
+    }
+    .all_infos .list_item .item{
+        padding: 0% 5vw;
+    }
+    .all_infos .list_item .item span{
+        padding: 10px;
+        font-size: 2.5vw;
+    }
+    .details_infos .head_infos .detaills_text{
+        font-size: 3.4vw;
+        width: 50vw;
+    }
+    .details_infos .head_infos .modifier_button{
+        margin-left: 0px;
+        padding-right: 10px;
+    }
+    .details_infos .head_infos .modifier_button span{
+        font-size: 2.4vw;
+    }
+    .details_infos .head_infos .modifier_button img{
+        height: 3vw;
+        width: 3vw;
+    }
+    .inputs{
+        grid:100% / auto;
+    }
+    .input__item,.question_input{
+        width: 55vw;
+        height: 7vw;
+        font-size: 2vw;
+        margin-bottom: 2vw;
+        border-radius: 8px;
+    }
+    .input__item span,.question_input span{
+        padding-top: 2vw;
+        font-size:1.6vw;
+    }
+    .input__item input, .form-control{
+        font-size: 2vw;
+    }
+    .question_input{
+        width:25vw;
+        padding-bottom: 2vw;
+    }
+    .date_input{
+        height: 7vw;
+        width: 55vw;
+        margin-bottom: 2vw;
+    }
+    .date_input img{
+        margin-left: 30vw;
+    }
+    .sexe .input__item{
+        margin-bottom: 1vw;
+        height: 8vw;
+        width: 15vw;
+    }
+    .input_select .input__item{
+        margin-bottom: 1vw;
+        height: 8vw;
+        width: 30vw;
+    }
+    ._buttons{
+        padding: 2vw 0px;
+        margin-left: 0px;
+    }
+    ._buttons .btn-cancel, ._buttons .btn-confirme{
+        border-radius: 15px;
+        padding: 5px 40px;
+    }
+    ._buttons .btn-cancel{
+        border: 2px #F63232 solid;
+    }
+    ._buttons .btn-confirme{
+        border: 2px #56C596 solid;
+    }
+    ._buttons .btn-cancel span, ._buttons .btn-confirme span{
+        font-size: 1.8vw;
+    }
+    ._buttons .btn-cancel img,._buttons .btn-confirme img{
+        height: 3vw;
+        width: 3vw;
+    }
+    .bio_inputs{
+        width: 63vw;
+        margin-bottom: 3vw;
+        border-radius: 8px;
+    }
+    .bio_inputs span:nth-child(2){
+        font-size: 2vw;
+    }
+    .infos__inputs,.inputs_const,._inputs_const{
+        margin-left: 10vw;
+    }
+    .infos__inputs{
+        margin-top: 5vw;
+    }
+    .inputs_const,._inputs_const{
+        margin-bottom: 5vw;
+    }
+    .input__item_textarea{
+        width: 55vw;
+        height: 15vw;
+    }
+    .question_input{
+        height: 9vw;
+    }
+    .input__item_textarea span{
+        font-size: 1.6vw;
+    }
+    .input__item_textarea .input_textarea{
+        font-size: 2vw;
+    }
+    .personal_infos_II .head_infos{
+        padding-left: 45px;
+        width: 100%;
+    }  
+    .personal_infos_II .head_infos h1{
+        padding-top: 2.4vw;
+       font-size: 3.4vw;
+    }
+
+    .personal_infos_II .head_infos img{
+        height: 8vw;
+    }
+    .ant_textarea{
+        flex-direction: row !important;
+        justify-content: center;
+        padding: 0px;
+        margin-bottom: 2vw;
+        padding-left: 10vw;
+    }
+    .ant_textarea .input__item{
+        width: 70vw;
+        height: 8vw;
+        border-radius: 1vw 0px 0px 1vw;
+    }
+    .ant_textarea .input__item span{
+        font-size: 1.4vw;
+        padding-top: 1.8vw;
+    }
+    ::placeholder{
+        font-size: 2.4vw;
+    }
+    .ant_textarea .input__item input{
+        font-size: 2.4vw;
+    }
+    .ant_textarea .btn_infos_notes{
+        height: 8vw;
+        width: 8vw;
+        justify-content: center;
+        align-items: center;
+        padding: 2vw;
+        margin-left: .5vw;
+        border-radius: 0px 1vw 1vw 0vw;
+    }
+    .ant_textarea .btn_infos_notes span{
+        visibility: hidden;
+        height: 0px;
+        width: 0px;
+    }
+    .personal_infos_II .infos__inputs{
+        margin-left: 55px;
+    }
+    .infos_notes{
+        width: 75vw;
+    }
+
+    .text_content{
+        padding: 0vw 1vw;
+        align-items: center;
+        justify-content: center;
+    }
+    .text_content span{
+        width: 45vw;
+        margin-top: 1vw;
+        font-size: 2.4vw;
+    }
+    .infos_item_content{
+        align-items: center;
+        justify-content: baseline;  
+        text-align: start;
+    }
+}
