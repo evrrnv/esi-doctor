@@ -1,0 +1,16 @@
+*{
+    box-sizing: border-box;
+}
+.notes_text{
+    background-color: #fbfbfb;
+    height: 4vw;
+    width: 100%;
+    margin: 1vw 0px;
+    border-radius: 1vw;
+}
+.notes_text span{
+    font-size: 1.1vw;
+    padding: 1vw;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}

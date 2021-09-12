@@ -3,10 +3,7 @@ import {Link} from 'react-router-dom';
 const LastExam = (props) => {
     return (
         <Link to={{
-            pathname:"/patientsListInfos",
-            state:{
-                props:props   
-            }
+            pathname:"/patientsListInfos"
         }}
         className="link_patientInfos"
         >

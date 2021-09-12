@@ -1,7 +1,6 @@
 /*** Patient Card ***/
 *{
     box-sizing: border-box;
-    
 }
 
 .patient__card{
@@ -36,7 +35,7 @@
     font-weight: 600;
 }
 
-.card__email{
+.card__infos_email{
     font-size: 15px;
     color: #8A8F9C;
 }
@@ -50,11 +49,10 @@
     padding-top: 25px;
 }
 .patient_infos{
-    padding-left: 350px;
-    
+    padding-left: 320px;
     width: 100%;
     height: auto;
-    padding-right: 10%;
+    padding-right: 5%;
     flex-direction: column;
 
 }
@@ -64,11 +62,10 @@
     width: 100%;
     height: auto;
 }
-.personal_img img{
+.personal__img img{
     border-radius: 10px;
-    float: left;
     height: auto;
-    width: 10vw;
+    width: 8vw;
     margin-right: 20px;
 }
 .informations{
@@ -76,11 +73,11 @@
     flex-direction: column;
     color:#8A8F9C;
     float: left;
-    width: 200px;
+    width: 30vw;
     justify-content: center;
 }
-.informations .titre,.nomEtprenom,.email {
-    font-size: 1.25vw;
+.informations .titre,.nomEtprenom,.infos_email {
+    font-size: 1.2vw;
     padding: 3px 0px;
 }
 .informations .titre{
@@ -90,7 +87,7 @@
     color: #262626;
     font-size: 1.3vw;
     font-weight: 500;
-    width: 200px;
+    width: 30vw;
 }
 .numbers{
     flex-direction: column;
@@ -98,7 +95,7 @@
     justify-content: center;
     color: #262626;
     font-size: 1.2vw;
-    width: 180px;
+    width: 25vw;
     font-weight: 100;
 }
 .numbers .visits_num{
@@ -120,13 +117,13 @@
     width: 100%;
 }
 .head_infos{
-    padding-left: 50px;
-    padding-right: 10px;
+    padding-left: 3vw;
+    padding-right: 1vw;
 }
 .head_infos img{
     height: 3vw;
     width: 3vw;
-    margin-right: 10px;
+    margin-right: 1vw;
 }
 .head_infos h1{
     font-family: Arial, Helvetica, sans-serif;
@@ -136,12 +133,12 @@
     width: 30vw;
 }
 .head_infos button{
-    margin-left: 10%;
+    margin-left: 0px;
 }
 .modifier_button{
     background-color: transparent;
-    height: 40px;
-    width: 100px;
+    height: 5vw;
+    width: 10vw;
     color: #262626;
     display: flex;
     border: none;
@@ -160,10 +157,13 @@
     width: 1.6vw;
     height: 1.5vw;
 }
+.modifier_button:hover{
+    color: #24A9E2;
+}
 .all_infos{
     display: grid;
     grid: 100% / auto auto auto;
-    padding-left: 50px;
+    padding-left: 3vw;
     padding-top: 40px;
     padding-bottom: 30px;
 }
@@ -179,7 +179,7 @@
 .item span{
     padding: 8px 0px;
     font-size: 1.1vw;
-    color: #59626A;
+    color: #59626A 1 !important;
 }
 .item:nth-child(2) span{
     color: #262626;
@@ -188,11 +188,11 @@
 .details_infos{
     margin: 10px 0px;
     background-color: #FBFBFB;
-    border-radius: 10px;
+    border-radius: 1vw;
 }
 .details_infos .head_infos{
     padding: 10px 0px;
-    margin-left: 3%;
+    margin-left: 1vw;
     width: 100%;
     padding-right: 50px;
 }
@@ -209,14 +209,223 @@
     object-fit: contain;
 }
 .empty_{
-    padding-left: 25px;
-    background-color: #F63232;
-    border-radius: 10px 0px 0px 10px;
+    padding-left: 2vw;
+    border-radius: 1vw 0px 0px 1vw;
 }
 
-.infoTabs_items .details_infos:nth-child(1) .empty_{
-    background-color: #56C596;
+.personal_infos_II{
+    background-color: #E8EDF5;
+    padding-top:40px;
+    padding-bottom: 10px;
+    padding-right: 25px;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 55px;
+    width: 100%;
+
 }
+.inputs{
+    display: grid;
+    grid: 100%/auto auto;
+    margin-top: 1vw;
+}
+.infos__inputs,.inputs_const{   
+    margin-left: 55px;
+    margin-right: 2vw;
+    border-radius: 10px;
+    width: 85%;
+}
+.input__item,.input__item_sexe,.input__item_secl,.question_input,.input__item_textarea{
+    background-color: #FBFBFB;  
+    flex-direction: column;
+    width: 24vw;
+    border-radius: 10px;
+    line-height: 1px;
+    margin-bottom: 1vw;
+   
+}
+
+.input__item input,.form-control{
+    font-size: 1.2vw;
+}
+.date_input{
+   background-color: #FBFBFB;
+   height: 55px; 
+   border-radius: 5px;
+   width: 24vw;
+   margin-bottom: .7vw;
+   justify-content: flex-start;
+}
+.date_input .input__item{
+    background-color: #FBFBFB;  
+    border-radius: 5px;
+    float: left;
+    margin-bottom: 0vw;
+}
+.date_input img{
+    height: 2vw;
+    width: 2vw;
+    object-fit: contain;
+}
+.sexe .input__item{
+    width: 10vw;
+    border: #4c85ff91 solid;
+    border-radius: 10px;
+    margin-bottom: .6vw;
+}
+.input_select .input__item{
+    width: 15vw;
+    border: #4c85ff91 solid;
+    border-radius: 10px;
+    margin-bottom: .6vw;
+}
+.input__item span,.question_input span,.input__item_textarea span{
+    padding: 0vw 13px;
+    color: #59626A;
+    font-size: .9vw;
+    padding-top: 15px;
+    background-color: transparent;
+}
+.question_input{
+    border: solid #4c85ff91;
+    width: 15vw;
+}
+._inputs_const{
+    padding-top: .45vw;
+}
+.input__item_textarea{
+    width: 24vw; 
+    height: 10vw;
+}
+.input__item_textarea .input_textarea{
+    resize: none;
+    width: 100%;
+    margin-top: .5vw;
+    height: 8vw !important;
+    padding-top: 15px;
+    padding-left: 12px;
+    text-transform: capitalize;
+    border: none;
+    background-color: #FBFBFB;
+    border-radius: 10px;
+    font-size: 1.4vw;
+}
+.input__item_textarea .input_textarea:focus{
+    border: none;
+    outline: transparent;
+}
+.date_input .form-control{
+    width: 20vw;
+}
+.date_input .input__item{
+    width: 20vw;   
+}
+.form-control, .form-control:focus{
+    border: none;
+
+    color: #363636;
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    width: 100%;
+}
+._buttons{
+    width: 100%;
+    align-items: center;
+    justify-content: flex-end !important;
+    padding-right: 25px;
+}
+._buttons .btn-confirme,.btn-cancel{
+    margin: 0px 1vw;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 20px;
+    width: 11vw;
+}
+select option{
+    color: #56C596;
+}
+._buttons span{
+    padding-left: 5px;
+    font-size: 1.3vw;
+}
+._buttons .btn-confirme{
+    color: #56C596;
+    border: 3px #56C596 solid;
+}
+._buttons img{
+    height: 2vw;
+    width: 2.2vw;
+}
+._buttons .btn-cancel{
+    color:#F63232;
+    
+    border: 3px #F63232 solid;
+}
+._buttons .btn-cancel:hover{
+    box-shadow: 0px 0px 10px #F63232;
+}
+._buttons .btn-confirme:hover{
+    box-shadow: 0px 0px 10px #56C596;
+}
+
+.bio_inputs{
+    background-color: #FBFBFB;
+    width: 29vw;
+    margin-bottom: 1vw;
+    justify-content: flex-start;
+    border-radius: 10px;
+}
+.bio_inputs .input__item{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.bio_inputs span:nth-child(2){
+    text-transform: capitalize;
+    color: #59626A;
+    font-size: 1.2vw;
+}
+.bio_div{
+    padding: 4vw 0px;
+}
+.ant_textarea{
+    margin-top: .5vw;
+    margin-bottom: 5vw;
+}
+.ant_textarea .input__item_textarea{
+    height: 8vw;
+    width: 30vw;
+}
+
+.btn_infos_notes{
+    border:none;
+    background-color: #FBFBFB;
+    width: 30vw;
+    height: 3vw;
+    border-radius: 10px;
+    justify-content: space-between;
+    padding: 0px 7vw;
+}
+.ant_textarea .input__item{
+    padding-top: .4vw;
+    height: 5vw;
+    width: 30vw;
+}
+.input__item input::placeholder{
+    color:#262626;
+    opacity: 1;
+}
+.infos_notes{
+    height: 25vw !important;
+    width: 25vw;
+    overflow-x: scroll;
+}
+textarea::placeholder{
+    color:#262626;
+    opacity: 1;
+}
+/***********************************************************responsive1*****************************************************/
 @media only screen and (max-width:992px){
     .patient_infos{
         padding: 0px 25px 10px 210px;
@@ -228,11 +437,11 @@
         align-items: center;
 
     }   
-    .personal_img img{
+    .personal__img img{
         height: 10vw;
         width: 10vw;
     }
-    .informations .titre,.email{
+    .informations .titre,.infos_email{
         font-size: 1.5vw;
     }
     .informations .nomEtprenom{
@@ -273,8 +482,19 @@
         padding-top: 1vw;
         width:25vw;
     }
+    .input__item,.question_input{
+        height: 5.5vw;
+        margin-bottom: .7vw;
+    }
+    .date_input{
+        height: 5.5vw;
+    }
+    ._buttons .btn-confirme,.btn-cancel{
+        width: 15vw;
+    }
  
 }
+/***********************************************************responsive2*****************************************************/
 @media screen and (max-width:767px){
     .patient_infos{
         padding: 0px 25px 10px 100px;
@@ -289,11 +509,11 @@
     .personal_infos{
         padding: 5px;
     }
-    .personal_img img{
+    .personal__img img{
         width: 12vw;
         height: 12vw;
     }
-    .informations .titre,.nomEtprenom,.email {
+    .informations .titre,.nomEtprenom,.infos_email {
         font-size: 1.8vw;
     }
 
@@ -337,8 +557,36 @@
         font-size: 2vw;
         width: 30vw;
     }
+    .inputs{
+        margin-top: 0px;
+    }
+    .input__item,.question_input{
+        height: 5vw;
+        margin-bottom: .9vw;
+    }
+    .input__item span,.question_input span{
+        padding-top: 1vw;
+    }
+    .date_input{
+        height: 5vw;
+    }
+    .sexe .input__item,.input_select .input__item{
+        height: 6vw;
+        margin-bottom: .2vw;
+    }
+    ._buttons{
+        padding-top: 1vw;
+    }
+    ._buttons .btn-confirme,.btn-cancel{
+        width: 15vw;
+    }
+    .personal_infos_II{
+        margin-bottom: 25vw;
+    }
+ 
 
 }
+/***********************************************************responsive3*****************************************************/
 @media screen and (max-width:575px){
     .patient_infos{
         padding: 0px 40px;
@@ -356,12 +604,12 @@
     .list_item{
         grid: 100%/45vw 50vw;
     }
-    .personal_img img{
+    .personal__img img{
         height: 16vw;
         width: 16vw;
     }
-    .informations .titre,.email{
-        width: 25vw;
+    .informations .titre,.infos_email{
+        width: 30vw;
         font-size: 2.5vw;
     }
     .informations .nomEtprenom{
@@ -423,6 +671,97 @@
     .details_infos .head_infos .modifier_button img{
         height: 3vw;
         width: 3vw;
+    }
+    .inputs{
+        grid:100% / auto;
+    }
+    .input__item,.question_input{
+        width: 55vw;
+        height: 7vw;
+        font-size: 2vw;
+        margin-bottom: 2vw;
+        border-radius: 8px;
+    }
+    .input__item span,.question_input span{
+        padding-top: 2vw;
+        font-size:1.6vw;
+    }
+    .input__item input, .form-control{
+        font-size: 2vw;
+    }
+    .question_input{
+        width:25vw;
+        padding-bottom: 2vw;
+    }
+    .date_input{
+        height: 7vw;
+        width: 55vw;
+        margin-bottom: 2vw;
+    }
+    .date_input img{
+        margin-left: 30vw;
+    }
+    .sexe .input__item{
+        margin-bottom: 1vw;
+        height: 8vw;
+        width: 15vw;
+    }
+    .input_select .input__item{
+        margin-bottom: 1vw;
+        height: 8vw;
+        width: 30vw;
+    }
+    ._buttons{
+        padding: 2vw 0px;
+        margin-left: 0px;
+    }
+    ._buttons .btn-cancel, ._buttons .btn-confirme{
+        border-radius: 15px;
+        padding: 5px 40px;
+        
+    }
+    ._buttons .btn-cancel{
+        border: 2px #F63232 solid;
+    }
+    ._buttons .btn-confirme{
+        border: 2px #56C596 solid;
+    }
+    ._buttons .btn-cancel span, ._buttons .btn-confirme span{
+        font-size: 1.8vw;
+    }
+    ._buttons .btn-cancel img,._buttons .btn-confirme img{
+        height: 3vw;
+        width: 3vw;
+    }
+    .bio_inputs{
+        width: 63vw;
+        margin-bottom: 3vw;
+        border-radius: 8px;
+    }
+    .bio_inputs span:nth-child(2){
+        font-size: 2vw;
+    }
+    .infos__inputs,.inputs_const,._inputs_const{
+        margin-left: 10vw;
+    }
+    .infos__inputs{
+        margin-top: 5vw;
+    }
+    .inputs_const,._inputs_const{
+        margin-bottom: 5vw;
+    }
+    .input__item_textarea{
+        width: 55vw;
+        height: 15vw;
+    }
+    .question_input{
+        height: 9vw;
+    }
+    .input__item_textarea span{
+        font-size: 1.6vw;
+    }
+    .input__item_textarea .input_textarea{
+        font-size: 2vw;
     }
     
 }

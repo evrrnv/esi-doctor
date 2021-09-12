@@ -7,3 +7,4 @@ packages/*/yarn.lock
 packages/*/yarn-error.log
 yarn-error.log
 .env
+keycloak/app-db-provider/target
