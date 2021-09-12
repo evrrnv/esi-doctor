@@ -39,11 +39,11 @@ const Examen = () => {
 
     return (
         <>
-            <div className="main">
+            <div className="mainContent">
                 <SideBar />
                 <div className="examen_content  d-flex flex-column justify-content-between">
                 <div className="infos  d-flex justify-content-between align-items-center">
-                    <div className="personal_infos d-flex align-items-end">
+                    <div className="personal_info d-flex align-items-end">
                         <img className="personal_img"  src={avatar} alt="" />
                         <div className ="text_infos">
                             <p className="title">Titre</p>
@@ -51,24 +51,24 @@ const Examen = () => {
                             <p className="email">email@esi-sba.dz</p>
                         </div>
                     </div>
-                    <div className="d-flex flex-row justify-content-between align-items-center ">
-                        <div className="d-flex flex-column justify-content-between align-items-center text-align-center">
+                    <div className="d-flex flex-row justify-content-around align-items-center ">
+                        <div className="height d-flex flex-column justify-content-between align-items-center ">
                             <h3 className="number">180 cm</h3> 
                             <h4 className="text">Taille</h4>
                         </div>
-                        <div className="d-flex flex-column justify-content-between align-items-center text-align-center">
+                        <div className="weight d-flex flex-column justify-content-between align-items-center text-align-center">
                             <h3 className="number">65 kg</h3> 
                             <h4 className="text">Poids</h4>
                         </div>
                     </div>
                 </div>
                 <div className="empty d-flex flex-row align-items-center">
-                    <img className="icon_img"  src={examen} alt="Examen Médical"  />
-                    <h4 className="head">Examen Médical</h4>
+                    <img className="head_icon_img"  src={examen} alt="Examen Médical"  />
+                    <span className="headText">Examen Médical</span>
                 </div>
-                <div className="empty d-flex flex-row align-self-center">
+                <div className="headContent d-flex flex-row align-self-center">
                     <div className="emptyContent">
-                       <HeadBtn name="Rapport Médical" icon={RapportBlue} id="first" text="rapportBlue" />
+                       <HeadBtn name="Rapport Médical" icon={Rapport} id="first" text="rapportBlue" />
                     </div>
                     <div className="emptyContent">
                         <HeadBtn name="Ordonnance" icon={Ordonance} /> 
@@ -169,7 +169,7 @@ const Details = () =>{
             
         </div> 
         <div className= "buttons d-flex flex-row align-items-end justify-content-around" > 
-             <div className= "d-flex flex-row align-items-end ">
+             <div className= "d-flex flex-row justify-content-between">
                  <Btn id="demiss" icon={faAngleLeft} name="Annuler" color="red"  text="retry" />
                  <Btn id="confirm" icon={faCheck} name="Confirmer" color="#56C596" text="accept"  />
              </div>
@@ -180,17 +180,17 @@ const Details = () =>{
 }
 function Btn(props){
     return( 
-           <button  className="d-flex flex-row align-items-center align-text-center" id ={props.id} >
-               <FontAwesomeIcon className="button_icons" icon={props.icon} size="2x" color={props.color} />
-               <p className={props.text} >{props.name}</p>
+           <button  className="d-flex flex-row align-items-center justify-content-center mr-2" id ={props.id} >
+               <FontAwesomeIcon className="button_icons mr-2" icon={props.icon} size="2x" color={props.color} />
+               <span className={props.text} >{props.name}</span>
            </button>     
     )
 }
 function HeadBtn(props){
     return( 
-           <button  className="headbtn d-flex flex-row align-items-center align-self-center justify-content-center" id ={props.id} >
-               <img className="icon_img"  src={props.icon} alt ={props.icon}  />
-               <p className="btnText" id={props.text} >{props.name}</p>
+           <button  className="headbtn d-flex flex-row align-items-center justify-content-center" id ={props.id} >
+               <img className="icon_img mr-2"  src={props.icon} alt ={props.icon}  />
+               <span className="btnText" id={props.text} >{props.name}</span>
            </button>     
     )
 }
