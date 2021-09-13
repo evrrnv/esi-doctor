@@ -149,6 +149,7 @@
 .item:nth-child(2) span{
     color: #262626 !important;
     font-weight: 100;
+    font-size: 1vw;
 }
 .details_bio{
     border-radius: 1vw;
@@ -395,8 +396,7 @@
     padding: 4vw 0px;
 }
 .ant_textarea{
-    margin-top: 5vw;
-    margin-bottom: 5vw;
+  margin:.5vw 0px;
 }
 .ant_textarea .input__item_textarea{
     height: 8vw;
@@ -441,11 +441,17 @@ textarea::placeholder{
     height: 2.5vw;
     width: 2.5vw;
 }
-
+.pat_examin_btn{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 2vw 0px;
+}
 /***********************************************************responsive1*****************************************************/
 @media only screen and (max-width:992px){
     .patient_infos{
         padding: 0px 25px 10px 210px;
+        padding-bottom: 40px;
     }
     .drop_down{
         padding: 10px 0px 0px 200px;
@@ -617,6 +623,7 @@ textarea::placeholder{
         width: 15vw;
     }
     .personal_infos_II{
+
         margin-bottom: 25vw;
     }
   
@@ -664,11 +671,11 @@ textarea::placeholder{
         padding-left: 15px;
     }
     .all_infos{
-        grid: 100% / 100%;
+        grid: 100% / 87%;
         padding: 2% 0%;
     }
     .list_item{
-        grid: 100%/45vw 50vw;
+        grid: 100%/35vw 50vw;
     }
     .personal__img img{
         height: 16vw;
@@ -692,13 +699,22 @@ textarea::placeholder{
     .numbers .visits_num{
         font-size: 8vw;
     }
+    .personal_infos_II{
+        padding-top: 33px;
+    }
     .head_infos{
         padding:2% 6vw;
+    }
+    .head_infos .img{
+        padding-top: 0px;
+        height: 2vw;
+        width: 2vw;
     }
     .head_infos img{
         height: 5vw;
         width: 5vw;
     }
+    
     .head_infos h1{
         font-size: 3.5vw;
         font-weight: 400;
@@ -707,10 +723,7 @@ textarea::placeholder{
     .head_infos button {
         margin-left: 3vw;
     }
-    .head_infos button img{
-        height: 3vw;
-        width: 3vw;
-    }
+
     .head_infos button span{
         font-size: 2.4vw;
     }
@@ -722,7 +735,7 @@ textarea::placeholder{
     }
     .all_infos .list_item .item span{
         padding: 10px;
-        font-size: 2.5vw;
+        font-size: 2vw;
     }
     .details_infos .head_infos .detaills_text{
         font-size: 3.4vw;
@@ -778,6 +791,7 @@ textarea::placeholder{
         height: 8vw;
         width: 30vw;
     }
+
     ._buttons{
         padding: 2vw 0px;
         margin-left: 0px;
@@ -837,19 +851,23 @@ textarea::placeholder{
         padding-top: 2.4vw;
        font-size: 3.4vw;
     }
+    .personal_infos_II .head_infos .img{
+        height: 6vw;
+        width: 6vw;
+    }
 
     .personal_infos_II .head_infos img{
-        height: 8vw;
+        height: 6vw;
     }
     .ant_textarea{
         flex-direction: row !important;
         justify-content: center;
         padding: 0px;
+        margin: 0px;
         margin-bottom: 2vw;
-        padding-left: 10vw;
     }
     .ant_textarea .input__item{
-        width: 70vw;
+        width: 55vw;
         height: 8vw;
         border-radius: 1vw 0px 0px 1vw;
     }
@@ -866,11 +884,17 @@ textarea::placeholder{
     .ant_textarea .btn_infos_notes{
         height: 8vw;
         width: 8vw;
-        justify-content: center;
         align-items: center;
+        justify-content: center;
         padding: 2vw;
         margin-left: .5vw;
         border-radius: 0px 1vw 1vw 0vw;
+    }
+    .ant_textarea .content_btn_infos{
+        height: 8vw;
+        width: 8vw;
+        padding-top: 1.3vw;
+        padding-left: 2.5vw;
     }
     .ant_textarea .btn_infos_notes span{
         visibility: hidden;
@@ -878,10 +902,13 @@ textarea::placeholder{
         width: 0px;
     }
     .personal_infos_II .infos__inputs{
-        margin-left: 55px;
+        margin-left: 45px;
     }
-    .infos_notes{
+    .personal_infos_II .infos_notes{
+        padding-left: 55px;
         width: 75vw;
+        overflow-y: scroll;
+        overflow-x: hidden;
     }
 
     .text_content{

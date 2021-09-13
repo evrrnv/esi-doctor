@@ -1,0 +1,105 @@
+.stat__body{
+    background-color: #FBFBFB;
+}
+.stat__head{
+    padding: 25px 15px 25px 15px;
+    border-bottom: #C2C2C2 2px solid;
+}
+
+.stat__day__filter{
+    border: 1px solid #C2C2C2;
+    border-radius: 30px;
+}
+
+
+.stat__day__filter__btns{
+    background-color: unset;
+    border-left: unset;
+    border-top: unset;
+    border-bottom: unset;
+    width: 80px;
+    font-size: 12px;
+    border-width: 1px !important;
+    border-color: #C2C2C2 !important;
+    outline: unset;
+    height: 35px;
+
+}
+.stat__day__filter__btns:focus{
+    color: #24A9E2;
+    outline: unset;
+}
+
+
+.last__filter__btn{
+    border-right: unset;
+
+}
+
+
+#timeline__icon{
+    font-size: 30px;
+    margin-right: 10px;
+    margin-top: -3px;
+    color: #808080;
+}
+.stat__head__txt{
+    font-size: 20px;
+    color: #808080;
+}
+
+.stat__card{
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.stat__card__nbr{
+    color: #808080;
+    font-size: 50px;
+    font-weight: 400;
+}
+
+.stat__card__type{
+    color: #808080;
+    font-size: 11px;
+}
+.stat__card__icon{
+    color: #D9D9D9;
+    margin-top: -3px;
+    width: 25px !important;
+    height: 20px;
+}
+.stat__card__percent{
+    font-size: 12px;
+    color: #00DE51;
+}
+
+.dateRange{
+    background-color: unset;
+}
+
+.stat__circle{
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+
+}
+.stat__circle__txt{
+    color: #808080;
+}
+.circle__infos{
+    position: relative;
+}
+.color__circle{
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    position: absolute;
+    top: 21%;
+}
+.circle__infos__txt{
+    font-size: 13px;
+}
+
+.range__picker{
+    background-color: unset !important;
+}
