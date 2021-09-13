@@ -2,14 +2,16 @@ require('dotenv').config()
 const express = require('express')
 const { postgraphile } = require('postgraphile')
 
-const Keycloak = require("./lib/keycloak-verify")
+const Keycloak = require('./lib/keycloak-verify')
 const cors = require('cors')
-
 
 const app = express()
 
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' ? 'https://1sc-project.moun3im.com' : 'http://localhost:3000',
+  origin:
+    process.env.NODE_ENV === 'production'
+      ? 'https://1sc-project.moun3im.com'
+      : 'http://localhost:3000',
   optionsSuccessStatus: 200
 }
 
@@ -37,7 +39,6 @@ const canSplit = (str, token) => {
 }
 
 app.use(
-<<<<<<< HEAD
   postgraphile(DATABASE_URL, 'app', {
     watchPg: true,
     graphiql: true,
@@ -46,57 +47,25 @@ app.use(
       return true
     },
     pgSettings: async (req) => {
-      // const authorization = req.headers.authorization
-      // const bearerStr = 'Bearer'
-      // if (canSplit(authorization, bearerStr)) {
-      //   const token = authorization.split(bearerStr)
-      //   if (token.length > 1) {
-      //     try {
-      //       const user = await keycloak.verifyOnline(token[1])
-      //       const role = user.resourceAccess.web.roles[0]
-      //       const id = user.id.split(':')[2]
-      //       return {
-      //         'jwt.claims.user_id': id,
-      //         role
-      //       }
-      //     } catch (e) {}
-      //   }
-      // }
+      const authorization = req.headers.authorization
+      const bearerStr = 'Bearer'
+      if (canSplit(authorization, bearerStr)) {
+        const token = authorization.split(bearerStr)
+        if (token.length > 1) {
+          try {
+            const user = await keycloak.verifyOnline(token[1])
+            const role = user.resourceAccess.web.roles[0]
+            const id = user.id.split(':')[2]
+            console.log(id)
+            return {
+              'jwt.claims.user_id': id,
+              role
+            }
+          } catch (e) {}
+        }
+      }
       return {
         role: 'medecin'
-=======
-  postgraphile(
-    DATABASE_URL,
-    "app",
-    {
-      watchPg: true,
-      graphiql: true,
-      enhanceGraphiql: true,
-      allowExplain: (req) => { return true; },
-      pgSettings: async req => {
-        const authorization = req.headers.authorization
-        const bearerStr = 'Bearer'
-        if (canSplit(authorization, bearerStr)) {
-          const token = authorization.split(bearerStr);
-          if (token.length > 1) { 
-            try {
-                const user = await keycloak.verifyOnline(token[1])
-                const role = user.resourceAccess.web.roles[0]
-                const id = user.id.split(":")[2]
-                console.log(id)
-                return {
-                  'jwt.claims.user_id': id,
-                  role
-                }
-            } catch (e) {
-  
-            }
-          }
-        }
-        return {
-          role: 'medecin'
-        }
->>>>>>> master
       }
     }
   })
