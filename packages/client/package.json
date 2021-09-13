@@ -38,20 +38,13 @@
     "react": "^17.0.2",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^17.0.2",
-<<<<<<< HEAD
     "react-redux": "^7.2.5",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
     "react-select": "^4.3.1",
+      "react-google-flight-datepicker": "^0.1.18",
     "reactstrap": "^8.10.0",
-=======
-    "react-google-flight-datepicker": "^0.1.18",
-    "react-redux": "^7.2.4",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "^4.0.3",
-    "react-select": "^4.3.1",
     "recharts": "^2.1.2",
->>>>>>> master
     "redux": "^4.1.1",
     "rsuite": "^4.10.2",
     "web-vitals": "^1.0.1"
