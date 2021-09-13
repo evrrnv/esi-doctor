@@ -16,7 +16,6 @@ import Respiratoire  from '../assets/icons/Respiratoire.svg'
 import Vision  from '../assets/icons/Vision.svg'
 import examen  from '../assets/icons/examen.svg'
 import { makeStyles } from '@material-ui/core/styles' 
-
 import { useState } from 'react';
 import produce from 'immer';
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -28,9 +27,9 @@ import Ordonance  from '../assets/icons/Ordonance.svg'
 import Certaficat  from '../assets/icons/Certaficat.svg'
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { faPrint } from '@fortawesome/free-solid-svg-icons'
 
 
 const Examen = () => {
@@ -77,24 +76,9 @@ const Examen = () => {
                         <HeadBtn name="Certeficat" icon={Certaficat}  id="last"  />
                     </div>
                 </div>
-                <div className="exams d-flex flex-column align-items-center"> 
-                    <Exam name="Rapport Médical" icon={Rapportmedical} /> 
-                    <Exam name="Peau et Muqueuses" icon={Peau} /> 
-                    <Exam name="Ophtalmologique" icon={Vision} /> 
-                    <Exam name="O.R.L" icon={Ear} /> 
-                    <Exam name="Locomoteur" icon={Locomoteur} /> 
-                    <Exam name="Respiratoire" icon={Respiratoire} /> 
-                    <Exam name="Cardio-vasculaire" icon={Cardio} /> 
-                    <Exam name="Digestif" icon={Digestif} /> 
-                    <Exam name="Genito-Urinaire" icon={Digestif} /> 
-                    <Exam name="Neurologique et Psychisme" icon={Neurologique} /> 
-                    <Exam name="Hématologie et Ganglionnaire" icon={Hematologie} /> 
-                    <Exam name="Endocrinologie" icon={Hematologie} /> 
-                    <Exam name="Profile Psychologique" icon={Psychology} /> 
-                    <Exam name="Examens Complémentaires" icon={Rapport} /> 
-                    <Exam name="Orientation" icon={Rapport} /> 
-                
-                </div>
+               <div>
+                   <Ordonnance />
+               </div>
                 </div>
                 
                 
@@ -105,6 +89,102 @@ const Examen = () => {
     );
 
     
+}
+const Ordonnance = () => {
+    const Notes = props => props.data.map(note => <div className="headTableOrd d-flex flex-row justify-content-between align-items-center">
+        <span className="titles">Médicament</span>
+        <span className="titles">Quantité(Boite)</span>
+        <span className="titles">Durée du traitement (jours)</span>
+        </div>);
+    const initialData = [{ text: 'Notes' }];
+    const [data, setData] = useState(initialData);
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            const text = document.querySelector('#noteinput').value.trim();
+            if (text) {
+              const nextState = produce(data, draftState => {
+                draftState.push({ text });
+              });
+              document.querySelector('#noteinput').value = '';
+              setData(nextState);
+            }
+        }
+      }
+    return(
+        <div>
+           <div className="">
+           <Notes data={data} />
+           <div className="d-flex flex-row align-items-center justify-content-around">
+                <div className= "addNoteOrd d-flex flex-row align-items-center justify-content-around">
+                    <FontAwesomeIcon icon={faPlus} size="1x" />
+                    <input className="input" id="noteinput" type="text" onKeyDown={handleKeyDown} placeholder="Ajouter une autre note" /><span className="filetypes filetypes-e-7z"></span>
+                    
+                </div>
+                <div className= "imprimerOrd d-flex flex-row align-items-center justify-content-center">
+                    <FontAwesomeIcon icon={faPrint} size="1x" />
+                    <span className="ml-2">Imprimer</span>
+                </div>
+
+                </div>               
+           </div>
+        </div>
+    ); 
+}
+const Certeficat = () => {
+    const Notes = props => props.data.map(note => <div className="noteCertif d-flex flex-column">
+        <span className="subtitle">Description</span>
+         <div> {note.text} </div>
+        </div>);
+    const initialData = [{ text: 'Notes' }];
+    const [data, setData] = useState(initialData);
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            const text = document.querySelector('#noteinput').value.trim();
+            if (text) {
+              const nextState = produce(data, draftState => {
+                draftState.push({ text });
+              });
+              document.querySelector('#noteinput').value = '';
+              setData(nextState);
+            }
+        }
+      }
+    return(
+        <div className="certif mb-4"> 
+            <Notes data={data} />
+                <div className= "addNoteCertif d-flex flex-row align-items-center justify-content-around">
+                    <FontAwesomeIcon icon={faPlus} size="1.5x" />
+                    <input className="input" id="noteinput" type="text" onKeyDown={handleKeyDown} placeholder="Ajouter une autre note" /><span className="filetypes filetypes-e-7z"></span>
+                    
+                </div>
+                <div className="d-flex flex-column align-items-end mr-5">
+                <Btn id="print" icon={faPrint} name="Imprimer" color="black"  text="print" />
+                     </div>
+            
+        </div>
+    ); 
+}
+const Exams = ()  => {
+    return(
+    <div className="exams d-flex flex-column align-items-center"> 
+    <Exam name="Rapport Médical" icon={Rapportmedical} /> 
+    <Exam name="Peau et Muqueuses" icon={Peau} /> 
+    <Exam name="Ophtalmologique" icon={Vision} /> 
+    <Exam name="O.R.L" icon={Ear} /> 
+    <Exam name="Locomoteur" icon={Locomoteur} /> 
+    <Exam name="Respiratoire" icon={Respiratoire} /> 
+    <Exam name="Cardio-vasculaire" icon={Cardio} /> 
+    <Exam name="Digestif" icon={Digestif} /> 
+    <Exam name="Genito-Urinaire" icon={Digestif} /> 
+    <Exam name="Neurologique et Psychisme" icon={Neurologique} /> 
+    <Exam name="Hématologie et Ganglionnaire" icon={Hematologie} /> 
+    <Exam name="Endocrinologie" icon={Hematologie} /> 
+    <Exam name="Profile Psychologique" icon={Psychology} /> 
+    <Exam name="Examens Complémentaires" icon={Rapport} /> 
+    <Exam name="Orientation" icon={Rapport} />  
+    </div>  );    
+
+
 }
 const Exam = (props , Key) => {
 
@@ -141,8 +221,9 @@ const Exam = (props , Key) => {
 
 
 const Details = () =>{
-    const Notes = props => props.data.map(note => <div className="notes"> {note.text} </div>);
-    const initialData = [{ text: 'texte' }];
+    const Notes = props => props.data.map(note => <div className="notes d-flex flex-column"> <span className="subtitle">Description</span>
+    <div> {note.text} </div> </div>);
+    const initialData = [{ text: 'Note' }];
     const [data, setData] = useState(initialData);
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
