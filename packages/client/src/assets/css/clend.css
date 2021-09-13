@@ -1,15 +1,13 @@
-.calend__main{
-position: relative;
-  height: 100vh;
+.calend__main {
+  position: relative;
+  height: 170vh;
   width: 100%;
-  
+  background-color: #d1f1e6;
 }
-.schedular__container {
-  position: absolute;
-width: 60%;
-  height: 25vh;
-  right: 0;
-  overflow: hidden;
+.calend__container {
+  width: calc(100% - 300px);
+  margin-left: 269px;
+  min-height: 25vh;
 }
 
 .calend__sidebar {
@@ -19,7 +17,7 @@ width: 60%;
 }
 .calendar__container {
   position: relative;
-  
+
   height: 100vh;
 }
 .table__container {
@@ -28,8 +26,6 @@ width: 60%;
   padding: 20px 0 20px 0;
   left: 20%;
   top: 20%;
-  
-  
 }
 
 table {
@@ -59,17 +55,12 @@ tbody tr td {
   border: 1px solid white;
   width: 2vw;
   height: 3vh;
-
-
 }
 tbody tr td span {
- padding:0;
+  padding: 0;
 }
 tbody tr td:first-child {
   position: relative;
-  
-  
-  
 }
 tbody tr td:nth-child(5) {
   display: none;
@@ -77,8 +68,172 @@ tbody tr td:nth-child(5) {
 .time__col {
   margin: 0;
   position: absolute;
-height: 50%;
-width: 40%;
+  height: 50%;
+  width: 40%;
   text-align: center;
   left: 0;
+}
+.header__container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding: 55px 0;
+}
+
+.btn__blue {
+  background-color: #24a9e2;
+  color: white;
+  border: 0px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.btn__blue span {
+  margin-right: 7px;
+}
+.content__container {
+  width: 100%;
+  background-color: white;
+
+  border-radius: 40px;
+
+  box-shadow: 0 0 15px black;
+}
+.content__container .modal-content {
+  border-radius: 40px;
+  height: 70vh;
+}
+.btn__container {
+  height: 52vh;
+}
+.type__rend__btn {
+  width: 33%;
+  height: 40vh;
+  border: 0px;
+  background-color: white;
+  border-radius: 30px;
+  box-shadow: 0 0 15px 1px black;
+outline: 0px;
+  font-size: 115px;
+}
+
+.type__rend__btn:hover {
+  background-color: rgb(246, 245, 245);
+}
+.type__rend__btn span {
+  margin-top: 10px;
+  display: block;
+  font-size: 26px;
+  font-weight: bold;
+}
+.title__container {
+  text-align: center;
+  color: #24a9e2;
+  border-bottom: 4px solid #e8edf5;
+}
+.groupe__container {
+  width: 27vw;
+  background-color: white;
+  padding: 13px 15px;
+}
+
+/* .groupe__container input {
+  outline: none;
+  border: 0px;
+  width: 17vw;
+} */
+.select__groupe {
+  width: 6vw;
+  height: 5vh;
+  border-radius: 15px;
+  padding: 10px;
+  background-color: #24a9f4;
+  outline: none;
+  border: none;
+  color: white;
+}
+.select__groupe option {
+  background-color: white !important;
+  color: #24a9f4;
+}
+.timing__container {
+  width: 100%;
+  height: 12vh;
+}
+.timing__container .date__infos {
+  width: 27vw;
+  background-color: white;
+  padding: 10px;
+
+  font-size: 15px;
+  color: #8a8f9c;
+
+  text-align: left;
+}
+#date__debut {
+  width: 19vw;
+  height: 10vh;
+}
+
+#date__debut span {
+}
+
+#temp__debut {
+  width: 30%;
+  height: 10vh;
+}
+.border__grey {
+  border: 2px solid #e8edf5;
+
+  border-radius: 20px;
+  color: #8a8f9c;
+}
+.student__info__container,
+.student__info__container__indv {
+  padding: 15px;
+}
+.student__info__container__indv {
+  width: 43vw;
+}
+.student__info__container span {
+  font-size: 30px;
+}
+
+.student__info__container .student__email,
+.student__info__container__indv .student__email__indiv {
+  width: 100%;
+}
+.student__info__container .student__email__indiv {
+  width: 100%;
+}
+.create_btn_container {
+  width: 100%;
+}
+.create_btn_container button {
+  border: 0px;
+
+  background-color: #24a9e2;
+  padding: 16px 40px;
+  font-size: 24px;
+  color: white;
+  border-radius: 20px;
+}
+.description__container input {
+  outline: 0px;
+  height: 8vh;
+  width: 73%;
+}
+.dates__indiv {
+  width: 21vw;
+  height: 10vh;
+  background-color: white;
+  padding: 10px 10px;
+
+  font-size: 16px;
+  color: #8a8f9c;
+
+  text-align: left;
+}
+.form__styling {
+  height: 10vh;
 }

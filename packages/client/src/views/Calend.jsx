@@ -1,131 +1,188 @@
 import SideBar from '../components/layout/sideBar'
 import '../assets/css/clend.css'
-import * as React from 'react'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { collecRdvAction, TypeRdvAction } from '../redux/actions'
+import AddIcon from '@material-ui/icons/Add'
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
+import ChoisirRendezVous from './choisirRendezVous'
+import RendezVousCollectif from './rendezVousCollectif'
 import Paper from '@material-ui/core/Paper'
-import { ViewState } from '@devexpress/dx-react-scheduler'
+import Loading from '../components/shared/loading'
+import {
+  ViewState,
+  EditingState,
+  IntegratedEditing
+} from '@devexpress/dx-react-scheduler'
 import {
   Scheduler,
   WeekView,
   Appointments,
-  AllDayPanel
+  AllDayPanel,
+  ViewSwitcher,
+  Toolbar,
+  DayView,
+  TodayButton,
+  DateNavigator,
+  AppointmentTooltip,
+  AppointmentForm,
+  ConfirmationDialog
 } from '@devexpress/dx-react-scheduler-material-ui'
+import moment from 'moment'
 import { useState } from 'react'
 import { gql, useQuery } from '@apollo/client'
+import { useEffect } from 'react'
+import { GET_STUDENT_ALL_INFOS } from '../operations/queries/GET_RENDEZVOUS_INFOS'
+
 const Calend = () => {
-  const { data: queryData } = useQuery(gql`
-    query MyQuery {
-      allUserAccounts {
-        edges {
-          node {
-            userId
-          }
-        }
-      }
-    }
-  `)
+  const currentDate = moment().format('YYYY-MM-DD')
+
+  const {
+    loading,
+    error,
+    data
+    // }
+  } = useQuery(GET_STUDENT_ALL_INFOS)
+
+  const [studentsAccount, setStudentsAccount] = useState([])
+  // const [dateDebutIndiv, setDateDebutIndiv] = useState([])
+  // const [TempsDebutIndiv, setTempsDebutIndiv] = useState([])
 
   const [state, setState] = useState({
-    data: [
-      {
-        title: 'Website Re-Design Plan',
-        startDate: new Date(2018, 5, 25, 9, 35),
-        endDate: new Date(2018, 5, 25, 11, 30),
-        id: 0,
-        location: 'Room 1'
-      },
-      {
-        title: 'Book Flights to San Fran for Sales Trip',
-        startDate: new Date(2018, 5, 25, 12, 11),
-        endDate: new Date(2018, 5, 25, 13, 0),
-        id: 1,
-        location: 'Room 1'
-      }
-      // {
-      //   title: 'Install New Router in Dev Room',
-      //   startDate: new Date(2018, 5, 25, 14, 30),
-      //   endDate: new Date(2018, 5, 25, 15, 35),
-      //   id: 2,
-      //   location: 'Room 2'
-      // },
-      // {
-      //   title: 'Approve Personal Computer Upgrade Plan',
-      //   startDate: new Date(2018, 5, 26, 10, 0),
-      //   endDate: new Date(2018, 5, 26, 11, 0),
-      //   id: 3,
-      //   location: 'Room 2'
-      // },
-      // {
-      //   title: 'Final Budget Review',
-      //   startDate: new Date(2018, 5, 26, 12, 0),
-      //   endDate: new Date(2018, 5, 26, 13, 35),
-      //   id: 4,
-      //   location: 'Room 2'
-      // },
-      // {
-      //   title: 'New Brochures',
-      //   startDate: new Date(2018, 5, 26, 14, 30),
-      //   endDate: new Date(2018, 5, 26, 15, 45),
-      //   id: 5,
-      //   location: 'Room 2'
-      // },
-      // {
-      //   title: 'Install New Database',
-      //   startDate: new Date(2018, 5, 27, 9, 45),
-      //   endDate: new Date(2018, 5, 27, 11, 15),
-      //   id: 6,
-      //   location: 'Room 1'
-      // },
-      // {
-      //   title: 'Approve New Online Marketing Strategy',
-      //   startDate: new Date(2018, 5, 27, 12, 0),
-      //   endDate: new Date(2018, 5, 27, 14, 0),
-      //   id: 7,
-      //   location: 'Room 3'
-      // },
-      // {
-      //   title: 'Upgrade Personal Computers',
-      //   startDate: new Date(2018, 5, 27, 15, 15),
-      //   endDate: new Date(2018, 5, 27, 16, 30),
-      //   id: 8,
-      //   location: 'Room 3'
-      // }
-    ],
-    currentDate: '2018-05-25',
+    data: [],
 
     addedAppointment: {},
     appointmentChanges: {},
     editingAppointment: undefined
   })
-  const currentDate = '2018-06-27'
-  const schedulerData = [
-    {
-      startDate: '2018-11-01T09:45',
-      endDate: '2018-11-01T11:00',
-      title: 'Meeting'
-    },
-    {
-      startDate: '2018-11-01T12:00',
-      endDate: '2018-11-01T13:30',
-      title: 'Go to a gym'
+  useEffect(() => {
+    if (!error && !loading) {
+      const {
+        allUserAccounts: { nodes }
+      } = data
+      setStudentsAccount(nodes)
     }
-  ]
+  })
+
+  const messages = {
+    moreInformationLabel: ''
+  }
+  const TextEditor = (props) => {
+    // eslint-disable-next-line react/destructuring-assignment
+    if (props.type === 'multilineTextEditor') {
+      return null
+    }
+    return <AppointmentForm.TextEditor {...props} />
+  }
+
+  const BasicLayout = ({ onFieldChange, appointmentData, ...restProps }) => {
+    const PatientInfo = { appointmentData }
+    const onFirstNameFieldChange = (nextValue) => {
+      onFieldChange({
+        PatienInfo: nextValue
+      })
+    }
+
+    return (
+      <AppointmentForm.BasicLayout
+        appointmentData={appointmentData}
+        onFieldChange={onFieldChange}
+        {...restProps}
+      >
+        <AppointmentForm.Label text="First Name" type="title" />
+        <AppointmentForm.TextEditor
+          value={appointmentData.PatienInfo}
+          onValueChange={onFirstNameFieldChange}
+          placeholder="First Name"
+        />
+      </AppointmentForm.BasicLayout>
+    )
+  }
+  const creerRendezVousIndiv = (data) => {
+    console.log('this sis the rendez vous ', data)
+  }
+  const currentDateChange = (currentDate) => {
+    setState({ currentDate })
+  }
+  const commitChanges = ({ added, changed, deleted }) => {
+    setState((state) => {
+      let { data } = state
+      if (added) {
+        const startingAddedId =
+          data.length > 0 ? data[data.length - 1].id + 1 : 0
+        data = [...data, { id: startingAddedId, ...added }]
+      }
+      if (changed) {
+        data = data.map((appointment) =>
+          changed[appointment.id]
+            ? { ...appointment, ...changed[appointment.id] }
+            : appointment
+        )
+      }
+      if (deleted !== undefined) {
+        data = data.filter((appointment) => appointment.id !== deleted)
+      }
+      console.log('this is the new added data ', data)
+      return { data }
+    })
+  }
+
+  // const []
+  const dispatch = useDispatch()
+  if (loading) return <Loading />
+  if (error) return <p>Error :(</p>
   return (
     <div className="calend__main">
-      {/* {console.log(state.data)}
       <div>
         <SideBar />
       </div>
-      <div className="schedular__container"> */}
-      <Paper>
-        {console.log('this is the query ', queryData)}
-        <Scheduler data={state.data}>
-          <ViewState defaultCurrentDate={currentDate} />
-          <WeekView startDayHour={9} endDayHour={19} />
-          <Appointments />
-          <AllDayPanel />
-        </Scheduler>
-      </Paper>
-      {/* </div> */}
+      <div className="calend__container">
+        <div className="header__container">
+          <button
+            className="btn__blue ml-auto d-flex align-items-center"
+            onClick={() => dispatch(TypeRdvAction())}
+            // onClick={() => console.log('this is the emails ', studentsAccount)}
+          >
+            <AddIcon className="mr-1" />
+            <span>Crèer un rendez vous</span>
+          </button>
+        </div>
+
+        <div>
+          <Paper>
+            <Scheduler data={state.data}>
+              <ViewState
+                defaultCurrentDate={currentDate}
+                defaultCurrentViewName="Week"
+                onCurrentDateChange={currentDateChange}
+              />
+              <EditingState onCommitChanges={commitChanges} />
+              <IntegratedEditing />
+              <DayView startDayHour={9} endDayHour={19} />
+              <WeekView startDayHour={9} endDayHour={16} />
+
+              <ConfirmationDialog />
+
+              <Toolbar />
+              <ViewSwitcher />
+              <DateNavigator />
+              <TodayButton />
+              <Appointments />
+              <AppointmentTooltip showOpenButton showDeleteButton />
+              <AppointmentForm
+                basicLayoutComponent={BasicLayout}
+                textEditorComponent={TextEditor}
+                messages={messages}
+              />
+            </Scheduler>
+          </Paper>
+        </div>
+      </div>
+      <ChoisirRendezVous
+        currentDate={currentDate}
+        studentsAccount={studentsAccount}
+        onCreerRendezVousIndiv={creerRendezVousIndiv}
+      />
     </div>
   )
 }
