@@ -23,7 +23,7 @@ import {
     Legend
   } from "recharts";
 
-  
+
 
 const Stat = () => {
     const dailyStats = [
@@ -75,12 +75,50 @@ const Stat = () => {
   
     
 
+
+      
+const diseaseData = [
+    { name: "Group A", value: 400 },
+    { name: "Group B", value: 300 },
+    { name: "Group C", value: 300 },
+    { name: "Group D", value: 200 }
+  ];
+  
+  const disCOLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+  
+  const RADIAN = Math.PI / 180;
+  const renderCustomizedLabel = ({
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    percent,
+    index
+  } ) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+  
+    return (
+      <text
+        x={x}
+        y={y}
+        fill="white"
+        textAnchor={x > cx ? "start" : "end"}
+        dominantBaseline="central"
+      >
+        {`${(percent * 100).toFixed(0)}%`}
+      </text>
+    );
+  };
+
     return (
         <div className="stat__main">
             <SideBar/>
             <div className="patients__content">
             <DoctorHeader  nom={currentUser.nom} prenom={currentUser.prenom} profilePictureUrl={currentUser.profilePicture} />
-                <div className="stat__body mt-2">
+                <div className="stat__body mt-2 pb-4">
                         <div className="stat__head d-flex justify-content-between align-items-center">
                             <div className="stat__head__title d-flex align-items-center">
                                 <TimelineIcon id="timeline__icon" />
@@ -160,7 +198,7 @@ const Stat = () => {
                             </div>
                             
                         </div>
-                        <div className="stats__details mt-0  row ml-3 mr-0">
+                        <div className="stats__details mt-0  row ml-3 mr-0 ">
                               <div className="stat__bars  py-3 col-6"> 
                                 <h6 className="stat__circle__txt ml-3 mb-3">Visites médicaux</h6>
                                 <BarChart
@@ -172,8 +210,7 @@ const Stat = () => {
                                       right: 0,
                                       left: -25,
                                       bottom: 10
-                                    }}
-                                  >
+                                    }}>
                                     <CartesianGrid strokeDasharray="3 3" />
                                     <XAxis dataKey="name" />
                                     <YAxis />
@@ -183,6 +220,24 @@ const Stat = () => {
                                     <Bar dataKey="Ens" fill="#FF8E00" background={{ fill: "#eee" }}/>
                                     <Bar dataKey="Ats" fill="#5453CD" background={{ fill: "#eee" }}/>
                                 </BarChart>
+                              </div>
+                              <div className="disease__pieChart col-5 ml-5 ">
+                                <PieChart width={400} height={400}>
+                                    <Pie
+                                      data={diseaseData}
+                                      cx="50%"
+                                      cy="50%"
+                                      labelLine={false}
+                                      label={renderCustomizedLabel}
+                                      outerRadius={80}
+                                      fill="#8884d8"
+                                      dataKey="value"
+                                    >
+                                      {diseaseData.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={disCOLORS[index % disCOLORS.length]} />
+                                      ))}
+                                    </Pie>
+                                </PieChart>
                               </div>
                             </div>
                 </div>
