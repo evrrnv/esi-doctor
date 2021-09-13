@@ -30,11 +30,14 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { faPrint } from '@fortawesome/free-solid-svg-icons'
+import { useLocation } from 'react-router-dom';
 
 
 const Examen = () => {
 
-  
+    const location = useLocation();
+
+    console.log(location)
 
     return (
         <>

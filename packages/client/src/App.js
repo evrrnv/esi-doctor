@@ -63,6 +63,8 @@ function App() {
             <Route path="/contact" component={Contact} />
             
             <Route path="/patientsListInfos" component={PatientInfos}/> 
+
+            <Route path="/examiner" component={Examen}/> 
          </Switch>
         </BrowserRouter>
       </div>

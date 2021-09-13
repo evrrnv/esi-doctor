@@ -268,6 +268,14 @@ $$ LANGUAGE SQL STABLE;
 
 GRANT EXECUTE ON FUNCTION app.recent_updated_dossier_medicals() TO MEDECIN;
 
+-- recent updated medical exames
+
+-- SELECT 
+
+-- create medical exame
+
+-- CREATE FUNCTION app.create_examen_medical
+
 -- create medecin
 
 CREATE FUNCTION app.create_medecin(
@@ -370,12 +378,12 @@ CREATE FUNCTION app.all_completed_dossier_medicals_counter()
         WITH 
             completed_dm AS (
                 SELECT COUNT(CASE WHEN bio.is_completed IS TRUE AND atp.is_completed IS TRUE AND atc.is_completed IS TRUE THEN TRUE END) AS completed 
-                FROM app.user_account INNER JOIN app.dossier_medical ON app.user_account.user_id = app.dossier_medical.user_id
+                FROM app.user_account INNER JOIN app.dossier_medical ON app.user_account.user_id = app.dossier_medical.user_id AND app.user_account.role IN ('ETUDIANT', 'ENSEIGNANT', 'ATS')
                 INNER JOIN app.biometrique AS bio ON bio.id = app.dossier_medical.id
                 INNER JOIN app.antecedents_personnelles AS atp ON bio.id = atp.id
                 INNER JOIN app.antecedents_medico_chirugicaux AS atc ON bio.id = atc.id
             )
-            SELECT (SELECT completed FROM completed_dm), (COUNT(user_id) - (SELECT completed FROM completed_dm)) AS not_completed FROM app.user_account;
+            SELECT (SELECT completed FROM completed_dm), (COUNT(user_id) - (SELECT completed FROM completed_dm)) AS not_completed FROM app.user_account WHERE role IN ('ETUDIANT', 'ENSEIGNANT', 'ATS');
 $$ LANGUAGE SQL STABLE;
 
 GRANT EXECUTE ON FUNCTION app.completed_dossier_medicals_counter(role) TO MEDECIN;
@@ -392,7 +400,14 @@ CREATE TABLE app.examen_medical (
 
 CREATE INDEX ON app.examen_medical (dossier_medical_id);
 
-GRANT SELECT, UPDATE ON app.examen_medical TO MEDECIN;
+GRANT SELECT, UPDATE, INSERT ON app.examen_medical TO MEDECIN;
+
+COMMENT ON TABLE app.examen_medical is E'@omit delete';
+COMMENT ON COLUMN app.examen_medical.id is E'@omit create,update';
+COMMENT ON COLUMN app.examen_medical.created_at is E'@omit create,update';
+COMMENT ON COLUMN app.examen_medical.updated_at is E'@omit create,update';
+
+GRANT EXECUTE ON FUNCTION uuid_generate_v4() TO MEDECIN;
 
 -- peau et muqueuses
 
@@ -403,7 +418,7 @@ CREATE TABLE app.peau_et_muqueuses (
     updated_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
-GRANT SELECT, UPDATE ON app.peau_et_muqueuses TO MEDECIN;
+GRANT SELECT, UPDATE, INSERT ON app.peau_et_muqueuses TO MEDECIN;
 
 COMMENT ON TABLE app.peau_et_muqueuses is E'@omit create,delete';
 COMMENT ON COLUMN app.peau_et_muqueuses.id is E'@omit update';
@@ -419,7 +434,7 @@ CREATE TABLE app.ophtalmologique (
     updated_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
-GRANT SELECT, UPDATE ON app.ophtalmologique TO MEDECIN;
+GRANT SELECT, UPDATE, INSERT ON app.ophtalmologique TO MEDECIN;
 
 COMMENT ON TABLE app.ophtalmologique is E'@omit create,delete';
 COMMENT ON COLUMN app.ophtalmologique.id is E'@omit update';
@@ -436,7 +451,7 @@ CREATE TABLE app.orl (
     updated_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
-GRANT SELECT, UPDATE ON app.orl TO MEDECIN;
+GRANT SELECT, UPDATE, INSERT ON app.orl TO MEDECIN;
 
 COMMENT ON TABLE app.orl is E'@omit create,delete';
 COMMENT ON COLUMN app.orl.id is E'@omit update';
@@ -449,7 +464,7 @@ CREATE TABLE app.locomoteur (
     updated_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
-GRANT SELECT, UPDATE ON app.locomoteur TO MEDECIN;
+GRANT SELECT, UPDATE, INSERT ON app.locomoteur TO MEDECIN;
 
 COMMENT ON TABLE app.locomoteur is E'@omit create,delete';
 COMMENT ON COLUMN app.locomoteur.id is E'@omit update';
@@ -462,7 +477,7 @@ CREATE TABLE app.respiratoire (
     updated_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
-GRANT SELECT, UPDATE ON app.respiratoire TO MEDECIN;
+GRANT SELECT, UPDATE, INSERT ON app.respiratoire TO MEDECIN;
 
 COMMENT ON TABLE app.respiratoire is E'@omit create,delete';
 COMMENT ON COLUMN app.respiratoire.id is E'@omit update';
@@ -475,7 +490,7 @@ CREATE TABLE app.cardio_vasculaire (
     updated_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
-GRANT SELECT, UPDATE ON app.cardio_vasculaire TO MEDECIN;
+GRANT SELECT, UPDATE, INSERT ON app.cardio_vasculaire TO MEDECIN;
 
 COMMENT ON TABLE app.cardio_vasculaire is E'@omit create,delete';
 COMMENT ON COLUMN app.cardio_vasculaire.id is E'@omit update';
@@ -488,7 +503,7 @@ CREATE TABLE app.digestif (
     updated_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
-GRANT SELECT, UPDATE ON app.digestif TO MEDECIN;
+GRANT SELECT, UPDATE, INSERT ON app.digestif TO MEDECIN;
 
 COMMENT ON TABLE app.digestif is E'@omit create,delete';
 COMMENT ON COLUMN app.digestif.id is E'@omit update';
@@ -501,7 +516,7 @@ CREATE TABLE app.genito_urinaire (
     updated_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
-GRANT SELECT, UPDATE ON app.genito_urinaire TO MEDECIN;
+GRANT SELECT, UPDATE, INSERT ON app.genito_urinaire TO MEDECIN;
 
 COMMENT ON TABLE app.genito_urinaire is E'@omit create,delete';
 COMMENT ON COLUMN app.genito_urinaire.id is E'@omit update';

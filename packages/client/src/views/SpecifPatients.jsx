@@ -100,7 +100,7 @@ const SpecifPatients = (props) => {
                         <h3 className="modif__txt Dm__txt mb-3 ">DOSSIERS MÉDICAUX</h3>
                         <div className="Dms ml-1  d-flex flex-column ">
                             { allUserAccounts.nodes.map(v => {
-                                return (<DossierCard key={v.id} id={v.id} nom={v.nom} prenom={v.prenom} profilePictureUrl={v.profilePicture} />)
+                                return (<DossierCard key={v.id} id={v.id} dossierMedicalId={v.dossierMedicalsByUserId.nodes[0].id} nom={v.nom} prenom={v.prenom} profilePictureUrl={v.profilePicture} />)
                             }) }
                         </div>
                         

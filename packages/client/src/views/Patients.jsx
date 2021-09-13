@@ -16,7 +16,7 @@ import { convertDateToReadable } from '../utils';
 const Patients = () => {
 
     const { loading, error, data } = useQuery(GET_PATIENTS_LIST);
-    console.log('data:{'+data+'}')
+
     if (loading) return <Loading />;
     if (error) return <p>Error(:</p>;
     
