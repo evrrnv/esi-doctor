@@ -365,7 +365,201 @@ CREATE FUNCTION app.completed_dossier_medicals_counter(role ROLE)
         SELECT (SELECT completed FROM completed_dm), (COUNT(user_id) - (SELECT completed FROM completed_dm)) AS not_completed FROM app.user_account WHERE role = completed_dossier_medicals_counter.role;
 $$ LANGUAGE SQL STABLE;
 
+CREATE FUNCTION app.all_completed_dossier_medicals_counter() 
+    RETURNS app.completed_uncompleted AS $$
+        WITH 
+            completed_dm AS (
+                SELECT COUNT(CASE WHEN bio.is_completed IS TRUE AND atp.is_completed IS TRUE AND atc.is_completed IS TRUE THEN TRUE END) AS completed 
+                FROM app.user_account INNER JOIN app.dossier_medical ON app.user_account.user_id = app.dossier_medical.user_id
+                INNER JOIN app.biometrique AS bio ON bio.id = app.dossier_medical.id
+                INNER JOIN app.antecedents_personnelles AS atp ON bio.id = atp.id
+                INNER JOIN app.antecedents_medico_chirugicaux AS atc ON bio.id = atc.id
+            )
+            SELECT (SELECT completed FROM completed_dm), (COUNT(user_id) - (SELECT completed FROM completed_dm)) AS not_completed FROM app.user_account;
+$$ LANGUAGE SQL STABLE;
+
 GRANT EXECUTE ON FUNCTION app.completed_dossier_medicals_counter(role) TO MEDECIN;
+GRANT EXECUTE ON FUNCTION app.all_completed_dossier_medicals_counter() TO MEDECIN;
+
+-- examen medical
+
+CREATE TABLE app.examen_medical (
+    id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+    dossier_medical_id uuid REFERENCES app.dossier_medical (id) ON DELETE CASCADE,
+    created_at TIMESTAMP NOT NULL DEFAULT now(),
+    updated_at TIMESTAMP NOT NULL DEFAULT now()
+);
+
+CREATE INDEX ON app.examen_medical (dossier_medical_id);
+
+GRANT SELECT, UPDATE ON app.examen_medical TO MEDECIN;
+
+-- peau et muqueuses
+
+CREATE TABLE app.peau_et_muqueuses (
+    id uuid PRIMARY KEY REFERENCES app.examen_medical (id) ON DELETE CASCADE,
+    affections_cutanees VARCHAR,
+    notes VARCHAR[],
+    updated_at TIMESTAMP NOT NULL DEFAULT now()
+);
+
+GRANT SELECT, UPDATE ON app.peau_et_muqueuses TO MEDECIN;
+
+COMMENT ON TABLE app.peau_et_muqueuses is E'@omit create,delete';
+COMMENT ON COLUMN app.peau_et_muqueuses.id is E'@omit update';
+
+-- ophtalmologique
+
+CREATE TABLE app.ophtalmologique (
+    id uuid PRIMARY KEY REFERENCES app.examen_medical (id) ON DELETE CASCADE,
+    larmolement BOOLEAN,
+    douleurs BOOLEAN,
+    taches_devant_les_yeux BOOLEAN,
+    notes VARCHAR[],
+    updated_at TIMESTAMP NOT NULL DEFAULT now()
+);
+
+GRANT SELECT, UPDATE ON app.ophtalmologique TO MEDECIN;
+
+COMMENT ON TABLE app.ophtalmologique is E'@omit create,delete';
+COMMENT ON COLUMN app.ophtalmologique.id is E'@omit update';
+
+-- orl
+
+CREATE TABLE app.orl (
+    id uuid PRIMARY KEY REFERENCES app.examen_medical (id) ON DELETE CASCADE,
+    siflements BOOLEAN,
+    angines_repetees BOOLEAN,
+    expitaxis BOOLEAN,
+    rhinorthee BOOLEAN,
+    notes VARCHAR[],
+    updated_at TIMESTAMP NOT NULL DEFAULT now()
+);
+
+GRANT SELECT, UPDATE ON app.orl TO MEDECIN;
+
+COMMENT ON TABLE app.orl is E'@omit create,delete';
+COMMENT ON COLUMN app.orl.id is E'@omit update';
+
+-- locomoteur
+
+CREATE TABLE app.locomoteur (
+    id uuid PRIMARY KEY REFERENCES app.examen_medical (id) ON DELETE CASCADE,
+    affections_cutanees VARCHAR,
+    updated_at TIMESTAMP NOT NULL DEFAULT now()
+);
+
+GRANT SELECT, UPDATE ON app.locomoteur TO MEDECIN;
+
+COMMENT ON TABLE app.locomoteur is E'@omit create,delete';
+COMMENT ON COLUMN app.locomoteur.id is E'@omit update';
+
+-- respiratoire
+
+CREATE TABLE app.respiratoire (
+    id uuid PRIMARY KEY REFERENCES app.examen_medical (id) ON DELETE CASCADE,
+    notes VARCHAR[],
+    updated_at TIMESTAMP NOT NULL DEFAULT now()
+);
+
+GRANT SELECT, UPDATE ON app.respiratoire TO MEDECIN;
+
+COMMENT ON TABLE app.respiratoire is E'@omit create,delete';
+COMMENT ON COLUMN app.respiratoire.id is E'@omit update';
+
+-- cardio vasculaire
+
+CREATE TABLE app.cardio_vasculaire (
+    id uuid PRIMARY KEY REFERENCES app.examen_medical (id) ON DELETE CASCADE,
+    affections_cutanees VARCHAR,
+    updated_at TIMESTAMP NOT NULL DEFAULT now()
+);
+
+GRANT SELECT, UPDATE ON app.cardio_vasculaire TO MEDECIN;
+
+COMMENT ON TABLE app.cardio_vasculaire is E'@omit create,delete';
+COMMENT ON COLUMN app.cardio_vasculaire.id is E'@omit update';
+
+-- digestif
+
+CREATE TABLE app.digestif (
+    id uuid PRIMARY KEY REFERENCES app.examen_medical (id) ON DELETE CASCADE,
+    affections_cutanees VARCHAR,
+    updated_at TIMESTAMP NOT NULL DEFAULT now()
+);
+
+GRANT SELECT, UPDATE ON app.digestif TO MEDECIN;
+
+COMMENT ON TABLE app.digestif is E'@omit create,delete';
+COMMENT ON COLUMN app.digestif.id is E'@omit update';
+
+-- genito urinaire
+
+CREATE TABLE app.genito_urinaire (
+    id uuid PRIMARY KEY REFERENCES app.examen_medical (id) ON DELETE CASCADE,
+    affections_cutanees VARCHAR,
+    updated_at TIMESTAMP NOT NULL DEFAULT now()
+);
+
+GRANT SELECT, UPDATE ON app.genito_urinaire TO MEDECIN;
+
+COMMENT ON TABLE app.genito_urinaire is E'@omit create,delete';
+COMMENT ON COLUMN app.genito_urinaire.id is E'@omit update';
+
+-- updated at
+
+CREATE TRIGGER set_app_examen_medical_updated_at BEFORE UPDATE ON app.examen_medical FOR EACH ROW EXECUTE FUNCTION app.set_current_timestamp_updated_at();
+CREATE TRIGGER set_app_peau_et_muqueuses_updated_at BEFORE UPDATE ON app.peau_et_muqueuses FOR EACH ROW EXECUTE FUNCTION app.set_current_timestamp_updated_at();
+CREATE TRIGGER set_ophtalmologique_updated_at BEFORE UPDATE ON app.ophtalmologique FOR EACH ROW EXECUTE FUNCTION app.set_current_timestamp_updated_at();
+CREATE TRIGGER set_orl_updated_at BEFORE UPDATE ON app.orl FOR EACH ROW EXECUTE FUNCTION app.set_current_timestamp_updated_at();
+CREATE TRIGGER set_locomoteur_updated_at BEFORE UPDATE ON app.locomoteur FOR EACH ROW EXECUTE FUNCTION app.set_current_timestamp_updated_at();
+CREATE TRIGGER set_respiratoire_updated_at BEFORE UPDATE ON app.respiratoire FOR EACH ROW EXECUTE FUNCTION app.set_current_timestamp_updated_at();
+CREATE TRIGGER set_cardio_vasculaire_updated_at BEFORE UPDATE ON app.cardio_vasculaire FOR EACH ROW EXECUTE FUNCTION app.set_current_timestamp_updated_at();
+CREATE TRIGGER set_digestif_updated_at BEFORE UPDATE ON app.respiratoire FOR EACH ROW EXECUTE FUNCTION app.set_current_timestamp_updated_at();
+CREATE TRIGGER set_genito_urinaire_updated_at BEFORE UPDATE ON app.respiratoire FOR EACH ROW EXECUTE FUNCTION app.set_current_timestamp_updated_at();
+
+-- create examen medical triggers
+
+CREATE FUNCTION app.init_table() RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO app.peau_et_muqueuses (id) VALUES (NEW.id);
+    INSERT INTO app.ophtalmologique (id) VALUES (NEW.id);
+    INSERT INTO app.orl (id) VALUES (NEW.id);
+    INSERT INTO app.locomoteur (id) VALUES (NEW.id);
+    INSERT INTO app.respiratoire (id) VALUES (NEW.id);
+    INSERT INTO app.cardio_vasculaire (id) VALUES (NEW.id);
+    RETURN NEW;
+END
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER init_peau_et_muqueuses AFTER INSERT ON app.examen_medical FOR EACH ROW EXECUTE FUNCTION app.init_table();
+
+-- statistics
+
+CREATE TYPE app.statistics_type as (
+    etudiant INT,
+    enseignant INT,
+    ats INT,
+    total INT,
+    homme INT,
+    femme INT
+);
+
+CREATE FUNCTION app.statistics(days INT) RETURNS app.statistics_type AS $$
+WITH wid AS (
+    SELECT id FROM app_private.user_account WHERE created_at > (CURRENT_DATE - statistics.days * INTERVAL '1 DAY')
+)
+SELECT * FROM
+(SELECT COUNT(user_id) AS etudiant FROM app.user_account INNER JOIN (SELECT id FROM wid) AS r ON user_id = r.id WHERE role = 'ETUDIANT') AS a,
+(SELECT COUNT(user_id) AS enseignant FROM app.user_account INNER JOIN (SELECT id FROM wid) AS r ON user_id = r.id WHERE role = 'ENSEIGNANT') AS b,
+(SELECT COUNT(user_id) AS ats FROM app.user_account INNER JOIN (SELECT id FROM wid) AS r ON user_id = r.id WHERE role = 'ATS') AS c,
+(SELECT COUNT(user_id) AS total FROM app.user_account INNER JOIN (SELECT id FROM wid) AS r ON user_id = r.id WHERE role = 'ETUDIANT' OR role = 'ENSEIGNANT' OR role = 'ATS') AS d,
+(SELECT COUNT(user_id) AS homme FROM app.user_account INNER JOIN (SELECT id FROM wid) AS r ON user_id = r.id WHERE sexe = 'M') AS e,
+(SELECT COUNT(user_id) AS femme FROM app.user_account INNER JOIN (SELECT id FROM wid) AS r ON user_id = r.id WHERE sexe = 'F') AS f
+$$ LANGUAGE SQL STABLE SECURITY DEFINER;
+
+GRANT EXECUTE ON FUNCTION app.statistics(INT) TO MEDECIN;
+
 -- insert users
 
 SELECT app.create_medecin('48cfbc46-fdcd-4b97-8ab1-03c469981506', 'rakikoove', '0YAQ7j50b9vLqrgjVS2oVF8F6', 'rakikoove@esi-sba.dz', 'Bendada', 'Moncef', 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
@@ -374,7 +568,7 @@ SELECT app.create_medecin('98f451b8-8aa4-4dc3-90a4-e745288de8bb', 'mhammed-sed',
 SELECT app.create_medecin('cc04529e-8e39-456f-b1f7-80bc6c726e02', 'a.boussaid', 'sKG6PUENEUlIDYWtTnQKFkFYi', 'a.boussaidd@esi-sba.dz', 'Sedaoui', 'Muhammed', 'https://images.pexels.com/photos/2169500/pexels-photo-2169500.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
 
 SELECT app.create_patient('767f4741-4473-4d19-9e96-39b9abb01bc6', 'etudiant1', 'password', 'etudiant1@esi-sba.dz', 'Alimaia', 'Bouchiba', 'https://images.unsplash.com/photo-1560329072-17f59dcd30a4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=767&q=80', '102 Rue Haddad Layachi, 19600', '0678569874', '2000-05-17', 'F', '3', 'SIW', 'Celibataire');
-SELECT app.create_patient('84fa94cc-cd5d-449d-a4fa-197d0bf195b7', 'etudiant2', 'password', 'etudiant2@esi-sba.dz', 'Amrouche', 'Aleser', 'https://images.pexels.com/photos/3812011/pexels-photo-3812011.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+SELECT app.create_patient('84fa94cc-cd5d-449d-a4fa-197d0bf195b7', 'etudiant2', 'password', 'etudiant2@esi-sba.dz', 'Amrouche', 'Aleser', 'https://images.pexels.com/photos/3812011/pexels-photo-3812011.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260', '93 RUE EMIR KHALED, Oran El M Naouer', '0123654789', '2001-04-10', 'M');
 
 SELECT app.assign_medecin_to_patient('767f4741-4473-4d19-9e96-39b9abb01bc6', 'cc04529e-8e39-456f-b1f7-80bc6c726e02');
 SELECT app.assign_medecin_to_patient('7150e9aa-b8be-4c5a-bc8d-653b0deaab96', '74dc5a42-79ca-48ac-97fc-2e682e0efec7');
