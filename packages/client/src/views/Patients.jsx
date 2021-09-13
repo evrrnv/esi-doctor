@@ -9,26 +9,24 @@ import LastEdit from '../components/shared/lastEdit';
 import HistoLastExam from '../components/shared/histoLastExam'; 
 import DoctorHeader from '../components/shared/doctorHeader';
 import { useQuery } from '@apollo/client';
-import { GET_PATIENTS_LIST } from '../operations/queries/GET_PATIENTS_LIST';
-import { CircularProgress } from '@material-ui/core';
+import { GET_PATIENTS_LIST } from '../graphql/queries/GET_PATIENTS_LIST';
 import Loading from '../components/shared/loading';
+import { convertDateToReadable } from '../utils';
 
 const Patients = () => {
 
     const { loading, error, data } = useQuery(GET_PATIENTS_LIST);
 
-    if (loading) return <Loading />
-    if (error) return <p>Error :(</p>;
-
+    if (loading) return <Loading />;
+    if (error) return <p>Error(:</p>;
+    
     const { currentUser, patientsNumberByRole: { nodes: patientsNumber }, recentUpdatedDossierMedicals } = data
-
-    console.log(data)
 
     return (
         <div className="main">
             <SideBar  />
             <div className="patients__content">
-                <DoctorHeader  nom={currentUser.nom} prenom={currentUser.prenom} />
+                <DoctorHeader  nom={currentUser.nom} prenom={currentUser.prenom} profilePictureUrl={currentUser.profilePicture} />
                 <div className="patients__body d-block d-sm-flex justify-content-between">
                     <div className="patients__types align-self-end">
                         <h1 className="patients__header mb-3 text-center">Surveiller la santé  de vos Patients </h1>
@@ -53,11 +51,7 @@ const Patients = () => {
                                 <h6 className="modif__titles col-1">№dm</h6>
                             </div>
                             { recentUpdatedDossierMedicals.nodes.map(v => {
-                                const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
-                                    "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
-                                ];
-                                let date = new Date(v.date)
-                                date = `${date.getDate()}.${monthNames[date.getMonth() - 1]}.${date.getFullYear()}`
+                                const date = convertDateToReadable(new Date(v.date))
                                 return (<LastEdit key={v.numero} NO={v.numero} patient={`${v.patientNom} ${v.patientPrenom}`} doctor={`Dr.${v.medecinNom}`} date={date}  part={v.partie} dossierNbr={v.numeroDossierMedical}/>)
                             }) }
                         </div>

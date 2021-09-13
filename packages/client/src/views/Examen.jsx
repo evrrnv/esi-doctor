@@ -16,7 +16,6 @@ import Respiratoire  from '../assets/icons/Respiratoire.svg'
 import Vision  from '../assets/icons/Vision.svg'
 import examen  from '../assets/icons/examen.svg'
 import { makeStyles } from '@material-ui/core/styles' 
-
 import { useState } from 'react';
 import produce from 'immer';
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -28,22 +27,25 @@ import Ordonance  from '../assets/icons/Ordonance.svg'
 import Certaficat  from '../assets/icons/Certaficat.svg'
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { faPrint } from '@fortawesome/free-solid-svg-icons'
+import { useLocation } from 'react-router-dom';
 
 
 const Examen = () => {
 
-  
+    const location = useLocation();
+
+    console.log(location)
 
     return (
         <>
-            <div className="main">
+            <div className="mainContent">
                 <SideBar />
                 <div className="examen_content  d-flex flex-column justify-content-between">
                 <div className="infos  d-flex justify-content-between align-items-center">
-                    <div className="personal_infos d-flex align-items-end">
+                    <div className="personal_info d-flex align-items-end">
                         <img className="personal_img"  src={avatar} alt="" />
                         <div className ="text_infos">
                             <p className="title">Titre</p>
@@ -51,24 +53,24 @@ const Examen = () => {
                             <p className="email">email@esi-sba.dz</p>
                         </div>
                     </div>
-                    <div className="d-flex flex-row justify-content-between align-items-center ">
-                        <div className="d-flex flex-column justify-content-between align-items-center">
+                    <div className="d-flex flex-row justify-content-around align-items-center ">
+                        <div className="height d-flex flex-column justify-content-between align-items-center ">
                             <h3 className="number">180 cm</h3> 
                             <h4 className="text">Taille</h4>
                         </div>
-                        <div className="d-flex flex-column justify-content-between align-items-center">
+                        <div className="weight d-flex flex-column justify-content-between align-items-center text-align-center">
                             <h3 className="number">65 kg</h3> 
                             <h4 className="text">Poids</h4>
                         </div>
                     </div>
                 </div>
                 <div className="empty d-flex flex-row align-items-center">
-                    <img className="icon_img"  src={examen} alt="Examen Médical"  />
-                    <h4 className="head">Examen Médical</h4>
+                    <img className="head_icon_img"  src={examen} alt="Examen Médical"  />
+                    <span className="headText">Examen Médical</span>
                 </div>
-                <div className="empty d-flex flex-row align-self-center">
+                <div className="headContent d-flex flex-row align-self-center">
                     <div className="emptyContent">
-                       <HeadBtn name="Rapport Médical" icon={RapportBlue} id="first" text="rapportBlue" />
+                       <HeadBtn name="Rapport Médical" icon={Rapport} id="first" text="rapportBlue" />
                     </div>
                     <div className="emptyContent">
                         <HeadBtn name="Ordonnance" icon={Ordonance} /> 
@@ -77,24 +79,9 @@ const Examen = () => {
                         <HeadBtn name="Certeficat" icon={Certaficat}  id="last"  />
                     </div>
                 </div>
-                <div className="exams d-flex flex-column align-items-center"> 
-                    <Exam name="Rapport Médical" icon={Rapportmedical} /> 
-                    <Exam name="Peau et Muqueuses" icon={Peau} /> 
-                    <Exam name="Ophtalmologique" icon={Vision} /> 
-                    <Exam name="O.R.L" icon={Ear} /> 
-                    <Exam name="Locomoteur" icon={Locomoteur} /> 
-                    <Exam name="Respiratoire" icon={Respiratoire} /> 
-                    <Exam name="Cardio-vasculaire" icon={Cardio} /> 
-                    <Exam name="Digestif" icon={Digestif} /> 
-                    <Exam name="Genito-Urinaire" icon={Digestif} /> 
-                    <Exam name="Neurologique et Psychisme" icon={Neurologique} /> 
-                    <Exam name="Hématologie et Ganglionnaire" icon={Hematologie} /> 
-                    <Exam name="Endocrinologie" icon={Hematologie} /> 
-                    <Exam name="Profile Psychologique" icon={Psychology} /> 
-                    <Exam name="Examens Complémentaires" icon={Rapport} /> 
-                    <Exam name="Orientation" icon={Rapport} /> 
-                
-                </div>
+               <div>
+                   <Ordonnance />
+               </div>
                 </div>
                 
                 
@@ -105,6 +92,102 @@ const Examen = () => {
     );
 
     
+}
+const Ordonnance = () => {
+    const Notes = props => props.data.map(note => <div className="headTableOrd d-flex flex-row justify-content-between align-items-center">
+        <span className="titles">Médicament</span>
+        <span className="titles">Quantité(Boite)</span>
+        <span className="titles">Durée du traitement (jours)</span>
+        </div>);
+    const initialData = [{ text: 'Notes' }];
+    const [data, setData] = useState(initialData);
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            const text = document.querySelector('#noteinput').value.trim();
+            if (text) {
+              const nextState = produce(data, draftState => {
+                draftState.push({ text });
+              });
+              document.querySelector('#noteinput').value = '';
+              setData(nextState);
+            }
+        }
+      }
+    return(
+        <div>
+           <div className="">
+           <Notes data={data} />
+           <div className="d-flex flex-row align-items-center justify-content-around">
+                <div className= "addNoteOrd d-flex flex-row align-items-center justify-content-around">
+                    <FontAwesomeIcon icon={faPlus} size="1x" />
+                    <input className="input" id="noteinput" type="text" onKeyDown={handleKeyDown} placeholder="Ajouter une autre note" /><span className="filetypes filetypes-e-7z"></span>
+                    
+                </div>
+                <div className= "imprimerOrd d-flex flex-row align-items-center justify-content-center">
+                    <FontAwesomeIcon icon={faPrint} size="1x" />
+                    <span className="ml-2">Imprimer</span>
+                </div>
+
+                </div>               
+           </div>
+        </div>
+    ); 
+}
+const Certeficat = () => {
+    const Notes = props => props.data.map(note => <div className="noteCertif d-flex flex-column">
+        <span className="subtitle">Description</span>
+         <div> {note.text} </div>
+        </div>);
+    const initialData = [{ text: 'Notes' }];
+    const [data, setData] = useState(initialData);
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            const text = document.querySelector('#noteinput').value.trim();
+            if (text) {
+              const nextState = produce(data, draftState => {
+                draftState.push({ text });
+              });
+              document.querySelector('#noteinput').value = '';
+              setData(nextState);
+            }
+        }
+      }
+    return(
+        <div className="certif mb-4"> 
+            <Notes data={data} />
+                <div className= "addNoteCertif d-flex flex-row align-items-center justify-content-around">
+                    <FontAwesomeIcon icon={faPlus} size="1.5x" />
+                    <input className="input" id="noteinput" type="text" onKeyDown={handleKeyDown} placeholder="Ajouter une autre note" /><span className="filetypes filetypes-e-7z"></span>
+                    
+                </div>
+                <div className="d-flex flex-column align-items-end mr-5">
+                <Btn id="print" icon={faPrint} name="Imprimer" color="black"  text="print" />
+                     </div>
+            
+        </div>
+    ); 
+}
+const Exams = ()  => {
+    return(
+    <div className="exams d-flex flex-column align-items-center"> 
+    <Exam name="Rapport Médical" icon={Rapportmedical} /> 
+    <Exam name="Peau et Muqueuses" icon={Peau} /> 
+    <Exam name="Ophtalmologique" icon={Vision} /> 
+    <Exam name="O.R.L" icon={Ear} /> 
+    <Exam name="Locomoteur" icon={Locomoteur} /> 
+    <Exam name="Respiratoire" icon={Respiratoire} /> 
+    <Exam name="Cardio-vasculaire" icon={Cardio} /> 
+    <Exam name="Digestif" icon={Digestif} /> 
+    <Exam name="Genito-Urinaire" icon={Digestif} /> 
+    <Exam name="Neurologique et Psychisme" icon={Neurologique} /> 
+    <Exam name="Hématologie et Ganglionnaire" icon={Hematologie} /> 
+    <Exam name="Endocrinologie" icon={Hematologie} /> 
+    <Exam name="Profile Psychologique" icon={Psychology} /> 
+    <Exam name="Examens Complémentaires" icon={Rapport} /> 
+    <Exam name="Orientation" icon={Rapport} />  
+    </div>  );    
+
+
 }
 const Exam = (props , Key) => {
 
@@ -120,29 +203,30 @@ const Exam = (props , Key) => {
         <img className="icon_img"  src={props.icon} alt={props.icon} />
         <p className="exam_paragraph">{props.name}</p>
         </div>
-        {visible && props.name=="Ophtalmologique" ? <Details1/> : null }
-        {visible && props.name=="O.R.L" ? <Details2/> : null }
-        {visible && props.name=="Rapport Médical" ? <Details/> : null }
-        {visible && props.name=="Peau et Muqueuses" ? <Details/> : null }
-        {visible && props.name=="Respiratoire" ? <Details/> : null }
-        {visible && props.name=="Locomoteur" ? <Details/> : null }
-        {visible && props.name=="Cardio-vasculaire" ? <Details/> : null }
-        {visible && props.name=="Genito-Urinaire" ? <Details/> : null }
-        {visible && props.name=="Digestif" ? <Details/> : null }
-        {visible && props.name=="Neurologique et Psychisme" ? <Details/> : null }
-        {visible && props.name=="Hématologie et Ganglionnaire" ? <Details/> : null }
-        {visible && props.name=="Endocrinologie" ? <Details/> : null }
-        {visible && props.name=="Profile Psychologique" ? <Details/> : null }
-        {visible && props.name=="Examens Complémentaires" ? <Details/> : null }
-        {visible && props.name=="Orientation" ? <Details/> : null }
+        {visible && props.name==="Ophtalmologique" ? <Details1/> : null }
+        {visible && props.name==="O.R.L" ? <Details2/> : null }
+        {visible && props.name==="Rapport Médical" ? <Details/> : null }
+        {visible && props.name==="Peau et Muqueuses" ? <Details/> : null }
+        {visible && props.name==="Respiratoire" ? <Details/> : null }
+        {visible && props.name==="Locomoteur" ? <Details/> : null }
+        {visible && props.name==="Cardio-vasculaire" ? <Details/> : null }
+        {visible && props.name==="Genito-Urinaire" ? <Details/> : null }
+        {visible && props.name==="Digestif" ? <Details/> : null }
+        {visible && props.name==="Neurologique et Psychisme" ? <Details/> : null }
+        {visible && props.name==="Hématologie et Ganglionnaire" ? <Details/> : null }
+        {visible && props.name==="Endocrinologie" ? <Details/> : null }
+        {visible && props.name==="Profile Psychologique" ? <Details/> : null }
+        {visible && props.name==="Examens Complémentaires" ? <Details/> : null }
+        {visible && props.name==="Orientation" ? <Details/> : null }
     </div>
     );
 }
 
 
 const Details = () =>{
-    const Notes = props => props.data.map(note => <div className="notes"> {note.text} </div>);
-    const initialData = [{ text: 'texte' }];
+    const Notes = props => props.data.map(note => <div className="notes d-flex flex-column"> <span className="subtitle">Description</span>
+    <div> {note.text} </div> </div>);
+    const initialData = [{ text: 'Note' }];
     const [data, setData] = useState(initialData);
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
@@ -169,7 +253,7 @@ const Details = () =>{
             
         </div> 
         <div className= "buttons d-flex flex-row align-items-end justify-content-around" > 
-             <div className= "d-flex flex-row align-items-end ">
+             <div className= "d-flex flex-row justify-content-between">
                  <Btn id="demiss" icon={faAngleLeft} name="Annuler" color="red"  text="retry" />
                  <Btn id="confirm" icon={faCheck} name="Confirmer" color="#56C596" text="accept"  />
              </div>
@@ -180,17 +264,17 @@ const Details = () =>{
 }
 function Btn(props){
     return( 
-           <button  className="d-flex flex-row align-items-center align-text-center" id ={props.id} >
-               <FontAwesomeIcon className="button_icons" icon={props.icon} size="2x" color={props.color} />
-               <p className={props.text} >{props.name}</p>
+           <button  className="d-flex flex-row align-items-center justify-content-center mr-2" id ={props.id} >
+               <FontAwesomeIcon className="button_icons mr-2" icon={props.icon} size="2x" color={props.color} />
+               <span className={props.text} >{props.name}</span>
            </button>     
     )
 }
 function HeadBtn(props){
     return( 
-           <button  className="headbtn d-flex flex-row align-items-center align-self-center justify-content-center" id ={props.id} >
-               <img className="icon_img"  src={props.icon} alt ={props.icon}  />
-               <p className="btnText" id={props.text} >{props.name}</p>
+           <button  className="headbtn d-flex flex-row align-items-center justify-content-center" id ={props.id} >
+               <img className="icon_img mr-2"  src={props.icon} alt ={props.icon}  />
+               <span className="btnText" id={props.text} >{props.name}</span>
            </button>     
     )
 }

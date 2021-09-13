@@ -17,6 +17,8 @@ import teacherOnly from './assets/images/teacherOnly.svg'
 import teacherEarth from './assets/images/teacherEarth.svg'
 import atsOnly from './assets/images/atsOnly.svg'
 import atsWesmo from './assets/images/atsWesmo.svg'
+
+
  
 function App() {
  
@@ -35,21 +37,17 @@ function App() {
 
             <Route path="/rdvList" component={RdvList} />
 
-          
-
-            
-
             <Route
               path='/patientsList/student'
-              render={() => <SpecifPatients  type="Etudiants" nbr="900" data="Only students" complet="330" nonComplet="20" img1={studentOnly} img2={studentBag}/>}
+              render={() => <SpecifPatients  type="Etudiants" data="Only students" img1={studentOnly} img2={studentBag}/>}
             />
             <Route
               path='/patientsList/teacher'
-              component={() => <SpecifPatients type="Enseignants" nbr="55" data="Only teachers" complet="30" nonComplet="15" img1={teacherOnly} img2={teacherEarth} />}
+              component={() => <SpecifPatients type="Enseignants" data="Only teachers" img1={teacherOnly} img2={teacherEarth} />}
             />
             <Route
               path='/patientsList/ats'
-              component={() => <SpecifPatients type="ATS" nbr="20" data="Only ATS" complet="15" nonComplet="3" img1={atsOnly} img2={atsWesmo}/>}
+              component={() => <SpecifPatients type="ATS" data="Only ATS" img1={atsOnly} img2={atsWesmo}/>}
             />
 
             <Route path="/patientsList" component={Patients} />
@@ -63,7 +61,10 @@ function App() {
             <Route path="/param" component={Param} />
 
             <Route path="/contact" component={Contact} />
+            
             <Route path="/patientsListInfos" component={PatientInfos}/> 
+
+            <Route path="/examiner" component={Examen}/> 
          </Switch>
         </BrowserRouter>
       </div>

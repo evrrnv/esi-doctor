@@ -5,17 +5,17 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faBars} from '@fortawesome/free-solid-svg-icons'
-import {  } from '@apollo/client'
+import { Avatar } from '@material-ui/core';
 
 
-const DoctorHeader = ({ nom, prenom}) => {
+const DoctorHeader = ({ nom, prenom, profilePictureUrl }) => {
 
     return (
         <div className="patients__head  d-flex justify-content-between align-items-center">
             <button className="d-block d-sm-none burger"><FontAwesomeIcon icon={faBars}/></button>
             <h2 className="head__txt d-none d-sm-block">Bonjour,<br></br> Dr.{nom} </h2>
             <div className="d-flex align-items-center">
-                 <img className="dash__avatar" src={avatar} alt="" />
+                 <Avatar alt="profile picture" src={profilePictureUrl} style={{marginRight: "16px"}} />
                  <span className="avatar__infos">
                    <span className="avatar__name">M.{prenom} {nom}</span><br></br>
                    <span className="avatar__title"><ArrowForwardIosIcon className="arrow__title"/>Médecin</span>

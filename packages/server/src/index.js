@@ -4,6 +4,7 @@ const { postgraphile } = require('postgraphile')
 
 const Keycloak = require('./lib/keycloak-verify')
 const cors = require('cors')
+const ConnectionFilterPlugin = require('postgraphile-plugin-connection-filter')
 
 const app = express()
 
@@ -46,6 +47,7 @@ app.use(
     allowExplain: (req) => {
       return true
     },
+    appendPlugins: [ConnectionFilterPlugin],
     pgSettings: async (req) => {
       const authorization = req.headers.authorization
       const bearerStr = 'Bearer'
@@ -56,7 +58,6 @@ app.use(
             const user = await keycloak.verifyOnline(token[1])
             const role = user.resourceAccess.web.roles[0]
             const id = user.id.split(':')[2]
-            console.log(id)
             return {
               'jwt.claims.user_id': id,
               role
@@ -64,6 +65,7 @@ app.use(
           } catch (e) {}
         }
       }
+
       return {
         role: 'medecin'
       }
