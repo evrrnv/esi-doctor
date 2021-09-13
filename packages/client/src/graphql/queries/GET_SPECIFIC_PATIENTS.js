@@ -8,6 +8,11 @@ const GET_SPECIFIC_PATIENTS = gql`
                 nom
                 prenom
                 profilePicture
+                dossierMedicalsByUserId {
+                    nodes {
+                        id
+                    }
+                }
             }
         }
         currentUser {

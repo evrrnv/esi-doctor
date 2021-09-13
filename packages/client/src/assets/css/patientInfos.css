@@ -1,47 +1,7 @@
-/*** Patient Card ***/
+/**PatientsInfos**/
 *{
     box-sizing: border-box;
 }
-
-.patient__card{
-    background-color: white;
-    border: white 3px solid;
-    margin-bottom: 10px;
-    padding: 20px;
-    height: 85px;
-    cursor: pointer;
-}
-
-.patient__card:hover{
-    background-color: #E8EDF5;
-}
-
-
-.dm__avatar{
-    width: 56px;
-    height: 56px;
-    margin-right: 20px;
-    border-radius: 3px;
-    border: 1px solid gray;
-}
-
-.infos{
-    margin-top: -5px;
-}
-
-
-.card__name{
-    font-size: 30px;
-    font-weight: 600;
-}
-
-.card__infos_email{
-    font-size: 15px;
-    color: #8A8F9C;
-}
-<<<<<<< HEAD
-=======
-/**PatientsInfos**/
 .main_{
     background-color: #D1F1E6;   
     overflow: hidden; 
@@ -122,9 +82,12 @@
     padding-left: 3vw;
     padding-right: 1vw;
 }
-.head_infos img{
+.head_infos .img{
     height: 3vw;
     width: 3vw;
+    margin-right: 1vw;
+}
+.personal_infos .head_infos img{
     margin-right: 1vw;
 }
 .head_infos h1{
@@ -181,16 +144,28 @@
 .item span{
     padding: 8px 0px;
     font-size: 1.1vw;
-    color: #59626A 1 !important;
+    color: #59626A !important;
 }
 .item:nth-child(2) span{
-    color: #262626;
+    color: #262626 !important;
     font-weight: 100;
+    font-size: 1vw;
 }
-.details_infos{
-    margin: 10px 0px;
+.details_bio{
+    border-radius: 1vw;
     background-color: #FBFBFB;
     border-radius: 1vw;
+    margin: 1vw 0px;
+}
+.details_bio:first-child .empty_{
+    background-color: #56C596;
+}
+.details_info_tab{
+    width: 100%;
+
+}
+.details_infos{
+    width: 100%;
 }
 .details_infos .head_infos{
     padding: 10px 0px;
@@ -207,14 +182,43 @@
     font-weight: 500;
     padding-top: 10px;
 }
+
 .details_infos .head_infos img{
     object-fit: contain;
+    margin-right: 1vw;
 }
 .empty_{
     padding-left: 2vw;
+    background-color: #F63232;
     border-radius: 1vw 0px 0px 1vw;
 }
+.text_content{
+    padding: .3vw 2vw;
+    border-radius: 1vw;
+    margin: 10px 0px;
+    align-items: center;
+}
 
+.text_content span{
+    color: #59626A;
+    width: 25vw;
+    margin-left: 4vw;
+    text-transform: capitalize;
+
+}
+.text_content .infos_item_content{
+    width: 100%;
+}
+.text_content .infos_item_content span{
+    color: #262626 !important;
+    text-transform: capitalize !important;
+    margin: 0px .5vw;
+}
+
+
+.infoTabs_items .details_infos:nth-child(1) .empty_{
+    background-color: #56C596;
+}
 .personal_infos_II{
     background-color: #E8EDF5;
     padding-top:40px;
@@ -226,6 +230,7 @@
     width: 100%;
 
 }
+
 .inputs{
     display: grid;
     grid: 100%/auto auto;
@@ -250,6 +255,7 @@
 .input__item input,.form-control{
     font-size: 1.2vw;
 }
+
 .date_input{
    background-color: #FBFBFB;
    height: 55px; 
@@ -345,9 +351,7 @@
     border-radius: 20px;
     width: 11vw;
 }
-select option{
-    color: #56C596;
-}
+
 ._buttons span{
     padding-left: 5px;
     font-size: 1.3vw;
@@ -392,33 +396,39 @@ select option{
     padding: 4vw 0px;
 }
 .ant_textarea{
-    margin-top: .5vw;
-    margin-bottom: 5vw;
+  margin:.5vw 0px;
 }
 .ant_textarea .input__item_textarea{
     height: 8vw;
-    width: 30vw;
+    width: 25vw;
 }
 
 .btn_infos_notes{
-    border:none;
     background-color: #FBFBFB;
-    width: 30vw;
+    width: 25vw;
     height: 3vw;
-    border-radius: 10px;
+    border-radius: 1vw;
     justify-content: space-between;
-    padding: 0px 7vw;
+    padding: 0px 4vw;
+    border:2px #4c85ff91 solid;
+    text-align: start;
+    margin-bottom: 10px;
+}
+.btn_infos_notes span{
+    padding-left: 10px;
+    font-size: 1.1vw;
 }
 .ant_textarea .input__item{
     padding-top: .4vw;
     height: 5vw;
-    width: 30vw;
+    width: 25vw;
 }
 .input__item input::placeholder{
     color:#262626;
     opacity: 1;
 }
 .infos_notes{
+    padding-top: 0px;
     height: 25vw !important;
     width: 25vw;
     overflow-x: scroll;
@@ -427,10 +437,21 @@ textarea::placeholder{
     color:#262626;
     opacity: 1;
 }
+.btn_infos_notes .MuiSvgIcon-root{
+    height: 2.5vw;
+    width: 2.5vw;
+}
+.pat_examin_btn{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    padding: 1vw 0px;
+}
 /***********************************************************responsive1*****************************************************/
 @media only screen and (max-width:992px){
     .patient_infos{
         padding: 0px 25px 10px 210px;
+        padding-bottom: 40px;
     }
     .drop_down{
         padding: 10px 0px 0px 200px;
@@ -494,7 +515,26 @@ textarea::placeholder{
     ._buttons .btn-confirme,.btn-cancel{
         width: 15vw;
     }
- 
+    .personal_infos_II .head_infos{
+        padding-left: 5vw;
+    }
+    .personal_infos_II .head_infos h1{
+        width: 100%;
+    }
+    .personal_infos_II .head_infos img{
+        height: 3vw;
+    }
+
+    .ant_textarea .input__item{
+        padding-top: 0vw;
+    }
+    .ant_textarea{
+        padding-top: .4vw;
+    }
+    .text_content span{
+        width: 30vw;
+        font-size: 1.6vw;
+    }
 }
 /***********************************************************responsive2*****************************************************/
 @media screen and (max-width:767px){
@@ -583,11 +623,42 @@ textarea::placeholder{
         width: 15vw;
     }
     .personal_infos_II{
+
         margin-bottom: 25vw;
     }
- 
-
-}
+  
+    .ant_textarea .input__item{
+        height: 6vw;
+    }
+    .ant_textarea .input__item span{
+        padding-top: 1.5vw;
+        font-size: 1.2vw;
+    }
+    .ant_textarea .input__item input{
+        font-size: 1.8vw;
+    }
+    ::placeholder{
+        font-size: 2vw;
+    }
+    .btn_infos_notes{
+        height: 4vw;
+    }
+    .btn_infos_notes span{
+        font-size: 1.2vw;
+    }
+    .infos_notes{
+        width: 35vw;
+    }
+    .text_content{
+        padding: 0vw 1vw;
+        align-items: center;
+        justify-content: center;
+    }
+    .text_content span{
+        margin-top: 1vw;
+        font-size: 1.8vw;
+    }
+}   
 /***********************************************************responsive3*****************************************************/
 @media screen and (max-width:575px){
     .patient_infos{
@@ -600,11 +671,11 @@ textarea::placeholder{
         padding-left: 15px;
     }
     .all_infos{
-        grid: 100% / 100%;
+        grid: 100% / 87%;
         padding: 2% 0%;
     }
     .list_item{
-        grid: 100%/45vw 50vw;
+        grid: 100%/35vw 50vw;
     }
     .personal__img img{
         height: 16vw;
@@ -623,17 +694,27 @@ textarea::placeholder{
     }
     .numbers{
         font-size: 2.5vw;
+        width: 180px;
     }
     .numbers .visits_num{
         font-size: 8vw;
     }
+    .personal_infos_II{
+        padding-top: 33px;
+    }
     .head_infos{
         padding:2% 6vw;
+    }
+    .head_infos .img{
+        padding-top: 0px;
+        height: 2vw;
+        width: 2vw;
     }
     .head_infos img{
         height: 5vw;
         width: 5vw;
     }
+    
     .head_infos h1{
         font-size: 3.5vw;
         font-weight: 400;
@@ -642,10 +723,7 @@ textarea::placeholder{
     .head_infos button {
         margin-left: 3vw;
     }
-    .head_infos button img{
-        height: 3vw;
-        width: 3vw;
-    }
+
     .head_infos button span{
         font-size: 2.4vw;
     }
@@ -657,11 +735,11 @@ textarea::placeholder{
     }
     .all_infos .list_item .item span{
         padding: 10px;
-        font-size: 2.5vw;
+        font-size: 2vw;
     }
     .details_infos .head_infos .detaills_text{
-        font-size: 3vw;
-        width: 44vw;
+        font-size: 3.4vw;
+        width: 50vw;
     }
     .details_infos .head_infos .modifier_button{
         margin-left: 0px;
@@ -713,6 +791,7 @@ textarea::placeholder{
         height: 8vw;
         width: 30vw;
     }
+
     ._buttons{
         padding: 2vw 0px;
         margin-left: 0px;
@@ -720,7 +799,6 @@ textarea::placeholder{
     ._buttons .btn-cancel, ._buttons .btn-confirme{
         border-radius: 15px;
         padding: 5px 40px;
-        
     }
     ._buttons .btn-cancel{
         border: 2px #F63232 solid;
@@ -765,6 +843,87 @@ textarea::placeholder{
     .input__item_textarea .input_textarea{
         font-size: 2vw;
     }
-    
+    .personal_infos_II .head_infos{
+        padding-left: 45px;
+        width: 100%;
+    }  
+    .personal_infos_II .head_infos h1{
+        padding-top: 2.4vw;
+       font-size: 3.4vw;
+    }
+    .personal_infos_II .head_infos .img{
+        height: 6vw;
+        width: 6vw;
+    }
+
+    .personal_infos_II .head_infos img{
+        height: 6vw;
+    }
+    .ant_textarea{
+        flex-direction: row !important;
+        justify-content: center;
+        padding: 0px;
+        margin: 0px;
+        margin-bottom: 2vw;
+    }
+    .ant_textarea .input__item{
+        width: 55vw;
+        height: 8vw;
+        border-radius: 1vw 0px 0px 1vw;
+    }
+    .ant_textarea .input__item span{
+        font-size: 1.4vw;
+        padding-top: 1.8vw;
+    }
+    ::placeholder{
+        font-size: 2.4vw;
+    }
+    .ant_textarea .input__item input{
+        font-size: 2.4vw;
+    }
+    .ant_textarea .btn_infos_notes{
+        height: 8vw;
+        width: 8vw;
+        align-items: center;
+        justify-content: center;
+        padding: 2vw;
+        margin-left: .5vw;
+        border-radius: 0px 1vw 1vw 0vw;
+    }
+    .ant_textarea .content_btn_infos{
+        height: 8vw;
+        width: 8vw;
+        padding-top: 1.3vw;
+        padding-left: 2.5vw;
+    }
+    .ant_textarea .btn_infos_notes span{
+        visibility: hidden;
+        height: 0px;
+        width: 0px;
+    }
+    .personal_infos_II .infos__inputs{
+        margin-left: 45px;
+    }
+    .personal_infos_II .infos_notes{
+        padding-left: 55px;
+        width: 75vw;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+
+    .text_content{
+        padding: 0vw 1vw;
+        align-items: center;
+        justify-content: center;
+    }
+    .text_content span{
+        width: 45vw;
+        margin-top: 1vw;
+        font-size: 2.4vw;
+    }
+    .infos_item_content{
+        align-items: center;
+        justify-content: baseline;  
+        text-align: start;
+    }
 }
->>>>>>> 668940c16d1186bb54f606d75edd17d73cac9ec6

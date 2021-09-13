@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import '../../assets/css/shared.css'
+import '../../assets/css/patientInfos.css'
 import {useLocation,useHistory} from 'react-router-dom'
 import SideBar from '../layout/sideBar'
 import personalIcon from '../../assets/images/open-person.png'
@@ -16,7 +16,6 @@ import DateRange from '../../assets/images/date-range.png'
 import BtnChangers from './btnChanger'
 import Question from './questionInput'
 import AddIcon from '@material-ui/icons/Add';
-import NoteElm from './note'
 import { useMutation, useQuery } from '@apollo/client';
 import Loading from './loading'
 import { PATIENTS_PERSONAL_INFO } from '../../graphql/queries/PATIENTS_PERSONAL_INFO'
@@ -25,6 +24,73 @@ import { UPDATE_PERSONAL_INFORMATION } from '../../graphql/mutations/UPDATE_PERS
 import { UPDATE_BIOMETRIQUE } from '../../graphql/mutations/UPDATE_BIOMETRIQUE'
 import { UPDATE_ANTECEDENTS_PERSONNELLES } from '../../graphql/mutations/UPDATE_ANTECEDENTS_PERSONNELLES'
 import { UPDATE_ANTECEDENTS_MEDICO_CHIRUGICAUX } from '../../graphql/mutations/UPDATE_ANTECEDENTS_MEDICO_CHIRUGICAUX'
+import '../../assets/css/notes.css'
+import DeleteIcon from '../../assets/images/delete.png'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStethoscope } from '@fortawesome/free-solid-svg-icons';
+
+const ObjList = (i,j,k) => {
+    return {title:i,text:j,unit:k};
+}
+const InfosCont = (props) =>{
+    return(
+        <div className="text_content_dtails">
+            <div className="text_content d-flex">
+                <span>{props.title}</span>
+                <div className="infos_item_content">
+                    <span>{props.text}</span>
+                    <span>{props.unit}</span>
+                </div>
+            </div>
+        </div>
+    );
+}
+const NoteItem = (props) =>{
+    return(
+         <div className="notes_text d-flex align-items-center">
+               <span>{props.text}</span>
+               <button className="btn-delete" onClick={props.pushIt}><img src={DeleteIcon}/></button> 
+         </div>
+    );
+}
+const NoteElm = (props) =>{ 
+    let SuppArray = [];  
+
+  
+    return(
+        <div className="Notes_items d-flex flex-column">
+            <div className="notes_area">
+            {  
+               
+               props.text.map((i,k) =><NoteItem key={i+'_'+k} text={i} 
+               pushIt={() =>{props.onClick(props.text.filter(e => {return i != e}))
+            }}/>) 
+            
+            }
+            </div>
+        </div>
+    );
+}
+const BioDetail = (props) =>{
+    const [indicat,setIndicat]=useState(false)
+    return(
+      <div className="details_bio d-flex" onClick={()=> setIndicat(!indicat)}>
+        <div className="empty_" style={props.isCompleted ? {backgroundColor: "#56C596"} : {backgroundColor: '#F63232'}}>
+        </div>
+        <div className="details_info_tab d-flex flex-column">
+            <InfosTab text={props.text} src={props.src} onClick={props.onClick}/>
+            {indicat && <div className="details_personal_info d-flex flex-column">
+                    {   
+                        props.items.map((elemt) =><InfosCont title={elemt.title} text={elemt.text} unit={elemt.unit}/>)
+                    }
+                </div>
+            }
+       </div>
+      </div>  
+    );
+}
+
+
 
 const PatientInfos = (props)=>{
     const location = useLocation();
@@ -178,11 +244,15 @@ const PatientInfos = (props)=>{
                             <span className="infos_email">{user.email}</span>
                         </div>
                     </div>
+                    
                     <div className="numbers d-flex justify-content-between align-items-flex-end">
                         <h1 className="visits_num">00</h1>
                         <span>Nombre totale de visites</span>
                     </div>
                 </div>
+                <div className="pat_examin_btn">
+                    <button className="dossier__btns dossier__exam">Examiner<FontAwesomeIcon className="dossierCard__icons" icon={faStethoscope}/></button>
+                    </div>
                 {(!patInofs&&!bioInfos&&!antInfos&&!antMedInfos&&!exmInfos)?
                     <>
                     <div className="personal_infos">
@@ -234,11 +304,12 @@ const PatientInfos = (props)=>{
                         </div>
                     </div>
                     <div className="infoTabs_items">
-                        <InfosTab isCompleted={biometriqueById.isCompleted} text="Biométriques" src={Biometric} onClick={() => setBioInfos(!bioInfos)}/>
-                        <InfosTab isCompleted={antecedentsPersonnelleById.isCompleted} text="Antécédents Personnells" src={Layer2} onClick={() => setAntInfos(!antInfos)}/>
-                        <InfosTab isCompleted={antecedentsMedicoChirugicauxById.isCompleted} text="Antécédents Médico-Chirugicaux" src={Layer} onClick={() => setMedInfos(!antMedInfos)}/>
-                        <InfosTab text="Examens Médicaux" src={group}/>
+                        <BioDetail isCompleted={biometriqueById.isCompleted} items={[ObjList("taille",170,"Cm"),ObjList("Poids",66,"kg"),ObjList('IMC',"this is my test")]} text="Biométriques" src={Biometric} onClick={() => setBioInfos(!bioInfos)}/> 
+                        <BioDetail isCompleted={antecedentsPersonnelleById.isCompleted} items={[ObjList("A Fumer ?","OUI"),ObjList("Jour",15),ObjList("A Chiquer?","OUI"),ObjList("A Prise?","OUI"),ObjList("Alcohol","OUI"),ObjList("Médicament","OUI"),ObjList("Autres","Text ...")]} text="Antécédents Personnells" src={Layer2} onClick={() => setAntInfos(!antInfos)}/>
+                        <BioDetail isCompleted={antecedentsMedicoChirugicauxById.isCompleted} items={[ObjList("Affection Congénitales","some text")]} text="Antécédents Médico-Chirugicaux" src={Layer} onClick={() => setMedInfos(!antMedInfos)}/>
+                        <BioDetail items={[]} text="Examens Médicaux" src={group}/>
                     </div>
+
                     </>:patInofs?
                     <div className="personal_infos_II">
                         <InfoHeader text="Informations Personnelles" icon={personalIcon}/>
@@ -378,7 +449,7 @@ const PatientInfos = (props)=>{
                          const jouresDeCigarattes = parseInt(jouresDeCigarattesRef.current.value.trim())
                          const chiquer = stringToBoolean(chiquerRef.current.value)
                          const prise = stringToBoolean(priseRef.current.value)
-                         const alcool = stringToBoolean(alcoolRef.current.value)
+                         const alcool = stringToBoolean(alcoolRef.current.v.btn_infosalue)
                          const medicaments = stringToBoolean(medicamentsRef.current.value)
                          const autres = autresRef.current.value.trim()
                          updateAntecedentsPersonnelles({
@@ -405,33 +476,37 @@ const PatientInfos = (props)=>{
                      <div className="inputs">
                         <div className="infos__inputs">
                             <div className="ant_textarea d-flex flex-column">
-                            <div className="input__item d-flex align-items-flex-start">
+                                <div className="input__item d-flex align-items-flex-start">
                                     <span>Affection Congénitales</span>
-                                    <input type="text" className="form-control" name="notes" placeholder="Text..." onChange={
+                                    <input type="text" className="form-control" name="notes" value={input} placeholder="Text..." onChange={
                                         (event) =>{
                                             const {value} = event.target  
-                                            if (value === '') console.log(value === '' || value === ' ')
-                                            else setInput(value)
+                                            setInput(value) 
                                         }
                                     }/>
                                 </div>
                                 <button className="btn_infos_notes d-flex  align-items-center" onClick={() => {
                                     if (input === "" || input === " ") return;
                                     else{ 
+                                        if(![...text].includes(input)){
                                         setText([...text,input]);
+                                        }
                                         setInput("");
                                     }
                                     }}>
-                                <AddIcon/>  
-                                <span>Ajouter une autre note</span>
+                                        <div className="content_btn_infos">
+                                            <AddIcon />  
+                                            <span>Ajouter une autre note</span>
+                                        </div>
                                 </button>
                             </div> 
                         </div>
                         
-                        <div className="infos_notes container">
+                        <div className="infos_notes">
                             {
-                                text?.map((e, i) => <NoteElm key={i} text={e} />)
+                                <NoteElm text={text} onClick={setText}/>                             
                             }
+                             
                         </div>
                            
                     </div>

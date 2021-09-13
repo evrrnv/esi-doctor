@@ -91,4 +91,9 @@ const stringToBoolean = (string) => {
     }
 }
 
-export { convertDateToReadable, readSexe, readNiveau, calculateAge, capitalizeFirstLetter, writeSexe, writeNiveau, stringToBoolean }
+const percentage =(partialValue, totalValue) => {
+    return (100 * partialValue) / totalValue;
+ } 
+ 
+
+export { convertDateToReadable, readSexe, readNiveau, calculateAge, capitalizeFirstLetter, writeSexe, writeNiveau, stringToBoolean, percentage }
