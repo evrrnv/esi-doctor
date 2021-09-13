@@ -444,8 +444,8 @@ textarea::placeholder{
 .pat_examin_btn{
     width: 100%;
     display: flex;
-    justify-content: flex-end;
-    padding: 2vw 0px;
+    justify-content: flex-start;
+    padding: 1vw 0px;
 }
 /***********************************************************responsive1*****************************************************/
 @media only screen and (max-width:992px){

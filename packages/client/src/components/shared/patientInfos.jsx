@@ -244,11 +244,15 @@ const PatientInfos = (props)=>{
                             <span className="infos_email">{user.email}</span>
                         </div>
                     </div>
+                    
                     <div className="numbers d-flex justify-content-between align-items-flex-end">
                         <h1 className="visits_num">00</h1>
                         <span>Nombre totale de visites</span>
                     </div>
                 </div>
+                <div className="pat_examin_btn">
+                    <button className="dossier__btns dossier__exam">Examiner<FontAwesomeIcon className="dossierCard__icons" icon={faStethoscope}/></button>
+                    </div>
                 {(!patInofs&&!bioInfos&&!antInfos&&!antMedInfos&&!exmInfos)?
                     <>
                     <div className="personal_infos">
@@ -305,9 +309,7 @@ const PatientInfos = (props)=>{
                         <BioDetail isCompleted={antecedentsMedicoChirugicauxById.isCompleted} items={[ObjList("Affection Congénitales","some text")]} text="Antécédents Médico-Chirugicaux" src={Layer} onClick={() => setMedInfos(!antMedInfos)}/>
                         <BioDetail items={[]} text="Examens Médicaux" src={group}/>
                     </div>
-                    <div className="pat_examin_btn">
-                    <button className="dossier__btns dossier__exam">Examiner<FontAwesomeIcon className="dossierCard__icons" icon={faStethoscope}/></button>
-                    </div>
+
                     </>:patInofs?
                     <div className="personal_infos_II">
                         <InfoHeader text="Informations Personnelles" icon={personalIcon}/>
