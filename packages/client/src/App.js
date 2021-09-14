@@ -1,10 +1,10 @@
 import './App.css'
-import { BrowserRouter,Switch, Route,Redirect } from 'react-router-dom'
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 import Dashboard from './views/DashBoard'
 import RdvList from './views/RdvList'
 import Patients from './views/Patients'
 import Calend from './views/Calend'
-import Stat from "./views/Stat"
+import Stat from './views/Stat'
 import Listes from './views/Listes'
 import Param from './views/Param'
 import Contact from './views/Contact'
@@ -19,18 +19,14 @@ import atsOnly from './assets/images/atsOnly.svg'
 import atsWesmo from './assets/images/atsWesmo.svg'
 import DashBoard from './views/DashBoard'
 
- 
 function App() {
- 
-
   return (
     <>
       <div className="App">
         <BrowserRouter>
-         <Switch>
-
-            <Route exact  path="/">
-             <Redirect to="/dashboard" />
+          <Switch>
+            <Route exact path="/">
+              <Redirect to="/dashboard" />
             </Route>
 
             <Route path="/dashboard" component={DashBoard} />
@@ -38,16 +34,37 @@ function App() {
             <Route path="/rdvList" component={RdvList} />
 
             <Route
-              path='/patientsList/student'
-              render={() => <SpecifPatients  type="Etudiants" data="Only students" img1={studentOnly} img2={studentBag}/>}
+              path="/patientsList/student"
+              render={() => (
+                <SpecifPatients
+                  type="Etudiants"
+                  data="Only students"
+                  img1={studentOnly}
+                  img2={studentBag}
+                />
+              )}
             />
             <Route
-              path='/patientsList/teacher'
-              component={() => <SpecifPatients type="Enseignants" data="Only teachers" img1={teacherOnly} img2={teacherEarth} />}
+              path="/patientsList/teacher"
+              component={() => (
+                <SpecifPatients
+                  type="Enseignants"
+                  data="Only teachers"
+                  img1={teacherOnly}
+                  img2={teacherEarth}
+                />
+              )}
             />
             <Route
-              path='/patientsList/ats'
-              component={() => <SpecifPatients type="ATS" data="Only ATS" img1={atsOnly} img2={atsWesmo}/>}
+              path="/patientsList/ats"
+              component={() => (
+                <SpecifPatients
+                  type="ATS"
+                  data="Only ATS"
+                  img1={atsOnly}
+                  img2={atsWesmo}
+                />
+              )}
             />
 
             <Route path="/patientsList" component={Patients} />
@@ -61,14 +78,13 @@ function App() {
             <Route path="/param" component={Param} />
 
             <Route path="/contact" component={Contact} />
-            
-            <Route path="/patientsListInfos" component={PatientInfos}/> 
 
-            <Route path="/examiner" component={Examen}/> 
-         </Switch>
+            <Route path="/patientsListInfos" component={PatientInfos} />
+
+            <Route path="/examiner" component={Examen} />
+          </Switch>
         </BrowserRouter>
       </div>
-   
     </>
   )
 }
