@@ -127,6 +127,23 @@ GRANT SELECT, UPDATE ON app.antecedents_personnelles TO MEDECIN;
 COMMENT ON TABLE app.antecedents_personnelles is E'@omit create,delete';
 COMMENT ON COLUMN app.antecedents_personnelles.id is E'@omit update';
 
+
+-- rendez vous de petient
+CREATE TABLE app.rendez_vous (
+id  uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+user_id uuid REFERENCES app.user_account(user_id) ON DELETE CASCADE,
+medcin uuid REFERENCES app.user_account(user_id) ON DELETE CASCADE,
+startDate TIMESTAMP NOT NULL , 
+endDate TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL DEFAULT now()
+
+);
+GRANT SELECT, UPDATE ON app.rendez_vous TO MEDECIN;
+
+
+CREATE FUNCTION  app.rendez_vous_du_jour(rendez_vous_date date) RETURNS app.rendez_vous AS $$ SELECT * FROM app.rendez_vous WHERE startDate::date = rendez_vous_date ;
+$$ LANGUAGE SQL STABLE SECURITY DEFINER;
+
 -- antecedents medico chirugicaux
 
 CREATE TABLE app.antecedents_medico_chirugicaux (
@@ -267,14 +284,6 @@ CREATE FUNCTION app.recent_updated_dossier_medicals()
 $$ LANGUAGE SQL STABLE;
 
 GRANT EXECUTE ON FUNCTION app.recent_updated_dossier_medicals() TO MEDECIN;
-
--- recent updated medical exames
-
--- SELECT 
-
--- create medical exame
-
--- CREATE FUNCTION app.create_examen_medical
 
 -- create medecin
 
@@ -574,6 +583,42 @@ SELECT * FROM
 $$ LANGUAGE SQL STABLE SECURITY DEFINER;
 
 GRANT EXECUTE ON FUNCTION app.statistics(INT) TO MEDECIN;
+
+-- recent medical exames
+
+CREATE FUNCTION app.recent_examen_medicals() 
+RETURNS TABLE (
+    nom varchar,
+    prenom varchar,
+    profile_picture varchar,
+    role ROLE,
+    id uuid,
+    last_edit varchar
+)
+ AS $$
+    WITH lst AS (
+    SELECT app.examen_medical.id, LEAST(app.peau_et_muqueuses.updated_at, app.peau_et_muqueuses.updated_at, app.orl.updated_at) FROM app.user_account 
+    INNER JOIN app.dossier_medical ON app.user_account.user_id = app.dossier_medical.user_id AND role IN ('ETUDIANT', 'ENSEIGNANT', 'ATS')
+    INNER JOIN app.examen_medical ON app.dossier_medical.id = app.examen_medical.dossier_medical_id
+    INNER JOIN app.peau_et_muqueuses ON app.examen_medical.id = app.peau_et_muqueuses.id
+    INNER JOIN app.ophtalmologique ON app.examen_medical.id = app.ophtalmologique.id
+    INNER JOIN app.orl ON app.examen_medical.id = app.orl.id
+    )
+    SELECT 
+    nom, prenom, profile_picture, role, app.examen_medical.id,
+    CASE
+        WHEN (SELECT EXTRACT(EPOCH FROM (now() - lst.least)) < 60) THEN (CONCAT((SELECT EXTRACT(EPOCH FROM (now() - lst.least))::int)::text, 's'))
+        WHEN (SELECT EXTRACT(EPOCH FROM (now() - lst.least)) / 60 < 60) THEN (CONCAT((((SELECT EXTRACT(EPOCH FROM (now() - lst.least))) / 60)::int)::text, 'm'))
+        WHEN (SELECT EXTRACT(EPOCH FROM (now() - lst.least)) / (60 * 60) < 24) THEN (CONCAT((((SELECT EXTRACT(EPOCH FROM (now() - lst.least))) / (60 * 60))::int)::text, 'h'))
+        ELSE '99'
+    END AS last_edit
+    FROM app.user_account 
+    INNER JOIN app.dossier_medical ON app.user_account.user_id = app.dossier_medical.user_id AND role IN ('ETUDIANT', 'ENSEIGNANT', 'ATS')
+    INNER JOIN app.examen_medical ON app.dossier_medical.id = app.examen_medical.dossier_medical_id
+    INNER JOIN lst ON app.examen_medical.id = lst.id;
+$$ LANGUAGE SQL STABLE;
+
+GRANT EXECUTE ON FUNCTION app.recent_examen_medicals() TO MEDECIN;
 
 -- insert users
 
