@@ -132,18 +132,31 @@ COMMENT ON COLUMN app.antecedents_personnelles.id is E'@omit update';
 CREATE TABLE app.rendez_vous (
 id  uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
 user_id uuid REFERENCES app.user_account(user_id) ON DELETE CASCADE,
-medcin uuid REFERENCES app.user_account(user_id) ON DELETE CASCADE,
-startDate TIMESTAMP NOT NULL , 
-endDate TIMESTAMP NOT NULL,
+medecin uuid REFERENCES app.user_account(user_id) ON DELETE CASCADE,
+start_date TIMESTAMP NOT NULL , 
+end_date TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL DEFAULT now()
 
 );
-GRANT SELECT, UPDATE ON app.rendez_vous TO MEDECIN;
+GRANT ALL ON app.rendez_vous TO MEDECIN;
+ALTER TABLE app.rendez_vous ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY medecin_select_rendez_vous ON app.rendez_vous FOR ALL TO MEDECIN USING
+    (medecin = nullif (current_setting('jwt.claims.user_id', TRUE),'')::uuid);
 
 
-CREATE FUNCTION  app.rendez_vous_du_jour(rendez_vous_date date) RETURNS app.rendez_vous AS $$ SELECT * FROM app.rendez_vous WHERE startDate::date = rendez_vous_date ;
-$$ LANGUAGE SQL STABLE SECURITY DEFINER;
 
+-- CREATE FUNCTION  app.rendez_vous_du_jour(rendez_vous_date date) RETURNS app.rendez_vous AS $$ SELECT * FROM app.rendez_vous WHERE startDate::date = rendez_vous_date ;
+-- $$ LANGUAGE SQL STABLE SECURITY DEFINER;
+
+CREATE FUNCTION app.set_current_medcin_rendezVous() RETURNS TRIGGER AS $$
+BEGIN
+    NEW.medecin = (user_id = nullif (current_setting('jwt.claims.user_id', TRUE),'')::uuid);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER set_medecin_accorder_rende_vous BEFORE UPDATE ON app.rendez_vous FOR EACH ROW EXECUTE FUNCTION app.set_current_medcin_rendezVous();
 -- antecedents medico chirugicaux
 
 CREATE TABLE app.antecedents_medico_chirugicaux (
