@@ -130,19 +130,59 @@ COMMENT ON COLUMN app.antecedents_personnelles.id is E'@omit update';
 
 -- rendez vous de petient
 CREATE TABLE app.rendez_vous (
-id  uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-user_id uuid REFERENCES app.user_account(user_id) ON DELETE CASCADE,
-medcin uuid REFERENCES app.user_account(user_id) ON DELETE CASCADE,
-startDate TIMESTAMP NOT NULL , 
-endDate TIMESTAMP NOT NULL,
+    id  uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id uuid REFERENCES app.user_account(user_id) ON DELETE CASCADE,
+    medcin uuid REFERENCES app.user_account(user_id) ON DELETE CASCADE,
+    startDate TIMESTAMP NOT NULL, 
+    endDate TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL DEFAULT now()
-
 );
-GRANT SELECT, UPDATE ON app.rendez_vous TO MEDECIN;
+GRANT SELECT, UPDATE, INSERT ON app.rendez_vous TO MEDECIN;
 
+COMMENT ON COLUMN app.rendez_vous.id is E'@omit create';
+COMMENT ON COLUMN app.rendez_vous.updated_at is E'@omit create,update,delete';
 
 CREATE FUNCTION  app.rendez_vous_du_jour(rendez_vous_date date) RETURNS app.rendez_vous AS $$ SELECT * FROM app.rendez_vous WHERE startDate::date = rendez_vous_date ;
 $$ LANGUAGE SQL STABLE SECURITY DEFINER;
+
+-- check rdv availability
+
+CREATE TYPE app.check_rdv_availability_type AS (
+    r830 BOOLEAN,
+    r900 BOOLEAN,
+    r930 BOOLEAN,
+    r100 BOOLEAN,
+    r130 BOOLEAN,
+    r110 BOOLEAN,
+    r200 BOOLEAN,
+    r230 BOOLEAN,
+    r300 BOOLEAN,
+    r330 BOOLEAN,
+    r400 BOOLEAN,
+    r430 BOOLEAN
+);
+
+CREATE FUNCTION app.check_rdv_availability(date DATE) RETURNS app.check_rdv_availability_type AS $$
+    SELECT 
+        bool_and(CASE WHEN startdate >= (CONCAT(date::text, ' 08:30'))::timestamp AND enddate <= (CONCAT(date::text, ' 09:00'))::timestamp THEN true ELSE false END) AS r830,
+        bool_and(CASE WHEN startdate >= (CONCAT(date::text, ' 09:00'))::timestamp AND enddate <= (CONCAT(date::text, ' 09:30'))::timestamp THEN true ELSE false END) AS r900,
+        bool_and(CASE WHEN startdate >= (CONCAT(date::text, ' 09:30'))::timestamp AND enddate <= (CONCAT(date::text, ' 10:00'))::timestamp THEN true ELSE false END) AS r930,
+
+        bool_and(CASE WHEN startdate >= (CONCAT(date::text, ' 10:00'))::timestamp AND enddate <= (CONCAT(date::text, ' 10:30'))::timestamp THEN true ELSE false END) AS r100,
+        bool_and(CASE WHEN startdate >= (CONCAT(date::text, ' 10:30'))::timestamp AND enddate <= (CONCAT(date::text, ' 11:00'))::timestamp THEN true ELSE false END) AS r130,
+        bool_and(CASE WHEN startdate >= (CONCAT(date::text, ' 11:00'))::timestamp AND enddate <= (CONCAT(date::text, ' 11:30'))::timestamp THEN true ELSE false END) AS r110,
+
+        bool_and(CASE WHEN startdate >= (CONCAT(date::text, ' 14:00'))::timestamp AND enddate <= (CONCAT(date::text, ' 14:30'))::timestamp THEN true ELSE false END) AS r200,
+        bool_and(CASE WHEN startdate >= (CONCAT(date::text, ' 14:30'))::timestamp AND enddate <= (CONCAT(date::text, ' 15:00'))::timestamp THEN true ELSE false END) AS r230,
+        bool_and(CASE WHEN startdate >= (CONCAT(date::text, ' 15:00'))::timestamp AND enddate <= (CONCAT(date::text, ' 15:30'))::timestamp THEN true ELSE false END) AS r300,
+
+        bool_and(CASE WHEN startdate >= (CONCAT(date::text, ' 15:30'))::timestamp AND enddate <= (CONCAT(date::text, ' 16:00'))::timestamp THEN true ELSE false END) AS r330,
+        bool_and(CASE WHEN startdate >= (CONCAT(date::text, ' 16:00'))::timestamp AND enddate <= (CONCAT(date::text, ' 16:30'))::timestamp THEN true ELSE false END) AS r400,
+        bool_and(CASE WHEN startdate >= (CONCAT(date::text, ' 16:30'))::timestamp AND enddate <= (CONCAT(date::text, ' 17:00'))::timestamp THEN true ELSE false END) AS r430
+    FROM app.rendez_vous;
+$$ LANGUAGE SQL STABLE;
+
+GRANT EXECUTE ON FUNCTION app.check_rdv_availability(date) TO MEDECIN, ATS, ETUDIANT, ENSEIGNANT;
 
 -- antecedents medico chirugicaux
 
