@@ -30,9 +30,10 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui'
 import moment from 'moment'
 import { useState } from 'react'
-import { gql, useQuery } from '@apollo/client'
+import { gql, useMutation, useQuery } from '@apollo/client'
 import { useEffect } from 'react'
 import { GET_STUDENT_ALL_INFOS } from '../graphql/queries/GET_RENDEZVOUS_INFOS'
+import { CREATE_RENDEZ_VOUS_INDIV } from '../graphql/mutations/CREATE_RENDEZ_VOUS'
 
 const Calend = () => {
   const {
@@ -45,7 +46,14 @@ const Calend = () => {
   const [studentsAccount, setStudentsAccount] = useState([])
   // const [dateDebutIndiv, setDateDebutIndiv] = useState([])
   // const [TempsDebutIndiv, setTempsDebutIndiv] = useState([])
-
+  const [createRendezVousIndvMutation] = useMutation(CREATE_RENDEZ_VOUS_INDIV, {
+    onCompleted: (data) => {
+      console.log('this is the data ', data)
+    },
+    onerror: (error) => {
+      console.log('error')
+    }
+  })
   const [appointements, setAppointements] = useState([])
   const [currentDate, setCurrentDate] = useState(moment().format('YYYY-MM-DD'))
   useEffect(() => {
@@ -101,21 +109,33 @@ const Calend = () => {
       .format('HH:mm')
     const startDate = `${appointement.dateDebut}:${Time}`
     const endDate = `${appointement.dateDebut}:${nextTime}`
-    const Allappointements = [...appointements]
-    Allappointements.push({
-      title: `Rendez Vous de ${appointement.student.nom} ${appointement.student.prenom}`,
-
-      startDate: new Date(startDate),
-      endDate: new Date(endDate),
-      student: appointement.student,
-      id: Allappointements.length
-    })
-    setAppointements(Allappointements)
-    console.log('this is All appointements, ', Allappointements)
-    // const Allappointements = appointements
+    // const Allappointements = [...appointements]
     // Allappointements.push({
-    //   ...new Date()
+    //   title: `Rendez Vous de ${appointement.student.nom} ${appointement.student.prenom}`,
+
+    //   startDate: new Date(startDate),
+    //   endDate: new Date(endDate),
+    //   student: appointement.student,
+    //   id: Allappointements.length
     // })
+    // setAppointements(Allappointements)
+
+    // createRendezVousIndvMutation({
+    //   variables: {
+    //     data: {
+    //       user_id: appointement.student.id,
+    //       startDate: new Date(startDate).toISOString(),
+    //       endDate: new Date(endDate).toISOString()
+    //     }
+    //   }
+    // })
+    console.log(
+      `this is the user ${
+        appointement.student.id
+      } and the start date ${new Date(
+        startDate
+      ).toISOString()} and the end Date ${new Date(endDate).toISOString()}`
+    )
   }
 
   const currentDateChange = (currentDate) => {

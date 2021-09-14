@@ -113,7 +113,7 @@ tbody tr td:nth-child(5) {
   background-color: white;
   border-radius: 30px;
   box-shadow: 0 0 15px 1px black;
-outline: 0px;
+  outline: 0px;
   font-size: 115px;
 }
 
@@ -195,7 +195,7 @@ outline: 0px;
 .student__info__container__indv {
   width: 43vw;
 }
-.student__info__container span {
+.student__info__container #userIconCollec {
   font-size: 30px;
 }
 
@@ -217,6 +217,7 @@ outline: 0px;
   font-size: 24px;
   color: white;
   border-radius: 20px;
+  outline: 0px;
 }
 .description__container input {
   outline: 0px;

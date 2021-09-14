@@ -156,7 +156,7 @@ const RendezVousIndividuelle = (props) => {
                         document.getElementById('descriptionIndv').value
                     }
                     props.onCreerRendezVousIndiv(appointement)
-                    console.log(appointement)
+                    // console.log(appointement.student.user_id)
                     // dispatch(IndvRdvAction())
                   }
                 }}
