@@ -214,6 +214,11 @@ const PatientInfos = (props)=>{
             setUpdateLoading(false)
         }
     })
+    const examinRouteChange = () =>{ 
+        history.push({
+            pathname: "/examiner",
+        })
+    }
     if (loading || updateLoading) return <Loading />
     if (error) return <p>Error :(</p>;
 
@@ -251,7 +256,7 @@ const PatientInfos = (props)=>{
                     </div>
                 </div>
                 <div className="pat_examin_btn">
-                    <button className="dossier__btns dossier__exam">Examiner<FontAwesomeIcon className="dossierCard__icons" icon={faStethoscope}/></button>
+                    <button className="dossier__btns dossier__exam" onClick={examinRouteChange}>Examiner<FontAwesomeIcon className="dossierCard__icons" icon={faStethoscope}/></button>
                     </div>
                 {(!patInofs&&!bioInfos&&!antInfos&&!antMedInfos&&!exmInfos)?
                     <>

@@ -17,7 +17,7 @@ import teacherOnly from './assets/images/teacherOnly.svg'
 import teacherEarth from './assets/images/teacherEarth.svg'
 import atsOnly from './assets/images/atsOnly.svg'
 import atsWesmo from './assets/images/atsWesmo.svg'
-
+import DashBoard from './views/DashBoard'
 
  
 function App() {
@@ -33,7 +33,7 @@ function App() {
              <Redirect to="/dashboard" />
             </Route>
 
-            <Route path="/dashboard" component={Examen} />
+            <Route path="/dashboard" component={DashBoard} />
 
             <Route path="/rdvList" component={RdvList} />
 

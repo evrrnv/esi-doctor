@@ -1,0 +1,118 @@
+
+*{
+    box-sizing: border-box;
+}
+.main_{
+    background-color: #D1F1E6;
+
+}
+.dash_main{
+    padding-left: 270px;
+    padding-top:1vw;
+    width: 100%;
+    height: 100%;
+}
+.dash_head{
+    width: 100%;
+    margin-top: 1.5vw;
+    margin-bottom: 5vw;
+}
+.search_input{
+    width: 65%;
+    height: 3vw;
+    background-color: #fbfbfb;
+    align-items: center;
+    border-radius: .5vw;
+    margin-right: 3vw;
+}
+
+.search_input  input{
+    width: 92%;
+    border: none;
+    outline: none;
+    padding-left: 2vw;
+}
+.search_input  input:focus{
+    border: none;
+}
+.search_icon img{
+    object-fit: contain;
+    height: 2.5vw;
+    width: 2.5vw;
+}
+.dash_notif{
+    padding: 0px 2vw;
+}
+.dash_statics{
+    width: 100%;
+}
+.dash_statics h1{
+    padding: 1vw 0px;
+    font-size: 2vw;
+}
+.statics_content{
+    width: 100%;
+    margin-top: 2vw;
+}
+.statics_nums{
+    width:68%;
+}
+.statics_var{
+
+    width: 100%;
+    display: grid;
+    grid:100% / auto auto auto
+}
+.statics_types{
+    height: 8vw;
+    background-color: #fbfbfb;
+    width: 17vw;
+    border-radius: 1vw;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 1vw;
+    padding-left: 1.5vw;
+}
+.statics_types span{
+    font-size: xx-large;
+}
+.statics_types span:nth-child(1){
+    font-size: 1.1vw;
+    color: #59626A;
+}
+.statics_var .statics_types:nth-child(2) span:nth-child(2){
+    color: red;
+}
+.conatiner_lastmodif{
+    width: 25vw;
+    height: 45vw;
+
+}
+.conatiner_lastmodif .patients__examen{
+    width: 100%;
+    height: 100%;
+    margin-right: 10px;
+    max-height: 100%;
+}
+.conatiner_lastmodif .patients__examen .pers__examen{
+    height: 45vw !important;
+    max-height: 100% !important;
+}
+.last_modif{
+    width: 98%;
+}
+.modif_list{
+    display: flex;
+    justify-content: flex-start;
+    border-top: 2px solid #cfd1d8e8;
+    padding-top: 1.5vw;
+    padding-left: 2vw;
+}
+.modif_item{
+    width: 11vw;
+    color: #59626A;
+    text-align:start;
+}
+.modif_content{
+    color: #59626A;
+}
