@@ -1,29 +1,40 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import 'rsuite/dist/styles/rsuite-default.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './index.css'
+
 import App from './App'
 
 import './index.css'
 
-
 import { ReactKeycloakProvider, useKeycloak } from '@react-keycloak/web'
 import keycloak from './keycloak'
-import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client'
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  createHttpLink
+} from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
-import {createStore} from 'redux'
+import { createStore } from 'redux'
 import allReducers from './redux/reducers'
-import {Provider} from 'react-redux'
-import { CircularProgress } from '@material-ui/core';
-import Loading from './components/shared/loading';
 
-const cache = new InMemoryCache({ dataIdFromObject: object => object.nodeId || null })
+import { Provider } from 'react-redux'
+import { CircularProgress } from '@material-ui/core'
+import Loading from './components/shared/loading'
+
+const cache = new InMemoryCache({
+  dataIdFromObject: (object) => object.nodeId || null
+})
 
 const Apollo = ({ children }) => {
   const { keycloak } = useKeycloak()
   console.log(keycloak.token)
   const httpLink = createHttpLink({
-    uri: process.env.NODE_ENV === 'production' ? 'https://1sc-project.moun3im.com/graphql' : 'http://localhost:4000/graphql',
+    uri:
+      process.env.NODE_ENV === 'production'
+        ? 'https://1sc-project.moun3im.com/graphql'
+        : 'http://localhost:4000/graphql',
     credentials: 'same-origin'
   })
   const authLink = setContext((_, { headers }) => {
@@ -31,7 +42,7 @@ const Apollo = ({ children }) => {
     return {
       headers: {
         ...headers,
-        authorization: token ? `Bearer ${token}` : "",
+        authorization: token ? `Bearer ${token}` : ''
       }
     }
   })
@@ -44,9 +55,10 @@ const Apollo = ({ children }) => {
   return <ApolloProvider client={client}>{children}</ApolloProvider>
 }
 
-const store = createStore(allReducers,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
-
+const store = createStore(
+  allReducers,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+)
 
 ReactDOM.render(
   <React.StrictMode>
@@ -56,9 +68,9 @@ ReactDOM.render(
       LoadingComponent={<Loading />}
     >
       <Apollo>
-      <Provider store ={store}>
-        <App />
-      </Provider>
+        <Provider store={store}>
+          <App />
+        </Provider>
       </Apollo>
     </ReactKeycloakProvider>
   </React.StrictMode>,

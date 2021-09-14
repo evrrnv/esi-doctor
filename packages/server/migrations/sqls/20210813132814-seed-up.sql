@@ -127,6 +127,23 @@ GRANT SELECT, UPDATE ON app.antecedents_personnelles TO MEDECIN;
 COMMENT ON TABLE app.antecedents_personnelles is E'@omit create,delete';
 COMMENT ON COLUMN app.antecedents_personnelles.id is E'@omit update';
 
+
+-- rendez vous de petient
+CREATE TABLE app.rendez_vous (
+id  uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+user_id uuid REFERENCES app.user_account(user_id) ON DELETE CASCADE,
+medcin uuid REFERENCES app.user_account(user_id) ON DELETE CASCADE,
+startDate TIMESTAMP NOT NULL , 
+endDate TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL DEFAULT now()
+
+);
+GRANT SELECT, UPDATE ON app.rendez_vous TO MEDECIN;
+
+
+CREATE FUNCTION  app.rendez_vous_du_jour(rendez_vous_date date) RETURNS app.rendez_vous AS $$ SELECT * FROM app.rendez_vous WHERE startDate::date = rendez_vous_date ;
+$$ LANGUAGE SQL STABLE SECURITY DEFINER;
+
 -- antecedents medico chirugicaux
 
 CREATE TABLE app.antecedents_medico_chirugicaux (
