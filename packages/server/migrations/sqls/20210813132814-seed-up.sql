@@ -131,21 +131,49 @@ COMMENT ON COLUMN app.antecedents_personnelles.id is E'@omit update';
 
 -- rendez vous de petient
 CREATE TABLE app.rendez_vous (
+<<<<<<< HEAD
+id  uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+user_id uuid REFERENCES app.user_account(user_id) ON DELETE CASCADE,
+medecin uuid REFERENCES app.user_account(user_id) ON DELETE CASCADE,
+start_date TIMESTAMP NOT NULL , 
+end_date TIMESTAMP NOT NULL,
+=======
     id  uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id uuid REFERENCES app.user_account(user_id) ON DELETE CASCADE,
     medcin uuid REFERENCES app.user_account(user_id) ON DELETE CASCADE,
     startDate TIMESTAMP NOT NULL, 
     endDate TIMESTAMP NOT NULL,
+>>>>>>> 0e0ea7d0a62b248094ea62edd88b81025fc64e00
     updated_at TIMESTAMP NOT NULL DEFAULT now()
 );
+<<<<<<< HEAD
+GRANT ALL ON app.rendez_vous TO MEDECIN;
+ALTER TABLE app.rendez_vous ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY medecin_select_rendez_vous ON app.rendez_vous FOR ALL TO MEDECIN USING
+    (medecin = nullif (current_setting('jwt.claims.user_id', TRUE),'')::uuid);
+=======
 GRANT SELECT, UPDATE, INSERT ON app.rendez_vous TO MEDECIN;
 
 COMMENT ON COLUMN app.rendez_vous.id is E'@omit create';
 COMMENT ON COLUMN app.rendez_vous.updated_at is E'@omit create,update,delete';
+>>>>>>> 0e0ea7d0a62b248094ea62edd88b81025fc64e00
 
-CREATE FUNCTION  app.rendez_vous_du_jour(rendez_vous_date date) RETURNS app.rendez_vous AS $$ SELECT * FROM app.rendez_vous WHERE startDate::date = rendez_vous_date ;
-$$ LANGUAGE SQL STABLE SECURITY DEFINER;
 
+<<<<<<< HEAD
+
+-- CREATE FUNCTION  app.rendez_vous_du_jour(rendez_vous_date date) RETURNS app.rendez_vous AS $$ SELECT * FROM app.rendez_vous WHERE startDate::date = rendez_vous_date ;
+-- $$ LANGUAGE SQL STABLE SECURITY DEFINER;
+
+CREATE FUNCTION app.set_current_medcin_rendezVous() RETURNS TRIGGER AS $$
+BEGIN
+    NEW.medecin = (user_id = nullif (current_setting('jwt.claims.user_id', TRUE),'')::uuid);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER set_medecin_accorder_rende_vous BEFORE UPDATE ON app.rendez_vous FOR EACH ROW EXECUTE FUNCTION app.set_current_medcin_rendezVous();
+=======
 -- check rdv availability
 
 CREATE TYPE app.check_rdv_availability_type AS (
@@ -185,6 +213,7 @@ $$ LANGUAGE SQL STABLE;
 
 GRANT EXECUTE ON FUNCTION app.check_rdv_availability(date) TO MEDECIN, ATS, ETUDIANT, ENSEIGNANT;
 
+>>>>>>> 0e0ea7d0a62b248094ea62edd88b81025fc64e00
 -- antecedents medico chirugicaux
 
 CREATE TABLE app.antecedents_medico_chirugicaux (
