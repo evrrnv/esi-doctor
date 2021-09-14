@@ -67,7 +67,7 @@ app.use(
       }
 
       return {
-        role: 'etudiant'
+        role: 'medecin'
       }
     }
   })
