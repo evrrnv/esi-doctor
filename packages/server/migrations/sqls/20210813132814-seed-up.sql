@@ -48,6 +48,7 @@ CREATE TABLE app.user_account (
     telephone CHAR(10),
     profile_picture VARCHAR,
     family_status FAMILY_STATUS,
+    is_completed BOOLEAN DEFAULT FALSE,
     updated_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
@@ -61,8 +62,6 @@ CREATE POLICY medecin_update_user_account ON app.user_account FOR UPDATE TO MEDE
 
 CREATE POLICY patient_select_user_account ON app.user_account FOR SELECT TO ETUDIANT, ENSEIGNANT, ATS USING
     (user_id = nullif (current_setting('jwt.claims.user_id', TRUE),'')::uuid);
-
-REVOKE SELECT ON app.user_account FROM ETUDIANT, ENSEIGNANT, ATS;
 
 COMMENT ON TABLE app.user_account is E'@omit create,delete';
 COMMENT ON COLUMN app.user_account.email is E'@omit update';
@@ -78,7 +77,7 @@ CREATE TABLE app.dossier_medical (
     numero SERIAL
 );
 
-GRANT SELECT ON app.dossier_medical TO MEDECIN;
+GRANT SELECT ON app.dossier_medical TO MEDECIN, ETUDIANT, ENSEIGNANT, ATS;
 
 CREATE INDEX ON app.dossier_medical (user_id);
 
@@ -96,6 +95,7 @@ CREATE TABLE app.biometrique (
 );
 
 GRANT SELECT, UPDATE ON app.biometrique TO MEDECIN;
+GRANT SELECT ON app.biometrique TO ETUDIANT, ENSEIGNANT, ATS;
 
 COMMENT ON TABLE app.biometrique is E'@omit create,delete';
 COMMENT ON COLUMN app.biometrique.id is E'@omit update';
@@ -123,6 +123,7 @@ CREATE TABLE app.antecedents_personnelles (
 );
 
 GRANT SELECT, UPDATE ON app.antecedents_personnelles TO MEDECIN;
+GRANT SELECT ON app.antecedents_personnelles TO ETUDIANT, ENSEIGNANT, ATS;
 
 COMMENT ON TABLE app.antecedents_personnelles is E'@omit create,delete';
 COMMENT ON COLUMN app.antecedents_personnelles.id is E'@omit update';
@@ -226,6 +227,7 @@ CREATE TABLE app.antecedents_medico_chirugicaux (
 );
 
 GRANT SELECT, UPDATE ON app.antecedents_medico_chirugicaux TO MEDECIN;
+GRANT SELECT ON app.antecedents_medico_chirugicaux TO ETUDIANT, ENSEIGNANT, ATS;
 
 COMMENT ON TABLE app.antecedents_medico_chirugicaux is E'@omit create,delete';
 COMMENT ON COLUMN app.antecedents_medico_chirugicaux.id is E'@omit update';
@@ -244,6 +246,31 @@ CREATE TRIGGER set_app_user_account_updated_at BEFORE UPDATE ON app.user_account
 CREATE TRIGGER seSQLt_app_biometrique_updated_at BEFORE UPDATE ON app.biometrique FOR EACH ROW EXECUTE FUNCTION app.set_current_timestamp_updated_at();
 CREATE TRIGGER set_app_antecedents_personnelles_updated_at BEFORE UPDATE ON app.antecedents_personnelles FOR EACH ROW EXECUTE FUNCTION app.set_current_timestamp_updated_at();
 CREATE TRIGGER set_app_antecedents_medico_chirugicaux_updated_at BEFORE UPDATE ON app.antecedents_medico_chirugicaux FOR EACH ROW EXECUTE FUNCTION app.set_current_timestamp_updated_at();
+
+-- user account is completed
+
+CREATE FUNCTION app.set_user_account_is_completed() RETURNS TRIGGER AS $$
+BEGIN
+    IF 
+    NEW.nom IS NOT NULL AND 
+    NEW.prenom IS NOT NULL AND 
+    NEW.email IS NOT NULL AND
+    NEW.dateDeNaissance IS NOT NULL AND
+    NEW.sexe IS NOT NULL AND
+    NEW.niveau IS NOT NULL AND
+    NEW.specialite IS NOT NULL AND
+    NEW.family_status IS NOT NULL AND
+    NEW.role IS NOT NULL
+    THEN
+        NEW.is_completed = TRUE;
+    ELSE
+        NEW.is_completed = FALSE;
+    END IF;
+    RETURN NEW;
+END
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER user_account_is_completed_trigger BEFORE UPDATE ON app.user_account FOR EACH ROW EXECUTE FUNCTION app.set_user_account_is_completed();
 
 -- set biometrique is completed
 
