@@ -80,7 +80,8 @@ const Examen = () => {
                     </div>
                 </div>
                <div>
-                   <Ordonnance />
+                   {/* <Ordonnance /> */}
+                   <Exams />
                </div>
                 </div>
                 
