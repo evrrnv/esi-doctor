@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
+import { Modal, ModalBody } from 'reactstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { IndvRdvAction } from '../redux/actions'
 import { makeStyles } from '@material-ui/core/styles'
@@ -121,7 +121,7 @@ const RendezVousIndividuelle = (props) => {
                 <Autocomplete
                   style={{ width: 40 + 'vw' }}
                   {...defaultProps}
-                  id="debug"
+                  id="emailIndv"
                   renderInput={(params) => (
                     <TextField
                       {...params}
@@ -147,6 +147,7 @@ const RendezVousIndividuelle = (props) => {
                   if (Object.keys(studentInfo).length === 0)
                     alert('you must fill the student')
                   else {
+                    delete studentInfo.__typename
                     const appointement = {
                       ...tempsDebutIndv,
                       ...dateDebutIndv,
@@ -155,7 +156,8 @@ const RendezVousIndividuelle = (props) => {
                         document.getElementById('descriptionIndv').value
                     }
                     props.onCreerRendezVousIndiv(appointement)
-                    dispatch(IndvRdvAction())
+                    console.log(appointement)
+                    // dispatch(IndvRdvAction())
                   }
                 }}
               >

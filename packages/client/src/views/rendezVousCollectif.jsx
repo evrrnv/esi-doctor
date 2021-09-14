@@ -67,7 +67,7 @@ const RendezVousCollectif = (props) => {
               <Autocomplete
                 style={{ width: 19 + 'vw' }}
                 {...defaultProps}
-                id="debug"
+                id="emailCollec"
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -80,7 +80,7 @@ const RendezVousCollectif = (props) => {
               <select
                 className="select__groupe ml-auto"
                 name="Groupe"
-                id="cars"
+                id="groupe"
               >
                 <option value="groupe1">groupe1</option>
                 <option value="groupe2">groupe2</option>
@@ -95,7 +95,7 @@ const RendezVousCollectif = (props) => {
                 <span className="mt-3">Date dèbut :</span>
                 <form className={classes.container} noValidate>
                   <TextField
-                    id="date"
+                    id="dateDebutCollec"
                     label="Debut"
                     type="date"
                     defaultValue={props.currentDate}
@@ -113,7 +113,7 @@ const RendezVousCollectif = (props) => {
                 <span className="mt-3"> Temps dèbut :</span>
                 <form className={classes.container} noValidate>
                   <TextField
-                    id="time"
+                    id="tempsDebutCollec"
                     label="Alarm clock"
                     type="time"
                     defaultValue={props.currentTime}
@@ -134,7 +134,7 @@ const RendezVousCollectif = (props) => {
                 <span className="mt-3"> Date fin :</span>
                 <form className={classes.container} noValidate>
                   <TextField
-                    id="date"
+                    id="dateFinCollec"
                     label="Debut"
                     type="date"
                     defaultValue={props.currentDate}
@@ -152,7 +152,7 @@ const RendezVousCollectif = (props) => {
                 <span className="mt-3"> Temps fin :</span>
                 <form className={classes.container} noValidate>
                   <TextField
-                    id="time"
+                    id="tempsFinCollec"
                     label="Alarm clock"
                     type="time"
                     defaultValue={props.nextTime}
@@ -174,7 +174,7 @@ const RendezVousCollectif = (props) => {
               <div className="student__email">
                 <Autocomplete
                   multiple
-                  id="tags-standard"
+                  id="studentEmailCollec"
                   options={top100Films}
                   getOptionLabel={(option) => option.title}
                   renderInput={(params) => (

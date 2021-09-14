@@ -32,11 +32,9 @@ import moment from 'moment'
 import { useState } from 'react'
 import { gql, useQuery } from '@apollo/client'
 import { useEffect } from 'react'
-import { GET_STUDENT_ALL_INFOS } from '../operations/queries/GET_RENDEZVOUS_INFOS'
+import { GET_STUDENT_ALL_INFOS } from '../graphql/queries/GET_RENDEZVOUS_INFOS'
 
 const Calend = () => {
-  const currentDate = moment().format('YYYY-MM-DD')
-
   const {
     loading,
     error,
@@ -48,13 +46,8 @@ const Calend = () => {
   // const [dateDebutIndiv, setDateDebutIndiv] = useState([])
   // const [TempsDebutIndiv, setTempsDebutIndiv] = useState([])
 
-  const [state, setState] = useState({
-    data: [],
-
-    addedAppointment: {},
-    appointmentChanges: {},
-    editingAppointment: undefined
-  })
+  const [appointements, setAppointements] = useState([])
+  const [currentDate, setCurrentDate] = useState(moment().format('YYYY-MM-DD'))
   useEffect(() => {
     if (!error && !loading) {
       const {
@@ -98,15 +91,38 @@ const Calend = () => {
       </AppointmentForm.BasicLayout>
     )
   }
-  const creerRendezVousIndiv = (data) => {
-    console.log('this sis the rendez vous ', data)
+  const creerRendezVousIndiv = (appointement) => {
+    const Time = moment(appointement.tempDebut, 'HH:mm')
+      .add(1, 'hours')
+      .format('HH:mm')
+    const nextTime = moment(Time, 'HH:mm')
+      .add(30, 'minutes')
+      .add(2, 'hours')
+      .format('HH:mm')
+    const startDate = `${appointement.dateDebut}:${Time}`
+    const endDate = `${appointement.dateDebut}:${nextTime}`
+    const Allappointements = [...appointements]
+    Allappointements.push({
+      title: `Rendez Vous de ${appointement.student.nom} ${appointement.student.prenom}`,
+
+      startDate: new Date(startDate),
+      endDate: new Date(endDate),
+      student: appointement.student,
+      id: Allappointements.length
+    })
+    setAppointements(Allappointements)
+    console.log('this is All appointements, ', Allappointements)
+    // const Allappointements = appointements
+    // Allappointements.push({
+    //   ...new Date()
+    // })
   }
+
   const currentDateChange = (currentDate) => {
-    setState({ currentDate })
+    setCurrentDate(currentDate)
   }
   const commitChanges = ({ added, changed, deleted }) => {
-    setState((state) => {
-      let { data } = state
+    setAppointements((data) => {
       if (added) {
         const startingAddedId =
           data.length > 0 ? data[data.length - 1].id + 1 : 0
@@ -129,8 +145,8 @@ const Calend = () => {
 
   // const []
   const dispatch = useDispatch()
-  if (loading) return <Loading />
-  if (error) return <p>Error :(</p>
+  // if (loading) return <Loading />
+  // if (error) return <p>Error :(</p>
   return (
     <div className="calend__main">
       <div>
@@ -150,7 +166,7 @@ const Calend = () => {
 
         <div>
           <Paper>
-            <Scheduler data={state.data}>
+            <Scheduler data={appointements}>
               <ViewState
                 defaultCurrentDate={currentDate}
                 defaultCurrentViewName="Week"
@@ -159,7 +175,7 @@ const Calend = () => {
               <EditingState onCommitChanges={commitChanges} />
               <IntegratedEditing />
               <DayView startDayHour={9} endDayHour={19} />
-              <WeekView startDayHour={9} endDayHour={16} />
+              <WeekView startDayHour={0} endDayHour={16} />
 
               <ConfirmationDialog />
 

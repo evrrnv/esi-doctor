@@ -1,16 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-<<<<<<< HEAD
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './index.css'
-=======
-import 'rsuite/dist/styles/rsuite-default.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
->>>>>>> master
+
 import App from './App'
 
 import './index.css'
-
 
 import { ReactKeycloakProvider, useKeycloak } from '@react-keycloak/web'
 import keycloak from './keycloak'
