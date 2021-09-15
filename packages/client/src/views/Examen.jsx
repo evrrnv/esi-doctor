@@ -218,21 +218,21 @@ const Exam = (props , Key) => {
         <img className="icon_img"  src={props.icon} alt={props.icon} />
         <p className="exam_paragraph">{props.name}</p>
         </div>
-        {visible && props.name==="Ophtalmologique" ? <Notes/> : null }
-        {visible && props.name==="O.R.L" ? <Details2/> : null }
-        {visible && props.name==="Rapport Médical" ? <Notes/> : null }
-        {visible && props.name==="Peau et Muqueuses" ? <Notes/> : null }
-        {visible && props.name==="Respiratoire" ? <Notes/> : null }
-        {visible && props.name==="Locomoteur" ? <Notes/> : null }
-        {visible && props.name==="Cardio-vasculaire" ? <Notes/> : null }
-        {visible && props.name==="Genito-Urinaire" ? <Notes/> : null }
-        {visible && props.name==="Digestif" ? <Notes/> : null }
-        {visible && props.name==="Neurologique et Psychisme" ? <Notes/> : null }
-        {visible && props.name==="Hématologie et Ganglionnaire" ? <Notes/> : null }
-        {visible && props.name==="Endocrinologie" ? <Notes/> : null }
-        {visible && props.name==="Profile Psychologique" ? <Notes/> : null }
-        {visible && props.name==="Examens Complémentaires" ? <Notes/> : null }
-        {visible && props.name==="Orientation" ? <Notes/> : null }
+        {visible && props.name==="Ophtalmologique" ? <Notes exit={hundler}/> : null }
+        {visible && props.name==="O.R.L" ? <Details2 exit={hundler}/> : null }
+        {visible && props.name==="Rapport Médical" ? <Notes exit={hundler}/> : null }
+        {visible && props.name==="Peau et Muqueuses" ? <Notes exit={hundler}/> : null }
+        {visible && props.name==="Respiratoire" ? <Notes exit={hundler}/> : null }
+        {visible && props.name==="Locomoteur" ? <Notes exit={hundler}/> : null }
+        {visible && props.name==="Cardio-vasculaire" ? <Notes exit={hundler}/> : null }
+        {visible && props.name==="Genito-Urinaire" ? <Notes exit={hundler}/> : null }
+        {visible && props.name==="Digestif" ? <Notes exit={hundler}/> : null }
+        {visible && props.name==="Neurologique et Psychisme" ? <Notes exit={hundler}/> : null }
+        {visible && props.name==="Hématologie et Ganglionnaire" ? <Notes exit={hundler}/> : null }
+        {visible && props.name==="Endocrinologie" ? <Notes exit={hundler}/> : null }
+        {visible && props.name==="Profile Psychologique" ? <Notes exit={hundler}/> : null }
+        {visible && props.name==="Examens Complémentaires" ? <Notes exit={hundler}/> : null }
+        {visible && props.name==="Orientation" ? <Notes exit={hundler}/> : null }
     </div>
     );
 }
@@ -317,7 +317,7 @@ const NoteElm = (props) =>{
         </div>
     );
 }
-const Notes = () => {
+const Notes = (props) => {
     const [input,setInput] = useState("");
     const [text,setText] = useState([])
     return(
@@ -371,7 +371,7 @@ const Notes = () => {
                             </div>
                             
                         </div>
-                        <BtnChangers/>
+                        <BtnChangers onClickAnnuler={props.exit} onClickConfirmer={props.exit}/>
                   </div>
     );
 }
