@@ -87,7 +87,7 @@ const Examen = () => {
                     </NavLink>
                     </div>
                 </div>
-               <div>
+               <div className="d-flex flex-row align-items-center justify-content-around">
                <TabContent activeTab={activeTab}>
                 <TabPane tabId="1"> <Exams /> </TabPane>
                 <TabPane tabId="2"> <Ordonnance/> </TabPane>
@@ -106,24 +106,36 @@ const Examen = () => {
     
 }
 const Ordonnance = () => {
-    const Notes = props => props.data.map(note => <div className="headTableOrd d-flex flex-row justify-content-between align-items-center">
-        <span className="titles">Médicament</span>
-        <span className="titles">Quantité(Boite)</span>
-        <span className="titles">Durée du traitement (jours)</span>
-        </div>);
-    const initialData = [{ text: 'Notes' }];
+    const Notes = props => props.data.map(note => <div className="headTableOrdc d-flex flex-row justify-content-between align-items-center">
+    <div className="d-flex flex-column align-items-center ">
+    <span className="titles">{note.text}</span>
+    <span className="desc ml-3">{note.notice}</span>
+    </div>
+    <span className="titles">{note.qte}</span>
+    <span className="titles">{note.duree}</span>
+    </div>);
+    const initialData = [{ text: 'Médicament' , notice: '' , qte :'Quantité(Boite)' , duree:'Durée du traitement (jours)' },];
     const [data, setData] = useState(initialData);
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
-            const text = document.querySelector('#noteinput').value.trim();
+            const text = document.querySelector('#nom').value.trim();
+            const qte = document.querySelector('#qte').value.trim();
+            const duree = document.querySelector('#duree').value.trim();
+            const notice = document.querySelector('#notice').value.trim();
             if (text) {
               const nextState = produce(data, draftState => {
-                draftState.push({ text });
+                draftState.push({ text:text ,qte:qte ,  duree:duree , notice : notice});
               });
-              document.querySelector('#noteinput').value = '';
+              document.querySelector('#nom').value = '';
+              document.querySelector('#qte').value = '';
+              document.querySelector('#duree').value = '';
+              document.querySelector('#notice').value = '';
+
               setData(nextState);
-            }
+            }    
         }
+        
+        
       }
     return(
         <div>
@@ -131,8 +143,11 @@ const Ordonnance = () => {
            <Notes data={data} />
            <div className="d-flex flex-row align-items-center justify-content-around">
                 <div className= "addNoteOrd d-flex flex-row align-items-center justify-content-around">
-                    <FontAwesomeIcon icon={faPlus} size="1x" />
-                    <input className="input" id="noteinput" type="text" onKeyDown={handleKeyDown} placeholder="Ajouter une autre note" /><span className="filetypes filetypes-e-7z"></span>
+                    <FontAwesomeIcon icon={faPlus} size="1x" className="mr-2 ml-2" />
+                    <input className="input" id="nom" type="text"  placeholder="Nom du médicament" /><span className="filetypes filetypes-e-7z"></span>
+                    <input className="input" id="notice" type="text"  placeholder="Notice" /><span className="filetypes filetypes-e-7z"></span>        
+                    <input className="input" id="qte" type="text" placeholder="Qte" /><span className="filetypes filetypes-e-7z"></span>
+                    <input className="input" id="duree" type="text" placeholder="Durée" onKeyDown={handleKeyDown} /><span className="filetypes filetypes-e-7z"></span>
                     
                 </div>
                 <div className= "imprimerOrd d-flex flex-row align-items-center justify-content-center">

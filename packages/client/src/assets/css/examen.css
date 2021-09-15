@@ -17,8 +17,8 @@
 .emptyContent{
     background-color: white;
     border-radius: 5px;
-    height: 80px;
-    width: 300px;
+    height: 90px;
+    width: 400PX;
 }
 .personal_img{
     width: 150px;
@@ -34,7 +34,7 @@
     margin-left: 100px;
 }
 .exam{
-    width: 95%;
+    width: 1400px;
     padding-left:5%;   
     margin-bottom: 20px;
     border-radius:10px;
@@ -190,7 +190,7 @@ opacity: 1;
     display: flex;
     align-items: flex-start;
     padding: 10px;
-    width: 347px;
+    width: 800px;
     margin-bottom: 10px;
     height: 50px;
     text-align: center;
@@ -199,10 +199,11 @@ opacity: 1;
 .addNoteCertif{
     border: 1px solid white;
     outline: none;
-    width: 347px;
+    width: 800px;
     margin-top: 10px;
     margin-bottom: 10px;
     background-color: white;
+    height: 50px;
 }
 .subtitle{
     font-size: 10px;
@@ -225,7 +226,7 @@ opacity: 1;
 .addNoteOrd{
     border: 1px solid #E3E3E3;
     outline: none;
-    width: 347px;
+    width: 500px;
     margin-top: 10px;
     margin-bottom: 10px;
     background-color: white;
@@ -243,14 +244,43 @@ opacity: 1;
 
 }
 .headTableOrd{
-    width:86% ; 
+    width:1100px ; 
     background-color: white;
-    margin-left: 70px;
     height: 50px;
     border-bottom:4px solid #000 !important ; 
-    padding: 5px;
    
 }
 .titles{
     opacity: 0.8;
+}
+.headTableOrdc{
+    width:1100px ; 
+    background-color: white;
+    height: 50px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+#nom{
+    border: none;
+    outline: none;
+    width:40%;
+    
+}
+#qte{
+    border: none;
+    outline: none;
+    width:10%;
+    
+}
+#duree{
+    border: none;
+    outline: none;
+    width:20%;
+    
+}
+#notice{
+    border: none;
+    outline: none;
+    width:40%;
+    
 }
