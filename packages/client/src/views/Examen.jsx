@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState ,  useRef } from 'react';
 import SideBar from '../components/layout/sideBar';
 import '../assets/css/examen.css'
 import avatar  from '../assets/images/avatar.jpg';
+import logo  from '../assets/images/logo.png';
 import Cardio  from '../assets/icons/Cardio.svg'
 import Digestif  from '../assets/icons/Digestif.svg'
 import Ear  from '../assets/icons/Ear.svg'
@@ -34,6 +35,8 @@ import { useLocation } from 'react-router-dom';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '../assets/images/delete.png'
 import BtnChangers from '../components/shared/btnChanger'
+import { useReactToPrint } from "react-to-print";
+
 
 
 const Examen = () => {
@@ -164,6 +167,27 @@ const Ordonnance = () => {
     ); 
 }
 const Certeficat = () => {
+    class ComponentToPrint extends React.PureComponent {
+        render() {
+    
+          return (
+            <div className="d-flex flex-column align-items-center mt-5">
+              <img className="personal_img d-flex align-items-center"  src={logo} alt="" />
+              <span style={{ fontSize: "30px", color: "Blue" }} className="mt-2 mb-2"> Ecole Superieure en Informatique 08-MAI-1945 SIDI BEL ABBES</span>
+              <span style={{ fontSize: "30px", color: "Blue" }} className="mt-2 mb-2"> Unité médicale </span>
+              <span style={{ fontSize: "50px", color: "Blue" }}className="mt-2 mb-5"> CERTEFICAT </span>
+              <div style={{ color: "black" ,  fontSize: "30px"}}>
+              Je soussigné Docteur………, demuerant………..certifie avoir examiné ce jour monsieur ou madame ... né(e) le…..à……. et avoir constaté ‘altération de ses facultés mentales et/ou corporelles.  
+              Ce patient me paraît avoir besoin : 
+              </div>
+              <div style={{ color: "black" ,  fontSize: "30px"}}>
+              Les points mentionnés :
+              </div>
+            </div>
+          );
+                }
+        
+      }
     const Notes = props => props.data.map(note => <div className="noteCertif d-flex flex-column">
         <span className="subtitle">Description</span>
          <div> {note.text} </div>
@@ -182,6 +206,9 @@ const Certeficat = () => {
             }
         }
       }
+    const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current});
     return(
         <div className="certif mb-4"> 
             <Notes data={data} />
@@ -190,7 +217,10 @@ const Certeficat = () => {
                     <input className="input" id="noteinput" type="text" onKeyDown={handleKeyDown} placeholder="Ajouter une autre note" /><span className="filetypes filetypes-e-7z"></span>
                     
                 </div>
-                <div className="d-flex flex-column align-items-end mr-5" >
+                <div style={{ display: "none" }}>
+                <ComponentToPrint ref={componentRef} />
+                </div>
+                <div className="d-flex flex-column align-items-end mr-5"  onClick={handlePrint}>
                 <Btn id="print" icon={faPrint} name="Imprimer" color="black"  text="print" />
                      </div>
             
