@@ -4,7 +4,8 @@ import collectifRdvModalReducer from './collectifRdvModal'
 import IndividuelleRdvModalReducer from './individuelleRdvModal'
 import typeRdvModalReducer from './typeRdv'
 import aprouvRdvModalReducer from './aprouvRdv'
-
+import archiveModalReducer from './archiver'
+import bringPatientReducer from './bringPatient'
 
 const allReducers = combineReducers({
   showSidebar: showSidebarReducer,
@@ -12,7 +13,9 @@ const allReducers = combineReducers({
   toggleTypeRdvModal: typeRdvModalReducer,
   toggleCollecRdvModal: collectifRdvModalReducer,
   toggleIndividuelleRdvModal: IndividuelleRdvModalReducer,
-  toggleAprouvRdv : aprouvRdvModalReducer
+  toggleAprouvRdv : aprouvRdvModalReducer,
+  toggleArchive : archiveModalReducer,
+  bringPatient : bringPatientReducer
 })
 
 export default allReducers

@@ -37,8 +37,8 @@ const AprouvRdvModal = () => {
               </ModalBody>
             
               <ModalFooter className=" d-flex justify-content-around">
-                  <button className="aprouv__btns aprouv__btn"><FontAwesomeIcon icon={faCheckCircle}/> Approuver</button>
-                  <button className="aprouv__btns desaprouv__btn"><FontAwesomeIcon className="mr-2" icon={faCalendarTimes}/>Désapprouver</button>
+                  <button onClick={() => dispatch(AprouvRdvAction())}  className="aprouv__btns aprouv__btn"><FontAwesomeIcon icon={faCheckCircle}/> Approuver</button>
+                  <button onClick={() => dispatch(AprouvRdvAction())}  className="aprouv__btns desaprouv__btn"><FontAwesomeIcon className="mr-2" icon={faCalendarTimes}/>Désapprouver</button>
               </ModalFooter>
            
             </Modal>

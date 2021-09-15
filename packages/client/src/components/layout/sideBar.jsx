@@ -16,6 +16,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faTimes, faSignOutAlt} from '@fortawesome/free-solid-svg-icons'
 import { useSelector,useDispatch } from 'react-redux'; 
 import {showSidebarAction,hideSidebarAction} from '../../redux/actions'
+import esiDoctor from '../../assets/images/esiDoctor.svg'
 
 let SideBar = () => {
 
@@ -52,24 +53,19 @@ useEffect(() => {
 
         <div className={showSidebar +" "+"sideBar__container d-sm-block"}>
             <div className="d-flex justify-content-between">
-                <h1 className="dash__logo">LOGO</h1>
+                <img className="esiDoctor" src={esiDoctor} alt="esiDoctor" />
                 <button onClick={()=> dispatch(hideSidebarAction())} className="closeSide__btn d-block d-sm-none"><FontAwesomeIcon icon={faTimes} /></button>
             </div>
         <div className="menu">
             <ul>
             <NavLink className="menu__links" onClick={()=> dispatch(hideSidebarAction())} to="/dashboard"><li id="dashboard" className="menu__items"><DashboardIcon className="dash__icons"/><span className="d-block d-sm-none d-md-block">Dashboard</span></li></NavLink>
-                <NavLink className="menu__links" onClick={()=> dispatch(hideSidebarAction())} to="/rdvList"><li id="rdvList" className="menu__items"><EventAvailableIcon className="dash__icons"/><span className="d-block d-sm-none d-md-block">Rendez-Vous</span></li></NavLink>
                 <NavLink className="menu__links" onClick={()=> dispatch(hideSidebarAction())} to="/patientsList"><li id="patientsList"  className="menu__items"><HotelIcon className="dash__icons"/><span className="d-block d-sm-none d-md-block">Patients</span></li></NavLink>
                 <NavLink className="menu__links" onClick={()=> dispatch(hideSidebarAction())} to="/calendrier"><li id="calendrier" className="menu__items"><DateRangeIcon className="dash__icons"/><span className="d-block d-sm-none d-md-block">Calendrier</span></li></NavLink>
                 <NavLink className="menu__links" onClick={()=> dispatch(hideSidebarAction())} to="/stat"><li id="stat" className="menu__items"><BarChartIcon className="dash__icons"/><span className="d-block d-sm-none d-md-block">Statistiques</span></li></NavLink>
             </ul>
         </div>
         <div className="other__menu">
-            <p className="dash__titles  d-none d-md-block">MANAEMENT</p>
-            <ul>
-            <NavLink className="menu__links" onClick={()=> dispatch(hideSidebarAction())} to="listes"><li id="listes" className="menu__items"><WebAssetIcon className="dash__icons"/><span className="d-block d-sm-none d-md-block">Listes</span></li></NavLink>
-            <NavLink className="menu__links" onClick={()=> dispatch(hideSidebarAction())} to="param"><li id="param" className="menu__items"><SettingsIcon className="dash__icons"/><span className="d-block d-sm-none d-md-block">Paramêtres</span></li></NavLink>
-            </ul>
+            
             <p className="dash__titles d-none d-md-block" id="support">SUPPORT</p>
             <ul className="d-flex flex-column justify-content-between">
             <NavLink className="menu__links" onClick={()=> dispatch(hideSidebarAction())} to="contact"><li id="contact" className="menu__items"><LanguageIcon className="dash__icons"/><span className="d-block d-sm-none d-md-block">Contactez-nous</span></li></NavLink>

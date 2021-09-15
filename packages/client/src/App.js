@@ -19,12 +19,14 @@ import atsOnly from './assets/images/atsOnly.svg'
 import atsWesmo from './assets/images/atsWesmo.svg'
 import DashBoard from './views/DashBoard'
 import AprouvRdvModal from './components/shared/aprouvRdvModal'
+import ArchiveModal from './components/shared/archiveModal'
 
 function App() {
   return (
     <>
       <div className="App">
         <AprouvRdvModal />
+        <ArchiveModal />
         <BrowserRouter>
           <Switch>
             <Route exact path="/">

@@ -12,10 +12,8 @@
 .notes_text span{
     font-size: 1.1vw;
     padding:1vw;
-    padding-top: 2.2vw;
+    padding-top: 1vw;
     width: 90%;
-    overflow-x: scroll;
-    overflow-y: hidden;
 }
 .notes_text input{
     margin-right: 1vw;
@@ -27,8 +25,6 @@
 .notes_area{
     height: 95%;
     width: 100%;
-    overflow-x: hidden;
-    overflow-y: scroll;
 }
 .btn-delete{
     background-color: transparent;
