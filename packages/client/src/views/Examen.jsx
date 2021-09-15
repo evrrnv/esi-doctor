@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SideBar from '../components/layout/sideBar';
 import '../assets/css/examen.css'
 import avatar  from '../assets/images/avatar.jpg';
@@ -16,13 +16,11 @@ import Respiratoire  from '../assets/icons/Respiratoire.svg'
 import Vision  from '../assets/icons/Vision.svg'
 import examen  from '../assets/icons/examen.svg'
 import { makeStyles } from '@material-ui/core/styles' 
-import { useState } from 'react';
 import produce from 'immer';
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons'
-import RapportBlue  from '../assets/icons/RapportBlue.svg'
 import Ordonance  from '../assets/icons/Ordonance.svg'
 import Certaficat  from '../assets/icons/Certaficat.svg'
 import InputLabel from '@material-ui/core/InputLabel';
@@ -30,9 +28,13 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { faPrint } from '@fortawesome/free-solid-svg-icons'
+import { TabContent, TabPane, NavLink} from 'reactstrap';
+import classnames from 'classnames';
 
 
 const Examen = () => {
+    const [activeTab, setActiveTab] = useState('1');
+    const toggle = tab => {if(activeTab !== tab) setActiveTab(tab);}
 
   
 
@@ -67,17 +69,27 @@ const Examen = () => {
                 </div>
                 <div className="headContent d-flex flex-row align-self-center">
                     <div className="emptyContent">
+                    <NavLink className={classnames({ active: activeTab === '1' })} onClick={() => { toggle('1'); }} >
                        <HeadBtn name="Rapport Médical" icon={Rapport} id="first" text="rapportBlue" />
+                    </NavLink>
                     </div>
                     <div className="emptyContent">
+                    <NavLink className={classnames({ active: activeTab === '2' })} onClick={() => { toggle('2'); }} >
                         <HeadBtn name="Ordonnance" icon={Ordonance} /> 
+                    </NavLink>
                     </div>
                     <div className="emptyContent">
+                    <NavLink className={classnames({ active: activeTab === '3' })} onClick={() => { toggle('3'); }} >
                         <HeadBtn name="Certeficat" icon={Certaficat}  id="last"  />
+                    </NavLink>
                     </div>
                 </div>
                <div>
-                   <Ordonnance />
+               <TabContent activeTab={activeTab}>
+                <TabPane tabId="1"> <Exams /> </TabPane>
+                <TabPane tabId="2"> <Ordonnance/> </TabPane>
+                <TabPane tabId="3"> <Certeficat/> </TabPane>
+               </TabContent> 
                </div>
                 </div>
                 
@@ -157,7 +169,7 @@ const Certeficat = () => {
                     <input className="input" id="noteinput" type="text" onKeyDown={handleKeyDown} placeholder="Ajouter une autre note" /><span className="filetypes filetypes-e-7z"></span>
                     
                 </div>
-                <div className="d-flex flex-column align-items-end mr-5">
+                <div className="d-flex flex-column align-items-end mr-5" >
                 <Btn id="print" icon={faPrint} name="Imprimer" color="black"  text="print" />
                      </div>
             
@@ -269,6 +281,7 @@ function Btn(props){
 }
 function HeadBtn(props){
     return( 
+        
            <button  className="headbtn d-flex flex-row align-items-center justify-content-center" id ={props.id} >
                <img className="icon_img mr-2"  src={props.icon} alt ={props.icon}  />
                <span className="btnText" id={props.text} >{props.name}</span>
