@@ -32,6 +32,7 @@
 }
 .btn-delete{
     background-color: transparent;
+    border: none;
 }
 .btn-delete img{
     height: 2vw;
