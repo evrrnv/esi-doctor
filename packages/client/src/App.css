@@ -1,3 +1,121 @@
 .App {
     height: 100%;
   }
+
+.notif__item{
+  width: 300px;
+  height: 50px;
+}
+.notif__drop{
+  border-radius: 20px !important;
+}
+.demand__rdv{
+  width: 300px;
+}
+.notif__txt{
+  width: 240px;
+  font-size: 12px;
+}
+
+.notif__flag{
+  font-size: 11px;
+  color: red;
+}
+
+.demand__img{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.demand__name{
+  font-size: 14px;
+  margin-bottom: -1px;
+}
+.demand__role{
+  font-size: 11px;
+  margin-bottom: -1px;
+  color: #24A9E2;
+}
+.demand__time{
+  font-size: 10px;
+  color: #8A8F9C;
+}
+.demand__rdv__txt{
+  color: #8A8F9C;
+}
+.notifs{
+  margin-bottom: 5px;
+  height: 50px;
+}
+.notif__dossierNbr{
+  color: #00DE51;
+}
+.aprouv__img{
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 1px solid #8A8F9C;
+}
+
+.aprouv__titles{
+  width: 100px !important;
+  font-size: 20px;
+}
+.aprouv__infos{
+  font-weight: 100 !important;
+  color: #8A8F9C;
+  font-size: 18px;
+
+}
+.aprouv__btns{
+  width: 180px;
+  height: 50px;
+  font-size: 20px;
+}
+.aprouv__patient__infos{
+  border: 2px solid #8A8F9C;
+  border-radius: 10px;
+  padding: 10px 10px 0px 20px;
+}
+
+.aprouv__rdv__demand{
+  border: 2px solid #24A9E2;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.demand__date{
+  font-size: 25px;
+  color: #24A9E2;
+}
+.demand__timeInterval{
+  font-size: 25px;
+  color: #24A9E2;
+}
+.rdv__interval{
+  font-size: 35px;
+  margin-bottom: -4px;
+}
+.aprouv__btns{
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 500;
+  font-size: 20px;
+}
+.aprouv__btn{
+  background-color: #56c596;
+  border:  #56c596;
+}
+
+
+.desaprouv__btn{
+  background-color: none;
+  color: #56c596;
+  border: #56c596 2px solid !important;
+}
+
+
+.demand__head__txt{
+  font-weight: 600;
+  font-size: 25px;
+}
