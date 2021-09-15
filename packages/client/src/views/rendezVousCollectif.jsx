@@ -168,14 +168,14 @@ const RendezVousCollectif = (props) => {
               </div>
             </div>
             <div className="student__info__container border__grey mt-1 px d-flex align-items-center ">
-              <span className="mt-3 mr-3">
+              <span id="userIconCollec" className="mt-3 mr-3">
                 <FontAwesomeIcon icon={faUserPlus} />
               </span>
               <div className="student__email">
                 <Autocomplete
                   multiple
                   id="studentEmailCollec"
-                  options={top100Films}
+                  options={[]}
                   getOptionLabel={(option) => option.title}
                   renderInput={(params) => (
                     <TextField

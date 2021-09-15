@@ -2,7 +2,7 @@ import SideBar from '../components/layout/sideBar'
 import '../assets/css/clend.css'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { collecRdvAction, TypeRdvAction } from '../redux/actions'
+import { collecRdvAction, IndvRdvAction, TypeRdvAction } from '../redux/actions'
 import AddIcon from '@material-ui/icons/Add'
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday'
 import ChoisirRendezVous from './choisirRendezVous'
@@ -30,7 +30,7 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui'
 import moment from 'moment'
 import { useState } from 'react'
-import { gql, useMutation, useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { useEffect } from 'react'
 import { GET_STUDENT_ALL_INFOS } from '../graphql/queries/GET_RENDEZVOUS_INFOS'
 import { CREATE_RENDEZ_VOUS_INDIV } from '../graphql/mutations/CREATE_RENDEZ_VOUS'
@@ -42,16 +42,32 @@ const Calend = () => {
     data
     // }
   } = useQuery(GET_STUDENT_ALL_INFOS)
-
+  const [toggleProgress, setTogglePross] = useState(false)
+  const [appointementTitle, setAppointementTitle] = useState('')
   const [studentsAccount, setStudentsAccount] = useState([])
   // const [dateDebutIndiv, setDateDebutIndiv] = useState([])
   // const [TempsDebutIndiv, setTempsDebutIndiv] = useState([])
   const [createRendezVousIndvMutation] = useMutation(CREATE_RENDEZ_VOUS_INDIV, {
-    onCompleted: (data) => {
-      console.log('this is the data ', data)
+    onCompleted: ({ createRendezVous: { rendezVous } }) => {
+      console.log('this is the data ', rendezVous)
+      console.log('this is the title ', appointementTitle)
+
+      const Allappointements = [...appointements]
+      Allappointements.push({
+        title: appointementTitle,
+        startDate: new Date(rendezVous.startDate),
+        endDate: new Date(rendezVous.endDate),
+        studentId: rendezVous.userId,
+        id: rendezVous.id
+      })
+
+      setAppointements(Allappointements)
+      dispatch(IndvRdvAction())
+      setTogglePross(false)
+      console.log('the appointements ', Allappointements)
     },
     onerror: (error) => {
-      console.log('error')
+      console.error('this is the error ', error)
     }
   })
   const [appointements, setAppointements] = useState([])
@@ -100,41 +116,34 @@ const Calend = () => {
     )
   }
   const creerRendezVousIndiv = (appointement) => {
+    setTogglePross(true)
     const Time = moment(appointement.tempDebut, 'HH:mm')
       .add(1, 'hours')
       .format('HH:mm')
-    const nextTime = moment(Time, 'HH:mm')
-      .add(30, 'minutes')
-      .add(2, 'hours')
-      .format('HH:mm')
+    const nextTime = moment(Time, 'HH:mm').add(30, 'minutes').format('HH:mm')
     const startDate = `${appointement.dateDebut}:${Time}`
     const endDate = `${appointement.dateDebut}:${nextTime}`
-    // const Allappointements = [...appointements]
-    // Allappointements.push({
-    //   title: `Rendez Vous de ${appointement.student.nom} ${appointement.student.prenom}`,
-
-    //   startDate: new Date(startDate),
-    //   endDate: new Date(endDate),
-    //   student: appointement.student,
-    //   id: Allappointements.length
-    // })
-    // setAppointements(Allappointements)
-
-    // createRendezVousIndvMutation({
-    //   variables: {
-    //     data: {
-    //       user_id: appointement.student.id,
-    //       startDate: new Date(startDate).toISOString(),
-    //       endDate: new Date(endDate).toISOString()
-    //     }
-    //   }
-    // })
+    setAppointementTitle(
+      `Rendez Vous de ${appointement.student.nom} ${appointement.student.prenom}`
+    )
+    createRendezVousIndvMutation({
+      variables: {
+        data: {
+          userId: appointement.student.id,
+          startDate: new Date(startDate).toISOString(),
+          endDate: new Date(endDate).toISOString(),
+          description: appointement.description
+        }
+      }
+    })
     console.log(
       `this is the user ${
         appointement.student.id
       } and the start date ${new Date(
         startDate
-      ).toISOString()} and the end Date ${new Date(endDate).toISOString()}`
+      ).toISOString()} and the end Date ${new Date(
+        endDate
+      ).toISOString()} and description ${appointement.description}`
     )
   }
 
@@ -218,6 +227,7 @@ const Calend = () => {
         currentDate={currentDate}
         studentsAccount={studentsAccount}
         onCreerRendezVousIndiv={creerRendezVousIndiv}
+        toggleProgress={toggleProgress}
       />
     </div>
   )

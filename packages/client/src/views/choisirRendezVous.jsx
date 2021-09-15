@@ -56,9 +56,10 @@ const ChoisirRendezVous = (props) => {
               <button
                 className="type__rend__btn ml-4"
                 onClick={() => {
+                  // setTimeout(() => {
+                  //   dispatch(TypeRdvAction())
+                  // }, 2000)
                   dispatch(collecRdvAction())
-
-                  // dispatch(TypeRdvAction())
                 }}
               >
                 <FontAwesomeIcon icon={faUsers} />
@@ -74,6 +75,7 @@ const ChoisirRendezVous = (props) => {
                 currentTime={currentTime}
                 studentsAccount={props.studentsAccount}
                 onCreerRendezVousIndiv={props.onCreerRendezVousIndiv}
+                toggleProgress={props.toggleProgress}
               />
             </div>
           </div>

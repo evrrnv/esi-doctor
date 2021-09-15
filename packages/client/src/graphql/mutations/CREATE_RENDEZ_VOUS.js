@@ -1,8 +1,15 @@
 import { gql } from '@apollo/client'
 
 const CREATE_RENDEZ_VOUS_INDIV = gql`
-  mutation CreateRendezVousIndv($data: CreateRendezVousInput!) {
-    createRendezVous(input: { rendezVous: $data })
+  mutation createRendezVousIndv($data: RendezVousInput!) {
+    createRendezVous(input: { rendezVous: $data }) {
+      rendezVous {
+        id
+        startDate
+        endDate
+        description
+      }
+    }
   }
 `
 
