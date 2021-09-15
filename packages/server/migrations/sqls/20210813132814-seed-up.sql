@@ -145,15 +145,19 @@ CREATE TABLE app.rendez_vous (
     updated_at TIMESTAMP NOT NULL DEFAULT now()
 );
 GRANT ALL ON app.rendez_vous TO MEDECIN;
+GRANT SELECT ON app.rendez_vous TO ETUDIANT, ENSEIGNANT, ATS;
+
+-- rdvs of current user
 
 ALTER TABLE app.rendez_vous ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY medecin_select_rendez_vous ON app.rendez_vous FOR ALL TO MEDECIN USING
+CREATE POLICY medecin_rdv ON app.rendez_vous FOR ALL TO MEDECIN USING
     (medecin = nullif (current_setting('jwt.claims.user_id', TRUE),'')::uuid);
 
-COMMENT ON COLUMN app.rendez_vous.id is E'@omit create';
-COMMENT ON COLUMN app.rendez_vous.updated_at is E'@omit create,update,delete';
+CREATE POLICY patient_rdv ON app.rendez_vous FOR SELECT TO ETUDIANT, ENSEIGNANT, ATS USING
+    (user_id = nullif (current_setting('jwt.claims.user_id', TRUE),'')::uuid AND start_date > now());
 
+-- current medecin rdvs
 
 CREATE FUNCTION app.set_current_medecin_rendezVous() RETURNS TRIGGER AS $$
 BEGIN
@@ -197,21 +201,21 @@ CREATE TYPE app.check_rdv_availability_type AS (
 
 CREATE FUNCTION app.check_rdv_availability(date DATE) RETURNS app.check_rdv_availability_type AS $$
     SELECT 
-        bool_and(CASE WHEN start_date >= (CONCAT(date::text, ' 08:30'))::timestamp AND end_date <= (CONCAT(date::text, ' 09:00'))::timestamp THEN true ELSE false END) AS r830,
-        bool_and(CASE WHEN start_date >= (CONCAT(date::text, ' 09:00'))::timestamp AND end_date <= (CONCAT(date::text, ' 09:30'))::timestamp THEN true ELSE false END) AS r900,
-        bool_and(CASE WHEN start_date >= (CONCAT(date::text, ' 09:30'))::timestamp AND end_date <= (CONCAT(date::text, ' 10:00'))::timestamp THEN true ELSE false END) AS r930,
+        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 08:30'))::timestamp AND end_date <= (CONCAT(date::text, ' 09:00'))::timestamp THEN true ELSE false END) AS r830,
+        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 09:00'))::timestamp AND end_date <= (CONCAT(date::text, ' 09:30'))::timestamp THEN true ELSE false END) AS r900,
+        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 09:30'))::timestamp AND end_date <= (CONCAT(date::text, ' 10:00'))::timestamp THEN true ELSE false END) AS r930,
 
-        bool_and(CASE WHEN start_date >= (CONCAT(date::text, ' 10:00'))::timestamp AND end_date <= (CONCAT(date::text, ' 10:30'))::timestamp THEN true ELSE false END) AS r100,
-        bool_and(CASE WHEN start_date >= (CONCAT(date::text, ' 10:30'))::timestamp AND end_date <= (CONCAT(date::text, ' 11:00'))::timestamp THEN true ELSE false END) AS r130,
-        bool_and(CASE WHEN start_date >= (CONCAT(date::text, ' 11:00'))::timestamp AND end_date <= (CONCAT(date::text, ' 11:30'))::timestamp THEN true ELSE false END) AS r110,
+        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 10:00'))::timestamp AND end_date <= (CONCAT(date::text, ' 10:30'))::timestamp THEN true ELSE false END) AS r100,
+        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 10:30'))::timestamp AND end_date <= (CONCAT(date::text, ' 11:00'))::timestamp THEN true ELSE false END) AS r130,
+        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 11:00'))::timestamp AND end_date <= (CONCAT(date::text, ' 11:30'))::timestamp THEN true ELSE false END) AS r110,
 
-        bool_and(CASE WHEN start_date >= (CONCAT(date::text, ' 14:00'))::timestamp AND end_date <= (CONCAT(date::text, ' 14:30'))::timestamp THEN true ELSE false END) AS r200,
-        bool_and(CASE WHEN start_date >= (CONCAT(date::text, ' 14:30'))::timestamp AND end_date <= (CONCAT(date::text, ' 15:00'))::timestamp THEN true ELSE false END) AS r230,
-        bool_and(CASE WHEN start_date >= (CONCAT(date::text, ' 15:00'))::timestamp AND end_date <= (CONCAT(date::text, ' 15:30'))::timestamp THEN true ELSE false END) AS r300,
+        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 14:00'))::timestamp AND end_date <= (CONCAT(date::text, ' 14:30'))::timestamp THEN true ELSE false END) AS r200,
+        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 14:30'))::timestamp AND end_date <= (CONCAT(date::text, ' 15:00'))::timestamp THEN true ELSE false END) AS r230,
+        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 15:00'))::timestamp AND end_date <= (CONCAT(date::text, ' 15:30'))::timestamp THEN true ELSE false END) AS r300,
 
-        bool_and(CASE WHEN start_date >= (CONCAT(date::text, ' 15:30'))::timestamp AND end_date <= (CONCAT(date::text, ' 16:00'))::timestamp THEN true ELSE false END) AS r330,
-        bool_and(CASE WHEN start_date >= (CONCAT(date::text, ' 16:00'))::timestamp AND end_date <= (CONCAT(date::text, ' 16:30'))::timestamp THEN true ELSE false END) AS r400,
-        bool_and(CASE WHEN start_date >= (CONCAT(date::text, ' 16:30'))::timestamp AND end_date <= (CONCAT(date::text, ' 17:00'))::timestamp THEN true ELSE false END) AS r430
+        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 15:30'))::timestamp AND end_date <= (CONCAT(date::text, ' 16:00'))::timestamp THEN true ELSE false END) AS r330,
+        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 16:00'))::timestamp AND end_date <= (CONCAT(date::text, ' 16:30'))::timestamp THEN true ELSE false END) AS r400,
+        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 16:30'))::timestamp AND end_date <= (CONCAT(date::text, ' 17:00'))::timestamp THEN true ELSE false END) AS r430
     FROM app.rendez_vous;
 $$ LANGUAGE SQL STABLE;
 
