@@ -119,3 +119,36 @@
   font-weight: 600;
   font-size: 25px;
 }
+
+/*** Archive modal**/
+
+.archive__txt{
+  font-size: 25px;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.folder__archive{
+  color: #24A9E2;
+  font-size: 40px;
+}
+
+.confirm__archive__btns{
+  width: 150px;
+  height: 40px;
+  outline: unset;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.oui__btn{
+  background-color: #56c596;
+  color: #fff;
+  border: #56c596;
+}
+.non__btn{
+  background-color: none;
+  color: #56c596;
+  border: 2px solid #56c596;
+}

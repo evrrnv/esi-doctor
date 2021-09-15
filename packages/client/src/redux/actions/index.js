@@ -19,3 +19,7 @@ export const IndvRdvAction = () => {
 export const AprouvRdvAction = () => {
   return { type: 'APROUV_RDV' }
 }
+
+export const archiveAction = (patient) => {
+  return { type: 'ARCHIVER',patient }
+}
