@@ -18,7 +18,7 @@ const DossierCard = ({ id, dossierMedicalId, nom, prenom, profilePictureUrl }) =
         onCompleted: (data) => {
             history.push({
                 pathname: "/examiner",
-                search: `?id=${id}&examen_medical=${data.createExamenMedical.examenMedical.id}`
+                search: `?id=${id}+${data.createExamenMedical.examenMedical.id}`
             })
         }
     })

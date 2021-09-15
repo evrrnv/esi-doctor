@@ -15,7 +15,8 @@ query ExamenMedicalsHistory($search: String!) {
       prenom
       profilePicture
       role
-      id
+      examenId
+      userId
       lastEdit
     }
   }
