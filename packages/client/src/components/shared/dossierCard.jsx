@@ -1,20 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../../assets/css/specifPatients.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArchive, faEdit,  faStethoscope } from '@fortawesome/free-solid-svg-icons';
 import { Avatar } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { CREATE_EXAMEN_MEDICAL } from '../../graphql/mutations/CREATE_EXAMEN_MEDICAL';
+import Loading from './loading';
 
-const DossierCard = ({ id, nom, prenom, profilePictureUrl }) => {
+const DossierCard = ({ id, dossierMedicalId, nom, prenom, profilePictureUrl }) => {
 
     const history = useHistory()
 
-    const routeChange = () =>{ 
+    const [loading, setLoading] = useState(false)
+
+    const [createExamenMedical] = useMutation(CREATE_EXAMEN_MEDICAL, {
+        onCompleted: (data) => {
+            history.push({
+                pathname: "/examiner",
+                search: `?id=${id}&examen_medical=${data.createExamenMedical.examenMedical.id}`
+            })
+        }
+    })
+
+    const modifieRouteChange = () =>{ 
+        setLoading(true)
         history.push({
             pathname: "/patientsListInfos",
             search: `?id=${id}`
         })
-      }
+    }
+
+    const examinerRouteChange = () =>{ 
+        createExamenMedical({
+            variables: {
+                dossierMedicalId
+            }
+        })
+    }
 
     return (
             <div className="dossier__card d-flex justify-content-between">
@@ -26,12 +49,11 @@ const DossierCard = ({ id, nom, prenom, profilePictureUrl }) => {
                     </div>
                 </div>
                 <div className="dossier__actions d-flex align-items-center">
-                    <button className="dossier__btns dossier__exam">Examiner<FontAwesomeIcon className="dossierCard__icons" icon={faStethoscope}/></button>
-                    <button className="dossier__btns dossier__edit" onClick={routeChange}>Modifier<FontAwesomeIcon className="dossierCard__icons" icon={faEdit}/></button>
+                    <button className="dossier__btns dossier__exam" onClick={examinerRouteChange}>Examiner<FontAwesomeIcon className="dossierCard__icons" icon={faStethoscope}/></button>
+                    <button className="dossier__btns dossier__edit" onClick={modifieRouteChange}>Modifier<FontAwesomeIcon className="dossierCard__icons" icon={faEdit}/></button>
                     <button className="dossier__btns dossier__archive">Archiver<FontAwesomeIcon className="dossierCard__icons" icon={faArchive}/></button>
                 </div>
             </div>
-        
     );
 }
 

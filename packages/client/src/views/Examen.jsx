@@ -30,13 +30,16 @@ import Select from '@material-ui/core/Select';
 import { faPrint } from '@fortawesome/free-solid-svg-icons'
 import { TabContent, TabPane, NavLink} from 'reactstrap';
 import classnames from 'classnames';
+import { useLocation } from 'react-router-dom';
 
 
 const Examen = () => {
     const [activeTab, setActiveTab] = useState('1');
     const toggle = tab => {if(activeTab !== tab) setActiveTab(tab);}
 
-  
+    const location = useLocation();
+
+    console.log(location)
 
     return (
         <>
