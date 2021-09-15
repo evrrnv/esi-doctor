@@ -38,7 +38,7 @@ const DATABASE_URL = `postgresql://${process.env.POSTGRES_USER}:${process.env.PO
 const canSplit = (str, token) => {
   return (str || '').split(token).length > 1
 }
-
+console.log('this is the token ', process.env.POSTGRES_DB)
 app.use(
   postgraphile(DATABASE_URL, 'app', {
     watchPg: true,
@@ -58,6 +58,7 @@ app.use(
             const user = await keycloak.verifyOnline(token[1])
             const role = user.resourceAccess.web.roles[0]
             const id = user.id.split(':')[2]
+
             return {
               'jwt.claims.user_id': id,
               role
@@ -67,7 +68,7 @@ app.use(
       }
 
       return {
-        role: 'etudiant'
+        role: 'medecin'
       }
     }
   })
