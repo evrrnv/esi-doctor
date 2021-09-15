@@ -35,11 +35,7 @@
     "date-fns": "^2.23.0",
     "graphql": "^15.5.1",
     "keycloak-js": "^14.0.0",
-<<<<<<< HEAD
-    "pdf-lib": "^1.16.0",
-=======
     "moment": "^2.29.1",
->>>>>>> 479465e0935db6e5e0f7447372bd33c0002a5b1f
     "react": "^17.0.2",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^17.0.2",
@@ -48,10 +44,7 @@
     "react-scripts": "^4.0.3",
     "react-select": "^4.3.1",
     "reactstrap": "^8.10.0",
-<<<<<<< HEAD
-=======
     "react-google-flight-datepicker": "^0.1.18",
->>>>>>> 479465e0935db6e5e0f7447372bd33c0002a5b1f
     "recharts": "^2.1.2",
     "redux": "^4.1.1",
     "rsuite": "^4.10.2",
