@@ -31,6 +31,9 @@ import { faPrint } from '@fortawesome/free-solid-svg-icons'
 import { TabContent, TabPane, NavLink} from 'reactstrap';
 import classnames from 'classnames';
 import { useLocation } from 'react-router-dom';
+import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '../assets/images/delete.png'
+import BtnChangers from '../components/shared/btnChanger'
 
 
 const Examen = () => {
@@ -215,21 +218,21 @@ const Exam = (props , Key) => {
         <img className="icon_img"  src={props.icon} alt={props.icon} />
         <p className="exam_paragraph">{props.name}</p>
         </div>
-        {visible && props.name==="Ophtalmologique" ? <Details1/> : null }
+        {visible && props.name==="Ophtalmologique" ? <Notes/> : null }
         {visible && props.name==="O.R.L" ? <Details2/> : null }
-        {visible && props.name==="Rapport Médical" ? <Details/> : null }
-        {visible && props.name==="Peau et Muqueuses" ? <Details/> : null }
-        {visible && props.name==="Respiratoire" ? <Details/> : null }
-        {visible && props.name==="Locomoteur" ? <Details/> : null }
-        {visible && props.name==="Cardio-vasculaire" ? <Details/> : null }
-        {visible && props.name==="Genito-Urinaire" ? <Details/> : null }
-        {visible && props.name==="Digestif" ? <Details/> : null }
-        {visible && props.name==="Neurologique et Psychisme" ? <Details/> : null }
-        {visible && props.name==="Hématologie et Ganglionnaire" ? <Details/> : null }
-        {visible && props.name==="Endocrinologie" ? <Details/> : null }
-        {visible && props.name==="Profile Psychologique" ? <Details/> : null }
-        {visible && props.name==="Examens Complémentaires" ? <Details/> : null }
-        {visible && props.name==="Orientation" ? <Details/> : null }
+        {visible && props.name==="Rapport Médical" ? <Notes/> : null }
+        {visible && props.name==="Peau et Muqueuses" ? <Notes/> : null }
+        {visible && props.name==="Respiratoire" ? <Notes/> : null }
+        {visible && props.name==="Locomoteur" ? <Notes/> : null }
+        {visible && props.name==="Cardio-vasculaire" ? <Notes/> : null }
+        {visible && props.name==="Genito-Urinaire" ? <Notes/> : null }
+        {visible && props.name==="Digestif" ? <Notes/> : null }
+        {visible && props.name==="Neurologique et Psychisme" ? <Notes/> : null }
+        {visible && props.name==="Hématologie et Ganglionnaire" ? <Notes/> : null }
+        {visible && props.name==="Endocrinologie" ? <Notes/> : null }
+        {visible && props.name==="Profile Psychologique" ? <Notes/> : null }
+        {visible && props.name==="Examens Complémentaires" ? <Notes/> : null }
+        {visible && props.name==="Orientation" ? <Notes/> : null }
     </div>
     );
 }
@@ -276,10 +279,7 @@ const Details = () =>{
 }
 function Btn(props){
     return( 
-           <button  className="d-flex flex-row align-items-center justify-content-center mr-2" id ={props.id} >
-               <FontAwesomeIcon className="button_icons mr-2" icon={props.icon} size="2x" color={props.color} />
-               <span className={props.text} >{props.name}</span>
-           </button>     
+           <BtnChangers/>     
     )
 }
 function HeadBtn(props){
@@ -291,53 +291,88 @@ function HeadBtn(props){
            </button>     
     )
 }
-const Details1 = () =>{
-    const Notes = props => props.data.map(note => <div className="notes"> {note.text} </div>);
-    const initialData = [{ text: 'texte' }];
-    const [data, setData] = useState(initialData);
-    const handleKeyDown = (event) => {
-        if (event.key === 'Enter') {
-            const text = document.querySelector('#noteinput').value.trim();
-            if (text) {
-              const nextState = produce(data, draftState => {
-                draftState.push({ text });
-              });
-              document.querySelector('#noteinput').value = '';
-              setData(nextState);
-            }
-        }
-      }
-      
-      
-    
+const NoteItem = (props) =>{
     return(
-        
-    <div className= "details d-flex flex-row align-items-start justify-content-between">
-        <div className= "allNote d-flex flex-column justify-content-between align-items-center">
-                <SelectItem label="larmolement" />
-                <SelectItem label="Douleurs" />
-                <SelectItem label="Taches devant les yeux" />
-            
-           
+         <div className="notes_text d-flex align-items-center">
+               <span>{props.text}</span>
+               <button className="btn-delete" onClick={props.pushIt}><img src={DeleteIcon}/></button> 
+         </div>
+    );
+}
+const NoteElm = (props) =>{ 
+    let SuppArray = [];  
 
-            
-        </div> 
-        <div className= "buttons d-flex flex-column align-items-start justify-content-around" > 
-             <div>
-                <Notes data={data} />
-                <div className= "addNote d-flex flex-row align-items-center justify-content-around">
-                    <FontAwesomeIcon icon={faPlus} size="1.5x" />
-                    <input className="input" id="noteinput" type="text" onKeyDown={handleKeyDown} placeholder="Ajouter une autre note" /><span className="filetypes filetypes-e-7z"></span>
-                </div>
-             </div> 
+  
+    return(
+        <div className="Notes_items d-flex flex-column">
+            <div className="notes_area">
+            {  
                
-             <div className= "d-flex flex-row align-items-end">
-                 <Btn id="demiss" icon={faAngleLeft} name="Annuler" color="red"  text="retry" />
-                 <Btn id="confirm" icon={faCheck} name="Confirmer" color="#56C596" text="accept"  />
-             </div>
+               props.text.map((i,k) =><NoteItem key={i+'_'+k} text={i} 
+               pushIt={() =>{props.onClick(props.text.filter(e => {return i != e}))
+            }}/>) 
+            
+            }
+            </div>
         </div>
-    </div> 
-    
+    );
+}
+const Notes = () => {
+    const [input,setInput] = useState("");
+    const [text,setText] = useState([])
+    return(
+        <div className="personal_infos_">
+            <div className="inputs">
+                            <div className="infos__inputs">
+                                <div className="ant_textarea d-flex flex-column">
+                                    <div className="input__item d-flex align-items-flex-start">
+                                        <span>Affection Congénitales</span>
+                                        <input type="text" className="form-control" name="notes" value={input} placeholder="Text..." onChange={
+                                            (event) =>{
+                                                const {value} = event.target  
+                                                setInput(value) 
+                                            }
+                                        }
+                                        onKeyUp={(event) => {
+                                            if (event.key == "Enter"){
+                                                if (input === "" || input === " ") return;
+                                                else{ 
+                                                    if(![...text].includes(input)){
+                                                    setText([...text,input]);
+                                                    }
+                                                    setInput("");
+                                                }
+                                            }
+                                        }}
+                                        />
+                                    </div>
+                                    <button className="btn_infos_notes d-flex  align-items-center" onClick={()=> {
+                                        if (input === "" || input === " ") return;
+                                        else{ 
+                                            if(![...text].includes(input)){
+                                            setText([...text,input]);
+                                            }
+                                            setInput("");
+                                        }
+                                        }}>
+                                            <div className="content_btn_infos">
+                                                <AddIcon />  
+                                                <span>Ajouter une autre note</span>
+                                            </div>
+                                    </button>
+                                </div> 
+                            </div>
+                            
+                            <div className="infos_notes">
+                                {
+                                    <NoteElm text={text} onClick={setText}/>                             
+                                }
+                                
+                            </div>
+                            
+                        </div>
+                        <BtnChangers/>
+                  </div>
     );
 }
 const SelectItem = (props) => {
@@ -371,24 +406,9 @@ const SelectItem = (props) => {
 
 }
 const Details2 = () =>{
-    const Notes = props => props.data.map(note => <div className="notes"> {note.text} </div>);
-    const initialData = [{ text: 'texte' }];
-    const [data, setData] = useState(initialData);
-    const handleKeyDown = (event) => {
-        if (event.key === 'Enter') {
-            const text = document.querySelector('#noteinput').value.trim();
-            if (text) {
-              const nextState = produce(data, draftState => {
-                draftState.push({ text });
-              });
-              document.querySelector('#noteinput').value = '';
-              setData(nextState);
-            }
-        }
-      }
-      
-      
-    
+  
+    const [text,setText] = useState([])
+    const [input,setInput] = useState([])  
     return(
         
     <div className= "details d-flex flex-row align-items-start justify-content-between">
@@ -399,18 +419,33 @@ const Details2 = () =>{
                 <SelectItem label="Rhinorthée" />
         </div> 
         <div className= "buttons d-flex flex-column align-items-start justify-content-around" > 
-             <div>
-                <Notes data={data} />
-                <div className= "addNote d-flex flex-row align-items-center justify-content-around">
-                    <FontAwesomeIcon icon={faPlus} size="1.5x" />
-                    <input className="input" id="noteinput" type="text" onKeyDown={handleKeyDown} placeholder="Ajouter une autre note" /><span className="filetypes filetypes-e-7z"></span>
+             <div className="NoteItems d-flex flex-column">
+                <input placeholder="Add Notes here" 
+                onChange={                     
+                    (event) =>{
+                                const {value} = event.target  
+                                setInput(value) 
+                               }
+               }
+              onKeyUp={(event) => {
+                  if (event.key == "Enter"){
+                            if (input === "" || input === " ") return;
+                            else{ 
+                                if(![...text].includes(input)){
+                                setText([...text,input]);
+                            }
+                            setInput("");
+                            }
+                                            }
+             }}/>
+                <div className="elements_notes d-flex flex-column">
+                    {
+                         <NoteElm text={text} onClick={setText}/>  
+                    }
                 </div>
              </div> 
                
-             <div className= "d-flex flex-row align-items-end">
-                 <Btn id="demiss" icon={faAngleLeft} name="Annuler" color="red"  text="retry" />
-                 <Btn id="confirm" icon={faCheck} name="Confirmer" color="#56C596" text="accept"  />
-             </div>
+             <BtnChangers/>
         </div>
     </div> 
     
