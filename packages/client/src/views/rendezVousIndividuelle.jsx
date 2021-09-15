@@ -5,8 +5,11 @@ import { IndvRdvAction } from '../redux/actions'
 import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Autocomplete from '@material-ui/lab/Autocomplete'
+import CircularProgress from '@material-ui/core/CircularProgress'
+
 const RendezVousIndividuelle = (props) => {
   const dispatch = useDispatch()
+
   const toggleIndividuelleRdvModal = useSelector(
     (individuelleRdv) => individuelleRdv.toggleIndividuelleRdvModal
   )
@@ -32,9 +35,14 @@ const RendezVousIndividuelle = (props) => {
       width: 250
     },
     root: {
-      width: 200,
       '& > * + *': {
         marginTop: theme.spacing(3)
+      },
+      ProgressRoot: {
+        display: 'flex',
+        '& > * + *': {
+          margin: 'auto'
+        }
       }
     }
   }))
@@ -63,108 +71,123 @@ const RendezVousIndividuelle = (props) => {
           </div>
         </div>
         <ModalBody>
-          <div className="d-flex flex-column justify-content-center">
-            <div className="description__container">
-              <input
-                id="descriptionIndv"
-                type="text"
-                placeholder="Description"
-                className="border__grey pl-3"
-              />
+          {props.toggleProgress ? (
+            <div
+              className={
+                'progress__container d-flex justify-content-center align-items-center'
+              }
+            >
+              <CircularProgress />
             </div>
-            <div className="timing__container d-flex mt-4 px">
-              <div className="dates__indiv border__grey d-flex justify-content-center align-items-center">
-                <span className="mt-3">Date dèbut :</span>
-                <form className={classes.container} noValidate>
-                  <TextField
-                    id="dateDebutIndiv"
-                    label="Debut"
-                    type="date"
-                    defaultValue={props.currentDate}
-                    className={classes.textField}
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                    onChange={(e) => {
-                      const dateDebut = e.target.value
-                      setDateDebutIndiv({ dateDebut })
-                    }}
+          ) : (
+            <div>
+              <div className="d-flex flex-column justify-content-center">
+                <div className="description__container">
+                  <input
+                    id="descriptionIndv"
+                    type="text"
+                    placeholder="Description"
+                    className="border__grey pl-3"
                   />
-                </form>
-              </div>
+                </div>
+                <div className="timing__container d-flex mt-4 px">
+                  <div className="dates__indiv border__grey d-flex justify-content-center align-items-center">
+                    <span className="mt-3">Date dèbut :</span>
+                    <form className={classes.container} noValidate>
+                      <TextField
+                        id="dateDebutIndiv"
+                        label="Debut"
+                        type="date"
+                        defaultValue={props.currentDate}
+                        className={classes.textField}
+                        InputLabelProps={{
+                          shrink: true
+                        }}
+                        onChange={(e) => {
+                          const dateDebut = e.target.value
+                          setDateDebutIndiv({ dateDebut })
+                        }}
+                      />
+                    </form>
+                  </div>
 
-              <div className="dates__indiv border__grey d-flex justify-content-center align-items-center ml-3">
-                <span className="mt-3"> Temps dèbut :</span>
-                <form className={classes.container} noValidate>
-                  <TextField
-                    id="timeIndv"
-                    label="Temps dèbut"
-                    type="time"
-                    defaultValue={props.currentTime}
-                    className={classes.textField}
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                    inputProps={{
-                      step: 300 // 5 min
-                    }}
-                    onChange={(e) => {
-                      const tempDebut = e.target.value
-                      setTempsDebutIndiv({ tempDebut })
-                    }}
-                  />
-                </form>
-              </div>
-            </div>
-            <div className="student__info__container__indv border__grey mt-1 px d-flex align-items-center mb-4">
-              <div className="student__email__indiv">
-                <Autocomplete
-                  style={{ width: 40 + 'vw' }}
-                  {...defaultProps}
-                  id="emailIndv"
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Email D'etudiant"
-                      margin="normal"
+                  <div className="dates__indiv border__grey d-flex justify-content-center align-items-center ml-3">
+                    <span className="mt-3"> Temps dèbut :</span>
+                    <form className={classes.container} noValidate>
+                      <TextField
+                        id="timeIndv"
+                        label="Temps dèbut"
+                        type="time"
+                        defaultValue={props.currentTime}
+                        className={classes.textField}
+                        InputLabelProps={{
+                          shrink: true
+                        }}
+                        inputProps={{
+                          step: 300 // 5 min
+                        }}
+                        onChange={(e) => {
+                          const tempDebut = e.target.value
+                          setTempsDebutIndiv({ tempDebut })
+                        }}
+                      />
+                    </form>
+                  </div>
+                </div>
+                <div className="student__info__container__indv border__grey mt-1 px d-flex align-items-center mb-4">
+                  <div className="student__email__indiv">
+                    <Autocomplete
+                      style={{ width: 40 + 'vw' }}
+                      {...defaultProps}
+                      id="emailIndv"
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Email D'etudiant"
+                          margin="normal"
+                        />
+                      )}
+                      onChange={(e, value) => {
+                        console.log('this is student ', value)
+
+                        // console.log('this is student ', student)
+                        setStudentInfo({
+                          student: value
+                        })
+                      }}
                     />
-                  )}
-                  onChange={(e, value) => {
-                    console.log('this is student ', value)
-
-                    // console.log('this is student ', student)
-                    setStudentInfo({
-                      student: value
-                    })
-                  }}
-                />
+                  </div>
+                </div>
+                <div className="create_btn_container d-flex justify-content-center align-items-center mt-4">
+                  <button
+                    className=""
+                    onClick={() => {
+                      if (Object.keys(studentInfo).length === 0)
+                        alert('you must fill the student')
+                      else {
+                        delete studentInfo.__typename
+                        const appointement = {
+                          ...tempsDebutIndv,
+                          ...dateDebutIndv,
+                          ...studentInfo,
+                          description:
+                            document.getElementById('descriptionIndv').value ===
+                            ''
+                              ? null
+                              : document.getElementById('descriptionIndv').value
+                        }
+                        props.onCreerRendezVousIndiv(appointement)
+                        // console.log(appointement.student.user_id)
+                        // dispatch(IndvRdvAction())
+                      }
+                    }}
+                  >
+                    Crèer
+                  </button>
+                </div>
               </div>
             </div>
-            <div className="create_btn_container d-flex justify-content-center align-items-center mt-4">
-              <button
-                className=""
-                onClick={() => {
-                  if (Object.keys(studentInfo).length === 0)
-                    alert('you must fill the student')
-                  else {
-                    delete studentInfo.__typename
-                    const appointement = {
-                      ...tempsDebutIndv,
-                      ...dateDebutIndv,
-                      ...studentInfo,
-                      description:
-                        document.getElementById('descriptionIndv').value
-                    }
-                    props.onCreerRendezVousIndiv(appointement)
-                    // console.log(appointement.student.user_id)
-                    // dispatch(IndvRdvAction())
-                  }
-                }}
-              >
-                Crèer
-              </button>
-            </div>
-          </div>
+          )}
         </ModalBody>
       </Modal>
     </div>

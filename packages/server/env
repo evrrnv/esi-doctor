@@ -1,0 +1,8 @@
+KEYCLOAK_URL=https://auth.moun3im.com/
+KEYCLOAK_REALME=1sc-project
+
+POSTGRES_HOST=167.86.81.64
+POSTGRES_DB=1sc-project-db
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=password
+POSTGRES_PORT=5432
