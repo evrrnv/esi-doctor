@@ -15,3 +15,11 @@ export const collecRdvAction = () => {
 export const IndvRdvAction = () => {
   return { type: 'INDIV_RDV' }
 }
+
+export const AprouvRdvAction = () => {
+  return { type: 'APROUV_RDV' }
+}
+
+export const archiveAction = (patient) => {
+  return { type: 'ARCHIVER',patient }
+}

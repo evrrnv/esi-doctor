@@ -96,7 +96,7 @@ const Stat = () => {
           prenom={currentUser.prenom}
           profilePictureUrl={currentUser.profilePicture}
         />
-        <div className="stat__body mt-2">
+        <div className="stat__body mt-2 pb-4">
           <div className="stat__head d-flex justify-content-between align-items-center">
             <div className="stat__head__title d-flex align-items-center">
               <TimelineIcon id="timeline__icon" />
@@ -135,14 +135,7 @@ const Stat = () => {
                   Année
                 </button>
               </div>
-              <div className="stat__date__filter">
-                <DateRangePicker
-                  className="range__picker"
-                  placeholder="Interval de date"
-                  showOneCalendar
-                  style={{ width: '240px' }}
-                />
-              </div>
+              
             </div>
           </div>
           <div className="stat__general mt-4  pb-4 mx-1 row">
@@ -201,7 +194,7 @@ const Stat = () => {
               </div>
             </div>
             <div className="stat__circle__container  col-4">
-              <div className="stat__circle pt-4 pl-5 pr-0">
+              <div className="stat__circle pt-3 pl-5 pr-0">
                 <h6 className="stat__circle__txt">Dossiers médicaux</h6>
                 <PieChart width={250} height={200}>
                   <Pie
@@ -253,12 +246,12 @@ const Stat = () => {
               </div>
             </div>
           </div>
-          <div className="stats__details mt-0  row ml-3 mr-0">
-            <div className="stat__bars  py-3 col-6">
+          <div className="stats__details mt-0  row ml-3 mr-3 mr-0">
+            <div className="stat__bars  py-3 col-12">
               <h6 className="stat__circle__txt ml-3 mb-3">Visites médicaux</h6>
               <BarChart
-                width={500}
-                height={320}
+                width={1000}
+                height={350}
                 data={dailyStats}
                 margin={{
                   top: 5,
