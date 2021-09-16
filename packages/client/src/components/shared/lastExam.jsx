@@ -3,7 +3,8 @@ import {Link} from 'react-router-dom';
 const LastExam = (props) => {
     return (
         <Link to={{
-            pathname:"/patientsListInfos"
+            pathname:"/examiner",
+            search: `?id=${props.userId}+${props.examenId}`
         }}
         className="link_patientInfos"
         >

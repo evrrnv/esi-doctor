@@ -1,4 +1,4 @@
-import React, { useState ,  useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import SideBar from '../components/layout/sideBar';
 import '../assets/css/examen.css'
 import avatar  from '../assets/images/avatar.jpg';
@@ -31,9 +31,11 @@ import { faPrint } from '@fortawesome/free-solid-svg-icons'
 import { TabContent, TabPane, NavLink} from 'reactstrap';
 import classnames from 'classnames';
 import { useLocation } from 'react-router-dom';
-import AddIcon from '@material-ui/icons/Add';
-import DeleteIcon from '../assets/images/delete.png'
-import BtnChangers from '../components/shared/btnChanger'
+import { useMutation, useQuery } from '@apollo/client';
+import { GET_EXAMEN_MEDICAL } from '../graphql/queries/GET_EXAMEN_MEDICAL';
+import Loading from '../components/shared/loading';
+import { UPDATE_OPHTALMOLOGIQUE, UPDATE_PEAU_MUQUEUSES, UPDATE_RAPPORT } from '../graphql/mutations/UPDATE_EXAMEN_MEDICAL';
+import { capitalizeFirstLetter } from '../utils';
 import { useReactToPrint } from "react-to-print";
 import ComponentToPrint from "./Certeficate"
 import OrdonnaceToPrint from "./Ordonnance"
@@ -45,8 +47,20 @@ const Examen = () => {
 
     const location = useLocation();
 
-    console.log(location)
+    const split = location.search.split("=")
+    const [userId, examenId] = split[1].split("+")
 
+    const { loading, error, data } = useQuery(GET_EXAMEN_MEDICAL, {
+        variables: {
+            id: examenId,
+            userId
+        }
+    })
+
+    if (loading) return <Loading />;
+    if (error) return <p>Error(:</p>;
+
+    
     return (
         <>
             <div className="mainContent">
@@ -54,11 +68,11 @@ const Examen = () => {
                 <div className="examen_content  d-flex flex-column justify-content-between">
                 <div className="infos  d-flex justify-content-between align-items-center">
                     <div className="personal_info d-flex align-items-end">
-                        <img className="personal_img"  src={avatar} alt="" />
+                        <img className="personal_img"  src={data.userAccountById.profilePicture} alt="" />
                         <div className ="text_infos">
-                            <p className="title">Titre</p>
-                            <p className="name">Nom et Prénom </p>
-                            <p className="email">email@esi-sba.dz</p>
+                            <p className="title">{capitalizeFirstLetter(data.userAccountById.role)}</p>
+                            <p className="name">{`${data.userAccountById.nom} ${data.userAccountById.prenom}`}</p>
+                            <p className="email">{data.userAccountById.email}</p>
                         </div>
                     </div>
                     <div className="d-flex flex-row justify-content-around align-items-center ">
@@ -93,9 +107,9 @@ const Examen = () => {
                     </NavLink>
                     </div>
                 </div>
-               <div className="d-flex flex-row align-items-center justify-content-around">
+               <div>
                <TabContent activeTab={activeTab}>
-                <TabPane tabId="1"> <Exams /> </TabPane>
+                <TabPane tabId="1"> <Exams examenMedical={data.examenMedicalById} /> </TabPane>
                 <TabPane tabId="2"> <Ordonnance/> </TabPane>
                 <TabPane tabId="3"> <Certeficat/> </TabPane>
                </TabContent> 
@@ -217,73 +231,150 @@ const Certeficat = (props) => {
         </div>
     ); 
 }
-const Exams = ()  => {
+const Exams = ({ examenMedical })  => {
     return(
     <div className="exams d-flex flex-column align-items-center"> 
-    <Exam name="Rapport Médical" icon={Rapportmedical} /> 
-    <Exam name="Peau et Muqueuses" icon={Peau} /> 
-    <Exam name="Ophtalmologique" icon={Vision} /> 
-    <Exam name="O.R.L" icon={Ear} /> 
-    <Exam name="Locomoteur" icon={Locomoteur} /> 
-    <Exam name="Respiratoire" icon={Respiratoire} /> 
-    <Exam name="Cardio-vasculaire" icon={Cardio} /> 
-    <Exam name="Digestif" icon={Digestif} /> 
-    <Exam name="Genito-Urinaire" icon={Digestif} /> 
-    <Exam name="Neurologique et Psychisme" icon={Neurologique} /> 
-    <Exam name="Hématologie et Ganglionnaire" icon={Hematologie} /> 
-    <Exam name="Endocrinologie" icon={Hematologie} /> 
-    <Exam name="Profile Psychologique" icon={Psychology} /> 
-    <Exam name="Examens Complémentaires" icon={Rapport} /> 
-    <Exam name="Orientation" icon={Rapport} />  
+    <Exam name="Rapport Médical" icon={Rapportmedical} examenMedical={examenMedical}/> 
+    <Exam name="Peau et Muqueuses" icon={Peau}  examenMedical={examenMedical}/> 
+    <Exam name="Ophtalmologique" icon={Vision} examenMedical={examenMedical}/> 
+    <Exam name="O.R.L" icon={Ear} examenMedical={examenMedical}/> 
+    <Exam name="Locomoteur" icon={Locomoteur} examenMedical={examenMedical}/> 
+    <Exam name="Respiratoire" icon={Respiratoire} examenMedical={examenMedical}/> 
+    <Exam name="Cardio-vasculaire" icon={Cardio} examenMedical={examenMedical}/> 
+    <Exam name="Digestif" icon={Digestif} examenMedical={examenMedical}/> 
+    <Exam name="Genito-Urinaire" icon={Digestif} examenMedical={examenMedical}/> 
+    <Exam name="Neurologique et Psychisme" icon={Neurologique} examenMedical={examenMedical}/> 
+    <Exam name="Hématologie et Ganglionnaire" icon={Hematologie} examenMedical={examenMedical}/> 
+    <Exam name="Endocrinologie" icon={Hematologie} examenMedical={examenMedical}/> 
+    <Exam name="Profile Psychologique" icon={Psychology} examenMedical={examenMedical}/> 
+    <Exam name="Examens Complémentaires" icon={Rapport} examenMedical={examenMedical}/> 
+    <Exam name="Orientation" icon={Rapport} examenMedical={examenMedical}/>  
     </div>  );    
 
 
 }
+
+const PeauMuqueuses = ({ data, examenId }) => {
+    const [updatePeauMuqueuses] = useMutation(UPDATE_PEAU_MUQUEUSES)
+
+    const handleOnClick = (info) => {
+            updatePeauMuqueuses({ variables: {
+                id: examenId,
+                data: {
+                    notes: info
+                }
+            },
+            // update(cache) {
+            //     const existingCache = cache.readQuery({
+            //         query: GET_EXAMEN_MEDICAL,
+            //         variables: {
+            //             id: examenId
+            //         }
+            //     })
+            //     const newData = JSON.parse(JSON.stringify(existingCache))
+            //     newData.examenMedicalById.peauEtMuqueusById.notes = notes
+            //     cache.writeQuery({
+            //         query: GET_EXAMEN_MEDICAL,
+            //         variables: {
+            //             id: examenId
+            //         }
+            //     })
+            // }
+        })
+    }
+
+    return (<Details notes={data?.notes} onClick={handleOnClick} />)
+}
+
+const Ophtalmologique = ({ data, examenId }) => {
+    const [updateOphtalmologique] = useMutation(UPDATE_OPHTALMOLOGIQUE)
+
+    const handleOnClick = ({ info, larmolement, douleurs, tachesDyeux }) => {
+        console.log("uuu", larmolement, douleurs, tachesDyeux)
+
+            const a = larmolement != null ? larmolement === "true" || larmolement === true : null
+            const b = douleurs != null ? douleurs === "true" || douleurs === true : null
+            const c = tachesDyeux != null ? tachesDyeux === "true"|| tachesDyeux === true : null
+            console.log("c", a, b, c)
+            data.larmolement = larmolement
+            data.douleurs = douleurs
+            data.tachesDevantLesYeux = tachesDyeux
+            updateOphtalmologique({ variables: {
+                id: examenId,
+                data: {
+                    notes: info,
+                    larmolement: a,
+                    douleurs: b,
+                    tachesDevantLesYeux: c
+                }
+            }
+        })
+    }
+
+    return (<Details1 onClick={handleOnClick} notes={data?.notes} larmolement={data?.larmolement} douleurs={data?.douleurs} tachesDyeux={data?.tachesDevantLesYeux} />)
+}
+
+const RapportMedical = ({ data, examenId }) => {
+    const [updateRapport] = useMutation(UPDATE_RAPPORT)
+
+    const handleOnClick = ( info ) => {
+        console.log(info)
+            updateRapport({ variables: {
+                id: examenId,
+                data: {
+                    notes: info
+                }
+            }
+        })
+    }
+
+    return (<Details notes={data?.notes} onClick={handleOnClick} />)
+}
+
 const Exam = (props , Key) => {
 
-   
-    
     const [visible, setVisible]=useState(false) ; 
     const[color, setColor] = useState('');
     const hundler = () => {setVisible(!visible)} ; 
-    const changeColor = ()=>{setColor('black')} ; 
+
     return(
     <div className={"exam "+ color }  >
         <div className="simple d-flex flex-row align-items-center" onClick={hundler} style={{cursor:"pointer"} } >
         <img className="icon_img"  src={props.icon} alt={props.icon} />
         <p className="exam_paragraph">{props.name}</p>
         </div>
-        {visible && props.name==="Ophtalmologique" ? <Notes exit={hundler}/> : null }
-        {visible && props.name==="O.R.L" ? <Details2 exit={hundler}/> : null }
-        {visible && props.name==="Rapport Médical" ? <Notes exit={hundler}/> : null }
-        {visible && props.name==="Peau et Muqueuses" ? <Notes exit={hundler}/> : null }
-        {visible && props.name==="Respiratoire" ? <Notes exit={hundler}/> : null }
-        {visible && props.name==="Locomoteur" ? <Notes exit={hundler}/> : null }
-        {visible && props.name==="Cardio-vasculaire" ? <Notes exit={hundler}/> : null }
-        {visible && props.name==="Genito-Urinaire" ? <Notes exit={hundler}/> : null }
-        {visible && props.name==="Digestif" ? <Notes exit={hundler}/> : null }
-        {visible && props.name==="Neurologique et Psychisme" ? <Notes exit={hundler}/> : null }
-        {visible && props.name==="Hématologie et Ganglionnaire" ? <Notes exit={hundler}/> : null }
-        {visible && props.name==="Endocrinologie" ? <Notes exit={hundler}/> : null }
-        {visible && props.name==="Profile Psychologique" ? <Notes exit={hundler}/> : null }
-        {visible && props.name==="Examens Complémentaires" ? <Notes exit={hundler}/> : null }
-        {visible && props.name==="Orientation" ? <Notes exit={hundler}/> : null }
+        
+        {visible && props.name==="Rapport Médical" ? <RapportMedical data={props.examenMedical?.rapportMedicalById} examenId={props.examenMedical?.id} /> : null }
+        {visible && props.name==="Peau et Muqueuses" ? <PeauMuqueuses data={props.examenMedical?.peauEtMuqueusById} examenId={props.examenMedical?.id} /> : null }
+        {visible && props.name==="Ophtalmologique" ? <Ophtalmologique data={{...props.examenMedical?.ophtalmologiqueById}} examenId={props.examenMedical?.id} /> : null }
+        {visible && props.name==="O.R.L" ? <Details2 notes={['orl']} siflements={true} angines={false} expitaxis={true} rhinorthee={false} /> : null }
+        {visible && props.name==="Respiratoire" ? <Details notes={['r']} /> : null }
+        {visible && props.name==="Locomoteur" ? <Details notes={['l']} /> : null }
+        {visible && props.name==="Cardio-vasculaire" ? <Details notes={['cv']}/> : null }
+        {visible && props.name==="Genito-Urinaire" ? <Details notes={['gur']} /> : null }
+        {visible && props.name==="Digestif" ? <Details notes={['dig']} /> : null }
+        {visible && props.name==="Neurologique et Psychisme" ? <Details notes={['psy']} /> : null }
+        {visible && props.name==="Hématologie et Ganglionnaire" ? <Details notes={['hema']}/> : null }
+        {visible && props.name==="Endocrinologie" ? <Details notes={['endoc']}/> : null }
+        {visible && props.name==="Profile Psychologique" ? <Details notes={['prof']}/> : null }
+        {visible && props.name==="Examens Complémentaires" ? <Details notes={['ex']}/> : null }
+        {visible && props.name==="Orientation" ? <Details notes={['orient']}/> : null }
     </div>
     );
 }
 
 
-const Details = () =>{
-    const Notes = props => props.data.map(note => <div className="notes d-flex flex-column"> <span className="subtitle">Description</span>
-    <div> {note.text} </div> </div>);
-    const initialData = [{ text: 'Note' }];
-    const [data, setData] = useState(initialData);
+const Details = ({ notes, onClick }) =>{
+    if (!notes) notes = []
+    const Notes = props => props.data.map((note, i) => <div key={i} className="notes d-flex flex-column"> <span className="subtitle">Description</span>
+    <div> {note} </div> </div>);
+    const [data, setData] = useState(['Note',...notes]);
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
             const text = document.querySelector('#noteinput').value.trim();
             if (text) {
               const nextState = produce(data, draftState => {
-                draftState.push({ text });
+                draftState.push(text);
               });
               document.querySelector('#noteinput').value = '';
               setData(nextState);
@@ -305,7 +396,12 @@ const Details = () =>{
         <div className= "buttons d-flex flex-row align-items-end justify-content-around" > 
              <div className= "d-flex flex-row justify-content-between">
                  <Btn id="demiss" icon={faAngleLeft} name="Annuler" color="red"  text="retry" />
-                 <Btn id="confirm" icon={faCheck} name="Confirmer" color="#56C596" text="accept"  />
+                 <Btn onClick={() => {
+                     const info = [...data]
+                     info.shift()
+                     console.log(info)
+                     onClick(info)
+                 }} id="confirm" icon={faCheck} name="Confirmer" color="#56C596" text="accept"  />
              </div>
         </div>
     </div> 
@@ -314,7 +410,10 @@ const Details = () =>{
 }
 function Btn(props){
     return( 
-           <BtnChangers/>     
+           <button onClick={props.onClick}  className="d-flex flex-row align-items-center justify-content-center mr-2" id ={props.id} >
+               <FontAwesomeIcon className="button_icons mr-2" icon={props.icon} size="2x" color={props.color} />
+               <span className={props.text} >{props.name}</span>
+           </button>     
     )
 }
 function HeadBtn(props){
@@ -326,91 +425,59 @@ function HeadBtn(props){
            </button>     
     )
 }
-const NoteItem = (props) =>{
-    return(
-         <div className="notes_text d-flex align-items-center">
-               <span>{props.text}</span>
-               <button className="btn-delete" onClick={props.pushIt}><img src={DeleteIcon}/></button> 
-         </div>
-    );
-}
-const NoteElm = (props) =>{ 
-    let SuppArray = [];  
-
-  
-    return(
-        <div className="Notes_items d-flex flex-column">
-            <div className="notes_area">
-            {  
-               
-               props.text.map((i,k) =><NoteItem key={i+'_'+k} text={i} 
-               pushIt={() =>{props.onClick(props.text.filter(e => {return i != e}))
-            }}/>) 
-            
+const Details1 = ({ notes, larmolement, douleurs, tachesDyeux, onClick}) =>{
+    if (!notes) notes = []
+    const Notes = props => props.data.map((note, i) => <div key={i} className="notes"> {note} </div>);
+    const [data, setData] = useState(['Note', ...notes]);
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            const text = document.querySelector('#noteinput').value.trim();
+            if (text) {
+              const nextState = produce(data, draftState => {
+                draftState.push(text);
+              });
+              document.querySelector('#noteinput').value = '';
+              setData(nextState);
             }
-            </div>
-        </div>
-    );
-}
-const Notes = (props) => {
-    const [input,setInput] = useState("");
-    const [text,setText] = useState([])
+        }
+      }
+
+      console.log(larmolement, douleurs, tachesDyeux)
+
     return(
-        <div className="personal_infos_">
-            <div className="inputs">
-                            <div className="infos__inputs">
-                                <div className="ant_textarea d-flex flex-column">
-                                    <div className="input__item d-flex align-items-flex-start">
-                                        <span>Affection Congénitales</span>
-                                        <input type="text" className="form-control" name="notes" value={input} placeholder="Text..." onChange={
-                                            (event) =>{
-                                                const {value} = event.target  
-                                                setInput(value) 
-                                            }
-                                        }
-                                        onKeyUp={(event) => {
-                                            if (event.key == "Enter"){
-                                                if (input === "" || input === " ") return;
-                                                else{ 
-                                                    if(![...text].includes(input)){
-                                                    setText([...text,input]);
-                                                    }
-                                                    setInput("");
-                                                }
-                                            }
-                                        }}
-                                        />
-                                    </div>
-                                    <button className="btn_infos_notes d-flex  align-items-center" onClick={()=> {
-                                        if (input === "" || input === " ") return;
-                                        else{ 
-                                            if(![...text].includes(input)){
-                                            setText([...text,input]);
-                                            }
-                                            setInput("");
-                                        }
-                                        }}>
-                                            <div className="content_btn_infos">
-                                                <AddIcon />  
-                                                <span>Ajouter une autre note</span>
-                                            </div>
-                                    </button>
-                                </div> 
-                            </div>
-                            
-                            <div className="infos_notes">
-                                {
-                                    <NoteElm text={text} onClick={setText}/>                             
-                                }
-                                
-                            </div>
-                            
-                        </div>
-                        <BtnChangers onClickAnnuler={props.exit} onClickConfirmer={props.exit}/>
-                  </div>
+        
+    <div className= "details d-flex flex-row align-items-start justify-content-between">
+        <div className= "allNote d-flex flex-column justify-content-between align-items-center">
+                <SelectItem label="larmolement" value={larmolement != null ? larmolement : ''} onSelect={(v) => larmolement = v.target.value}  />
+                <SelectItem label="Douleurs" value={douleurs != null ? douleurs : ''} onSelect={(v) => douleurs = v.target.value}  />
+                <SelectItem label="Taches devant les yeux" value={tachesDyeux != null ? tachesDyeux : ''} onSelect={(v) => tachesDyeux = v.target.value}  />
+            
+        </div>  
+        <div className= "buttons d-flex flex-column align-items-start justify-content-around" > 
+             <div>
+                <Notes data={data} />
+                <div className= "addNote d-flex flex-row align-items-center justify-content-around">
+                    <FontAwesomeIcon icon={faPlus} size="1.5x" />
+                    <input className="input" id="noteinput" type="text" onKeyDown={handleKeyDown} placeholder="Ajouter une autre note" /><span className="filetypes filetypes-e-7z"></span>
+                </div>
+             </div> 
+               
+             <div className= "d-flex flex-row align-items-end">
+                 <Btn id="demiss" icon={faAngleLeft} name="Annuler" color="red"  text="retry" />
+                 <Btn onClick={() => {
+                     console.log("fff" + larmolement, douleurs, tachesDyeux)
+                     const info = [...data]
+                     info.shift()
+                    onClick({ info, larmolement, douleurs, tachesDyeux })
+                 }} id="confirm" icon={faCheck} name="Confirmer" color="#56C596" text="accept"  />
+             </div>
+        </div>
+    </div> 
+    
     );
 }
 const SelectItem = (props) => {
+
     const useStyles = makeStyles((theme) => ({
         formControl: {
           margin: theme.spacing(1),
@@ -423,7 +490,6 @@ const SelectItem = (props) => {
       }));
       
     const classes = useStyles();
-    
 
     return(
         <FormControl variant="outlined" className={classes.formControl}>
@@ -432,55 +498,55 @@ const SelectItem = (props) => {
           labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
           label={props.label}
+          defaultValue={props.value}
+          onChange={props.onSelect}
         >
-          <MenuItem value="Oui" >Oui</MenuItem>
-          <MenuItem value="Non">Non</MenuItem>
+          <MenuItem value="true">Oui</MenuItem>
+          <MenuItem value="false">Non</MenuItem>
         </Select>
       </FormControl>
     );
 
 }
-const Details2 = () =>{
-  
-    const [text,setText] = useState([])
-    const [input,setInput] = useState([])  
+
+const Details2 = ({ notes, siflements, angines, expitaxis, rhinorthee }) =>{
+    const Notes = props => props.data.map((note, i) => <div key={i} className="notes"> {note} </div>);
+    const [data, setData] = useState(['Note', ...notes]);
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            const text = document.querySelector('#noteinput').value.trim();
+            if (text) {
+              const nextState = produce(data, draftState => {
+                draftState.push(text);
+              });
+              document.querySelector('#noteinput').value = '';
+              setData(nextState);
+            }
+        }
+      }
+    
     return(
         
     <div className= "details d-flex flex-row align-items-start justify-content-between">
         <div className= "allNote d-flex flex-column justify-content-between align-items-center">
-                <SelectItem label="Siflements" />
-                <SelectItem label="Angines Répétées" />
-                <SelectItem label="Expitaxis" />
-                <SelectItem label="Rhinorthée" />
+                <SelectItem label="Siflements" value={siflements} />
+                <SelectItem label="Angines Répétées" value={angines} />
+                <SelectItem label="Expitaxis" value={expitaxis} />
+                <SelectItem label="Rhinorthée" value={rhinorthee} />
         </div> 
         <div className= "buttons d-flex flex-column align-items-start justify-content-around" > 
-             <div className="NoteItems d-flex flex-column">
-                <input placeholder="Add Notes here" 
-                onChange={                     
-                    (event) =>{
-                                const {value} = event.target  
-                                setInput(value) 
-                               }
-               }
-              onKeyUp={(event) => {
-                  if (event.key == "Enter"){
-                            if (input === "" || input === " ") return;
-                            else{ 
-                                if(![...text].includes(input)){
-                                setText([...text,input]);
-                            }
-                            setInput("");
-                            }
-                                            }
-             }}/>
-                <div className="elements_notes d-flex flex-column">
-                    {
-                         <NoteElm text={text} onClick={setText}/>  
-                    }
+             <div>
+                <Notes data={data} />
+                <div className= "addNote d-flex flex-row align-items-center justify-content-around">
+                    <FontAwesomeIcon icon={faPlus} size="1.5x" />
+                    <input className="input" id="noteinput" type="text" onKeyDown={handleKeyDown} placeholder="Ajouter une autre note" /><span className="filetypes filetypes-e-7z"></span>
                 </div>
              </div> 
                
-             <BtnChangers/>
+             <div className= "d-flex flex-row align-items-end">
+                 <Btn id="demiss" icon={faAngleLeft} name="Annuler" color="red"  text="retry" />
+                 <Btn id="confirm" icon={faCheck} name="Confirmer" color="#56C596" text="accept"  />
+             </div>
         </div>
     </div> 
     

@@ -11,7 +11,7 @@ const HistoLastExam = (props) => {
 
     const inputRef = React.createRef();
 
-    const { loading, error, data, refetch, client } = useQuery(GET_RECENT_EXAMEN_MEDICALS, {
+    const { loading, error, data, refetch } = useQuery(GET_RECENT_EXAMEN_MEDICALS, {
         variables: {
             search: ""
         }
@@ -29,7 +29,7 @@ const HistoLastExam = (props) => {
 
     if (loading) return (
         <div className="patients__examen align-self-end">
-            <Loading />
+            
         </div>
     );
     if (error) return <p>Error(:</p>;
@@ -44,7 +44,7 @@ const HistoLastExam = (props) => {
                     </div>
                     <div className="pers__examen">
                         {data.recentExamenMedicals.nodes.map((v, i) => {
-                                return (<LastExam key={i} avatar={v.profilePicture} name={`${v.nom} ${v.prenom}`} title={capitalizeFirstLetter(v.role)} time={v.lastEdit}/>)
+                                return (<LastExam userId={v.userId} examenId={v.examenId} key={i} avatar={v.profilePicture} name={`${v.nom} ${v.prenom}`} title={capitalizeFirstLetter(v.role)} time={v.lastEdit}/>)
                         })}
                     </div>
             </div> 

@@ -241,7 +241,7 @@ const PatientInfos = (props)=>{
                 <div className="general_infos d-flex justify-content-between align-items-center">
                     <div className="main__infos d-flex justify-content-between align-items-center">
                         <div className="personal__img">
-                            <img alt="probably avatar of person" src="https://images.unsplash.com/photo-1560329072-17f59dcd30a4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=767&q=80"/>
+                            <img alt="probably avatar of person" src={user.profilePicture}/>
                         </div>
                         <div className="informations">
                             <span className="titre">{capitalizeFirstLetter(user.role)}</span>
@@ -454,7 +454,7 @@ const PatientInfos = (props)=>{
                          const jouresDeCigarattes = parseInt(jouresDeCigarattesRef.current.value.trim())
                          const chiquer = stringToBoolean(chiquerRef.current.value)
                          const prise = stringToBoolean(priseRef.current.value)
-                         const alcool = stringToBoolean(alcoolRef.current.v.btn_infosalue)
+                         const alcool = stringToBoolean(alcoolRef.current.value)
                          const medicaments = stringToBoolean(medicamentsRef.current.value)
                          const autres = autresRef.current.value.trim()
                          updateAntecedentsPersonnelles({
