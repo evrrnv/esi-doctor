@@ -167,12 +167,14 @@ BEGIN
     IF  current_setting('jwt.claims.role')::text = 'medecin' THEN
         NEW.medecin = nullif (current_setting('jwt.claims.user_id', TRUE),'')::uuid;
         NEW.is_valid = TRUE;
+    ELSE
+        NEW.user_id = nullif (current_setting('jwt.claims.user_id', TRUE),'')::uuid;
     END IF;
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER set_medecin_accorder_rende_vous AFTER INSERT ON app.rendez_vous FOR EACH ROW EXECUTE FUNCTION app.set_current_medecin_rendezVous();
+CREATE TRIGGER set_medecin_accorder_rende_vous BEFORE INSERT ON app.rendez_vous FOR EACH ROW EXECUTE FUNCTION app.set_current_medecin_rendezVous();
 --annèe et groupe
 
 CREATE TABLE app.ecole_niveau (
@@ -343,6 +345,12 @@ CREATE FUNCTION app.current_user() RETURNS app.user_account AS $$
 $$ LANGUAGE SQL STABLE;
 
 GRANT EXECUTE ON FUNCTION app.current_user() TO MEDECIN, ATS, ETUDIANT, ENSEIGNANT;
+
+CREATE FUNCTION app.current_role() RETURNS text AS $$
+    SELECT current_setting('jwt.claims.role')
+$$ LANGUAGE SQL STABLE;
+
+GRANT EXECUTE ON FUNCTION app.current_role() TO MEDECIN, ATS, ETUDIANT, ENSEIGNANT;
 
 -- patiens number by role
 
@@ -816,7 +824,7 @@ RETURNS TABLE (
 )
  AS $$
     WITH lst AS (
-    SELECT app.examen_medical.id AS examen_id, LEAST(app.peau_et_muqueuses.updated_at, app.peau_et_muqueuses.updated_at, app.orl.updated_at) FROM app.user_account 
+    SELECT app.examen_medical.id AS examen_id, LEAST(app.peau_et_muqueuses.updated_at, app.peau_et_muqueuses.updated_at, app.orl.updated_at) AS least FROM app.user_account 
     INNER JOIN app.dossier_medical ON app.user_account.user_id = app.dossier_medical.user_id AND role IN ('ETUDIANT', 'ENSEIGNANT', 'ATS')
     INNER JOIN app.examen_medical ON app.dossier_medical.id = app.examen_medical.dossier_medical_id
     INNER JOIN app.peau_et_muqueuses ON app.examen_medical.id = app.peau_et_muqueuses.id

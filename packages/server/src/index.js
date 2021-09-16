@@ -61,7 +61,7 @@ app.use(
 
             return {
               'jwt.claims.user_id': id,
-              role
+              'jwt.claims.role': role,
             }
           } catch (e) {}
         }
