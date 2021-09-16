@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import SideBar from '../components/layout/sideBar';
 import '../assets/css/examen.css'
 import avatar  from '../assets/images/avatar.jpg';
+import logo  from '../assets/images/logo.png';
 import Cardio  from '../assets/icons/Cardio.svg'
 import Digestif  from '../assets/icons/Digestif.svg'
 import Ear  from '../assets/icons/Ear.svg'
@@ -35,7 +36,8 @@ import { useMutation, useQuery } from '@apollo/client';
 import { GET_EXAMEN_MEDICAL } from '../graphql/queries/GET_EXAMEN_MEDICAL';
 import Loading from '../components/shared/loading';
 import { UPDATE_OPHTALMOLOGIQUE, UPDATE_PEAU_MUQUEUSES, UPDATE_RAPPORT } from '../graphql/mutations/UPDATE_EXAMEN_MEDICAL';
-
+import { capitalizeFirstLetter } from '../utils';
+import { useReactToPrint } from "react-to-print";
 
 const Examen = () => {
     const [activeTab, setActiveTab] = useState('1');
@@ -48,7 +50,8 @@ const Examen = () => {
 
     const { loading, error, data } = useQuery(GET_EXAMEN_MEDICAL, {
         variables: {
-            id: examenId
+            id: examenId,
+            userId
         }
     })
 
@@ -63,11 +66,11 @@ const Examen = () => {
                 <div className="examen_content  d-flex flex-column justify-content-between">
                 <div className="infos  d-flex justify-content-between align-items-center">
                     <div className="personal_info d-flex align-items-end">
-                        <img className="personal_img"  src={avatar} alt="" />
+                        <img className="personal_img"  src={data.userAccountById.profilePicture} alt="" />
                         <div className ="text_infos">
-                            <p className="title">Titre</p>
-                            <p className="name">Nom et Prénom </p>
-                            <p className="email">email@esi-sba.dz</p>
+                            <p className="title">{capitalizeFirstLetter(data.userAccountById.role)}</p>
+                            <p className="name">{`${data.userAccountById.nom} ${data.userAccountById.prenom}`}</p>
+                            <p className="email">{data.userAccountById.email}</p>
                         </div>
                     </div>
                     <div className="d-flex flex-row justify-content-around align-items-center ">
@@ -121,24 +124,36 @@ const Examen = () => {
     
 }
 const Ordonnance = () => {
-    const Notes = props => props.data.map((note, i) => <div key={i} className="headTableOrd d-flex flex-row justify-content-between align-items-center">
-        <span className="titles">Médicament</span>
-        <span className="titles">Quantité(Boite)</span>
-        <span className="titles">Durée du traitement (jours)</span>
-        </div>);
-    const initialData = [{ text: 'Notes' }];
+    const Notes = props => props.data.map(note => <div className="headTableOrdc d-flex flex-row justify-content-between align-items-center">
+    <div className="d-flex flex-column align-items-center ">
+    <span className="titles">{note.text}</span>
+    <span className="desc ml-3">{note.notice}</span>
+    </div>
+    <span className="titles">{note.qte}</span>
+    <span className="titles">{note.duree}</span>
+    </div>);
+    const initialData = [{ text: 'Médicament' , notice: '' , qte :'Quantité(Boite)' , duree:'Durée du traitement (jours)' },];
     const [data, setData] = useState(initialData);
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
-            const text = document.querySelector('#noteinput').value.trim();
+            const text = document.querySelector('#nom').value.trim();
+            const qte = document.querySelector('#qte').value.trim();
+            const duree = document.querySelector('#duree').value.trim();
+            const notice = document.querySelector('#notice').value.trim();
             if (text) {
               const nextState = produce(data, draftState => {
-                draftState.push({ text });
+                draftState.push({ text:text ,qte:qte ,  duree:duree , notice : notice});
               });
-              document.querySelector('#noteinput').value = '';
+              document.querySelector('#nom').value = '';
+              document.querySelector('#qte').value = '';
+              document.querySelector('#duree').value = '';
+              document.querySelector('#notice').value = '';
+
               setData(nextState);
-            }
+            }    
         }
+        
+        
       }
     return(
         <div>
@@ -146,8 +161,11 @@ const Ordonnance = () => {
            <Notes data={data} />
            <div className="d-flex flex-row align-items-center justify-content-around">
                 <div className= "addNoteOrd d-flex flex-row align-items-center justify-content-around">
-                    <FontAwesomeIcon icon={faPlus} size="1x" />
-                    <input className="input" id="noteinput" type="text" onKeyDown={handleKeyDown} placeholder="Ajouter une autre note" /><span className="filetypes filetypes-e-7z"></span>
+                    <FontAwesomeIcon icon={faPlus} size="1x" className="mr-2 ml-2" />
+                    <input className="input" id="nom" type="text"  placeholder="Nom du médicament" /><span className="filetypes filetypes-e-7z"></span>
+                    <input className="input" id="notice" type="text"  placeholder="Notice" /><span className="filetypes filetypes-e-7z"></span>        
+                    <input className="input" id="qte" type="text" placeholder="Qte" /><span className="filetypes filetypes-e-7z"></span>
+                    <input className="input" id="duree" type="text" placeholder="Durée" onKeyDown={handleKeyDown} /><span className="filetypes filetypes-e-7z"></span>
                     
                 </div>
                 <div className= "imprimerOrd d-flex flex-row align-items-center justify-content-center">
@@ -161,7 +179,28 @@ const Ordonnance = () => {
     ); 
 }
 const Certeficat = () => {
-    const Notes = props => props.data.map((note, i) => <div key={i} className="noteCertif d-flex flex-column">
+    class ComponentToPrint extends React.PureComponent {
+        render() {
+    
+          return (
+            <div className="d-flex flex-column align-items-center mt-5">
+              <img className="personal_img d-flex align-items-center"  src={logo} alt="" />
+              <span style={{ fontSize: "30px", color: "Blue" }} className="mt-2 mb-2"> Ecole Superieure en Informatique 08-MAI-1945 SIDI BEL ABBES</span>
+              <span style={{ fontSize: "30px", color: "Blue" }} className="mt-2 mb-2"> Unité médicale </span>
+              <span style={{ fontSize: "50px", color: "Blue" }}className="mt-2 mb-5"> CERTEFICAT </span>
+              <div style={{ color: "black" ,  fontSize: "30px"}}>
+              Je soussigné Docteur………, demuerant………..certifie avoir examiné ce jour monsieur ou madame ... né(e) le…..à……. et avoir constaté ‘altération de ses facultés mentales et/ou corporelles.  
+              Ce patient me paraît avoir besoin : 
+              </div>
+              <div style={{ color: "black" ,  fontSize: "30px"}}>
+              Les points mentionnés :
+              </div>
+            </div>
+          );
+                }
+        
+      }
+    const Notes = props => props.data.map(note => <div className="noteCertif d-flex flex-column">
         <span className="subtitle">Description</span>
          <div> {note.text} </div>
         </div>);
@@ -179,6 +218,9 @@ const Certeficat = () => {
             }
         }
       }
+    const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current});
     return(
         <div className="certif mb-4"> 
             <Notes data={data} />
@@ -187,7 +229,10 @@ const Certeficat = () => {
                     <input className="input" id="noteinput" type="text" onKeyDown={handleKeyDown} placeholder="Ajouter une autre note" /><span className="filetypes filetypes-e-7z"></span>
                     
                 </div>
-                <div className="d-flex flex-column align-items-end mr-5" >
+                <div style={{ display: "none" }}>
+                <ComponentToPrint ref={componentRef} />
+                </div>
+                <div className="d-flex flex-column align-items-end mr-5"  onClick={handlePrint}>
                 <Btn id="print" icon={faPrint} name="Imprimer" color="black"  text="print" />
                      </div>
             

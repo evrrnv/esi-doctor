@@ -9,8 +9,9 @@ import { CREATE_EXAMEN_MEDICAL } from '../../graphql/mutations/CREATE_EXAMEN_MED
 import Loading from './loading';
 import { useSelector,useDispatch } from 'react-redux';
 import { archiveAction } from '../../redux/actions';
+import { capitalizeFirstLetter } from '../../utils';
 
-const DossierCard = ({ id, dossierMedicalId, nom, prenom, profilePictureUrl }) => {
+const DossierCard = ({ id, dossierMedicalId, nom, prenom, profilePictureUrl, role }) => {
     const dispatch = useDispatch(); 
     const toggleArchive = useSelector(archive => archive.toggleArchive) 
     const history = useHistory()
@@ -48,7 +49,7 @@ const DossierCard = ({ id, dossierMedicalId, nom, prenom, profilePictureUrl }) =
                     <Avatar alt="profile picture" src={profilePictureUrl} style={{marginRight: "16px"}} />
                     <div>
                         <h5>{prenom} {nom}</h5>
-                        <h6 className="dossier__title">Etudiant</h6>
+                        <h6 className="dossier__title">{capitalizeFirstLetter(role)}</h6>
                     </div>
                 </div>
                 <div className="dossier__actions d-flex align-items-center">

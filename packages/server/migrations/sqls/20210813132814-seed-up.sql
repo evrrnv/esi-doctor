@@ -142,10 +142,11 @@ CREATE TABLE app.rendez_vous (
     start_date TIMESTAMP NOT NULL , 
     end_date TIMESTAMP NOT NULL,
     description text null,
+    is_valid Boolean DEFAULT TRUE,
     updated_at TIMESTAMP NOT NULL DEFAULT now()
 );
 GRANT ALL ON app.rendez_vous TO MEDECIN;
-GRANT SELECT ON app.rendez_vous TO ETUDIANT, ENSEIGNANT, ATS;
+GRANT SELECT, INSERT ON app.rendez_vous TO ETUDIANT, ENSEIGNANT, ATS;
 
 -- rdvs of current user
 
@@ -155,18 +156,23 @@ CREATE POLICY medecin_rdv ON app.rendez_vous FOR ALL TO MEDECIN USING
     (medecin = nullif (current_setting('jwt.claims.user_id', TRUE),'')::uuid);
 
 CREATE POLICY patient_rdv ON app.rendez_vous FOR SELECT TO ETUDIANT, ENSEIGNANT, ATS USING
-    (user_id = nullif (current_setting('jwt.claims.user_id', TRUE),'')::uuid AND start_date > now());
+    (user_id = nullif (current_setting('jwt.claims.user_id', TRUE),'')::uuid AND start_date > now() AND is_valid = TRUE);
+
+CREATE POLICY patient_rdv_insert ON app.rendez_vous FOR INSERT TO ETUDIANT, ENSEIGNANT, ATS WITH CHECK (TRUE);
 
 -- current medecin rdvs
 
 CREATE FUNCTION app.set_current_medecin_rendezVous() RETURNS TRIGGER AS $$
 BEGIN
-    NEW.medecin = nullif (current_setting('jwt.claims.user_id', TRUE),'')::uuid;
+    IF  current_setting('jwt.claims.role')::text = 'medecin' THEN
+        NEW.medecin = nullif (current_setting('jwt.claims.user_id', TRUE),'')::uuid;
+        NEW.is_valid = TRUE;
+    END IF;
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER set_medecin_accorder_rende_vous BEFORE INSERT ON app.rendez_vous FOR EACH ROW EXECUTE FUNCTION app.set_current_medecin_rendezVous();
+CREATE TRIGGER set_medecin_accorder_rende_vous AFTER INSERT ON app.rendez_vous FOR EACH ROW EXECUTE FUNCTION app.set_current_medecin_rendezVous();
 --annèe et groupe
 
 CREATE TABLE app.ecole_niveau (
@@ -372,8 +378,8 @@ CREATE FUNCTION app.recent_updated_dossier_medicals()
     app.dossier_medical.numero AS numero_dossier_medical, 
     medecin_user_account.nom AS medecin_nom, 
     medecin_user_account.prenom AS medecin_prenom,
-    LEAST(app.biometrique.updated_at, app.antecedents_medico_chirugicaux.updated_at, app.antecedents_personnelles.updated_at) AS date,
-    (CASE LEAST(app.biometrique.updated_at, app.antecedents_medico_chirugicaux.updated_at, app.antecedents_personnelles.updated_at)
+    GREATEST(app.biometrique.updated_at, app.antecedents_medico_chirugicaux.updated_at, app.antecedents_personnelles.updated_at) AS date,
+    (CASE GREATEST(app.biometrique.updated_at, app.antecedents_medico_chirugicaux.updated_at, app.antecedents_personnelles.updated_at)
     WHEN app.biometrique.updated_at THEN 'BIOMETRIQUE'
     WHEN app.antecedents_personnelles.updated_at THEN 'A.P'
     WHEN app.antecedents_medico_chirugicaux.updated_at THEN 'A.M.C'
@@ -519,7 +525,7 @@ COMMENT ON TABLE app.examen_medical is E'@omit delete';
 COMMENT ON COLUMN app.examen_medical.created_at is E'@omit create,update';
 COMMENT ON COLUMN app.examen_medical.updated_at is E'@omit create,update';
 
-GRANT EXECUTE ON FUNCTION uuid_generate_v4() TO MEDECIN;
+GRANT EXECUTE ON FUNCTION uuid_generate_v4() TO MEDECIN, ENSEIGNANT, ETUDIANT, ATS;
 
 -- rapport
 
@@ -842,6 +848,18 @@ SELECT app.create_medecin('cc04529e-8e39-456f-b1f7-80bc6c726e02', 'a.boussaid', 
 
 SELECT app.create_patient('767f4741-4473-4d19-9e96-39b9abb01bc6', 'etudiant1', 'password', 'etudiant1@esi-sba.dz', 'Alimaia', 'Bouchiba', 'https://images.unsplash.com/photo-1560329072-17f59dcd30a4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=767&q=80', '102 Rue Haddad Layachi, 19600', '0678569874', '2000-05-17', 'F', '3', 'SIW', 'Celibataire');
 SELECT app.create_patient('84fa94cc-cd5d-449d-a4fa-197d0bf195b7', 'etudiant2', 'password', 'etudiant2@esi-sba.dz', 'Amrouche', 'Aleser', 'https://images.pexels.com/photos/3812011/pexels-photo-3812011.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260', '93 RUE EMIR KHALED, Oran El M Naouer', '0123654789', '2001-04-10', 'M');
+SELECT app.create_patient('346be089-fbf2-47ca-b356-21726341f56f', 'etudiant3', 'password', 'etudiant3@esi-sba.dz', 'Hadya', 'Madani', 'https://images.unsplash.com/photo-1611590027211-b954fd027b51?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=677&q=80', '93 RUE EMIR KHALED, Oran El M Naouer', '0123654789', '2001-04-10', 'F');
+SELECT app.create_patient('a98ae20e-24f1-415d-b65c-279895e1ce95', 'etudiant4', 'password', 'etudiant4@esi-sba.dz', 'Haris', 'Zakaria', 'https://images.unsplash.com/photo-1616707694728-599b59672d82?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=634&q=80', '93 RUE EMIR KHALED, Oran El M Naouer', '0123654789', '2001-04-10', 'M');
+SELECT app.create_patient('4881920c-c965-4f24-95a2-0c0071f25b79', 'etudiant5', 'password', 'etudiant5@esi-sba.dz', 'Ameena ', 'Rachedi', 'https://images.unsplash.com/photo-1611558709798-e009c8fd7706?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzh8fHBvcnRhaXR8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60', '93 RUE EMIR KHALED, Oran El M Naouer', '0123654789', '2001-04-10', 'F');
+
+SELECT app.create_patient('419d7a76-fcc6-4ed0-b95d-4d215d6b1dc9', 'enseignant1', 'password', 'enseignant1@esi-sba.dz', 'Omer', 'Benguigui', 'https://images.unsplash.com/photo-1559548331-f9cb98001426?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80', '93 RUE EMIR KHALED, Oran El M Naouer', '0123654789', '1980-04-10', 'M', null, null, null, 'ENSEIGNANT');
+SELECT app.create_patient('8102452c-f667-4979-bf23-ec485356573d', 'enseignant2', 'password', 'enseignant2@esi-sba.dz', 'Tariq', 'Timsit', 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80', '93 RUE EMIR KHALED, Oran El M Naouer', '0123654789', '1980-04-10', 'M', null, null, null, 'ENSEIGNANT');
+SELECT app.create_patient('873aafe4-0d33-4d5a-b95f-f3a5e6cfac1d', 'enseignant3', 'password', 'enseignant3@esi-sba.dz', 'Kaseem', 'Bitat', 'https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80', '93 RUE EMIR KHALED, Oran El M Naouer', '0123654789', '1980-04-10', 'M', null, null, null, 'ENSEIGNANT');
+
 
 SELECT app.assign_medecin_to_patient('767f4741-4473-4d19-9e96-39b9abb01bc6', 'cc04529e-8e39-456f-b1f7-80bc6c726e02');
-SELECT app.assign_medecin_to_patient('7150e9aa-b8be-4c5a-bc8d-653b0deaab96', '74dc5a42-79ca-48ac-97fc-2e682e0efec7');
+SELECT app.assign_medecin_to_patient('84fa94cc-cd5d-449d-a4fa-197d0bf195b7', '74dc5a42-79ca-48ac-97fc-2e682e0efec7');
+
+SELECT app.assign_medecin_to_patient('346be089-fbf2-47ca-b356-21726341f56f', 'cc04529e-8e39-456f-b1f7-80bc6c726e02');
+SELECT app.assign_medecin_to_patient('a98ae20e-24f1-415d-b65c-279895e1ce95', '98f451b8-8aa4-4dc3-90a4-e745288de8bb');
+SELECT app.assign_medecin_to_patient('4881920c-c965-4f24-95a2-0c0071f25b79', '48cfbc46-fdcd-4b97-8ab1-03c469981506');

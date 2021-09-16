@@ -1,7 +1,14 @@
 import { gql } from '@apollo/client';
 
 const GET_EXAMEN_MEDICAL = gql`
-query GetExamenMedical($id: UUID!) {
+query GetExamenMedical($id: UUID!, $userId: UUID!) {
+  userAccountById(id: $userId) {
+    nom
+    prenom
+    role
+    email
+    profilePicture
+  }
   examenMedicalById(id: $id) {
     id
     rapportMedicalById {

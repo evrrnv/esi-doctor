@@ -89,9 +89,9 @@ const DashBoard = () => {
                         <div className="statics_content d-flex">
                             <div className="statics_nums d-flex flex-column">
                                 <div className="statics_var ">
-                                    <Items type="Nombres de visites médicales" value="255"/>
-                                    <Items type="Maladies chroniques" value="120"/>
-                                    <Items type="Nombres de visites ce mois" value="89"/>
+                                    <Items type="Nombres de visites médicales" value="5"/>
+                                    <Items type="Maladies chroniques" value="0"/>
+                                    <Items type="Nombres de visites ce mois" value="8"/>
                                 </div>
                                 <div className="last_modif">
                                      <div className="modif__rec"> 
@@ -103,14 +103,11 @@ const DashBoard = () => {
                                                     <h6 className="modif_content col">MEDECIN</h6>
                                                     <h6 className="modif_content col-md-auto">DATE DE MODIFICATION </h6>
                                                 </div>
-                                                <LastEdit NO="1" patient="Mesmoudi Amine" doctor="Dr.johnny sins" date="14 September 2021"/>
-                                                <LastEdit NO="1" patient="Mesmoudi Amine" doctor="Dr.johnny sins" date="14 September 2021"/>
-                                                <LastEdit NO="1" patient="Mesmoudi Amine" doctor="Dr.johnny sins" date="14 September 2021"/>
-                                                <LastEdit NO="1" patient="Mesmoudi Amine" doctor="Dr.johnny sins" date="14 September 2021"/>
-                                                <LastEdit NO="1" patient="Mesmoudi Amine" doctor="Dr.johnny sins" date="14 September 2021"/>
-                                                <LastEdit NO="1" patient="Mesmoudi Amine" doctor="Dr.johnny sins" date="14 September 2021"/>
-                                                <LastEdit NO="1" patient="Mesmoudi Amine" doctor="Dr.johnny sins" date="14 September 2021"/>
-                                                <LastEdit NO="1" patient="Mesmoudi Amine" doctor="Dr.johnny sins" date="14 September 2021"/>
+                                                <LastEdit NO="5" patient="Alimaia Bouchiba" doctor="Dr.Sedaoui" date="16 Août 2021"/>
+                                                <LastEdit NO="6" patient="Amrouche Aleser" doctor="Dr.Mesmoudi" date="16 Août 2021"/>
+                                                <LastEdit NO="7" patient="Hadya Madani" doctor="Dr.Sedaoui" date="16 Août 2021"/>
+                                                <LastEdit NO="8" patient="Haris Zakaria" doctor="Dr.Sedaoui sins" date="16 Août 2021"/>
+                                                <LastEdit NO="9" patient="Ameena Rachedi" doctor="Dr.Bendada" date="16 Août 2021"/>
                                             </div>
                                     </div>
                                 </div>

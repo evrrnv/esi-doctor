@@ -29,7 +29,7 @@ const HistoLastExam = (props) => {
 
     if (loading) return (
         <div className="patients__examen align-self-end">
-            <Loading />
+            
         </div>
     );
     if (error) return <p>Error(:</p>;

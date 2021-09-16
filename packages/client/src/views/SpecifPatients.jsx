@@ -14,8 +14,6 @@ import { SEARCH_PATIENTS } from '../graphql/queries/SEARCH_PATIENTS';
 
 const SpecifPatients = (props) => {
 
-    const client = useApolloClient();
-
     const getRoleFromType = () => {
         if (props.type === 'Enseignants') return 'ENSEIGNANT'
         else if (props.type === 'ATS') return 'ATS'
@@ -24,7 +22,7 @@ const SpecifPatients = (props) => {
 
     const [searchValue, setSearchValue] = useState("")
     
-    const { loading, error, data } = useQuery(GET_SPECIFIC_PATIENTS, {
+    const { loading, error, data, client } = useQuery(GET_SPECIFIC_PATIENTS, {
         variables: {
             role: getRoleFromType()
         },
@@ -38,7 +36,8 @@ const SpecifPatients = (props) => {
                     role: getRoleFromType()
                 }
             })
-            let newData = {...oldData}
+
+            let newData = JSON.parse(JSON.stringify(oldData))
             newData.allUserAccounts = allUserAccounts
             client.writeQuery({
                 query: GET_SPECIFIC_PATIENTS,
@@ -100,7 +99,7 @@ const SpecifPatients = (props) => {
                         <h3 className="modif__txt Dm__txt mb-3 ">DOSSIERS MÉDICAUX</h3>
                         <div className="Dms ml-1  d-flex flex-column ">
                             { allUserAccounts.nodes.map(v => {
-                                return (<DossierCard key={v.id} id={v.id} dossierMedicalId={v.dossierMedicalsByUserId.nodes[0].id} nom={v.nom} prenom={v.prenom} profilePictureUrl={v.profilePicture} />)
+                                return (<DossierCard role={v.role} key={v.id} id={v.id} dossierMedicalId={v.dossierMedicalsByUserId.nodes[0].id} nom={v.nom} prenom={v.prenom} profilePictureUrl={v.profilePicture} />)
                             }) }
                         </div>
                         
