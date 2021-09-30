@@ -142,7 +142,7 @@ CREATE TABLE app.rendez_vous (
     start_date TIMESTAMP NOT NULL , 
     end_date TIMESTAMP NOT NULL,
     description text null,
-    is_valid Boolean DEFAULT TRUE,
+    is_valid Boolean DEFAULT FALSE,
     updated_at TIMESTAMP NOT NULL DEFAULT now()
 );
 GRANT ALL ON app.rendez_vous TO MEDECIN;
@@ -174,7 +174,18 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE FUNCTION app.set_update_rendezVous() RETURNS TRIGGER AS $$
+BEGIN
+    IF  current_setting('jwt.claims.role')::text = 'medecin' THEN
+        NEW.medecin = nullif (current_setting('jwt.claims.user_id', TRUE),'')::uuid;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
 CREATE TRIGGER set_medecin_accorder_rende_vous BEFORE INSERT ON app.rendez_vous FOR EACH ROW EXECUTE FUNCTION app.set_current_medecin_rendezVous();
+CREATE TRIGGER update_medecin_accorder_rende_vous BEFORE UPDATE ON app.rendez_vous FOR EACH ROW EXECUTE FUNCTION app.set_update_rendezVous();
+
 --annèe et groupe
 
 CREATE TABLE app.ecole_niveau (
@@ -209,21 +220,21 @@ CREATE TYPE app.check_rdv_availability_type AS (
 
 CREATE FUNCTION app.check_rdv_availability(date DATE) RETURNS app.check_rdv_availability_type AS $$
     SELECT 
-        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 08:30'))::timestamp AND end_date <= (CONCAT(date::text, ' 09:00'))::timestamp THEN true ELSE false END) AS r830,
-        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 09:00'))::timestamp AND end_date <= (CONCAT(date::text, ' 09:30'))::timestamp THEN true ELSE false END) AS r900,
-        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 09:30'))::timestamp AND end_date <= (CONCAT(date::text, ' 10:00'))::timestamp THEN true ELSE false END) AS r930,
+        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 08:30'))::timestamp AND end_date <= (CONCAT(date::text, ' 09:00'))::timestamp AND is_valid IS NOT NULL THEN true ELSE false END) AS r830,
+        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 09:00'))::timestamp AND end_date <= (CONCAT(date::text, ' 09:30'))::timestamp AND is_valid IS NOT NULL THEN true ELSE false END) AS r900,
+        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 09:30'))::timestamp AND end_date <= (CONCAT(date::text, ' 10:00'))::timestamp AND is_valid IS NOT NULL THEN true ELSE false END) AS r930,
 
-        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 10:00'))::timestamp AND end_date <= (CONCAT(date::text, ' 10:30'))::timestamp THEN true ELSE false END) AS r100,
-        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 10:30'))::timestamp AND end_date <= (CONCAT(date::text, ' 11:00'))::timestamp THEN true ELSE false END) AS r130,
-        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 11:00'))::timestamp AND end_date <= (CONCAT(date::text, ' 11:30'))::timestamp THEN true ELSE false END) AS r110,
+        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 10:00'))::timestamp AND end_date <= (CONCAT(date::text, ' 10:30'))::timestamp AND is_valid IS NOT NULL THEN true ELSE false END) AS r100,
+        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 10:30'))::timestamp AND end_date <= (CONCAT(date::text, ' 11:00'))::timestamp AND is_valid IS NOT NULL THEN true ELSE false END) AS r130,
+        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 11:00'))::timestamp AND end_date <= (CONCAT(date::text, ' 11:30'))::timestamp AND is_valid IS NOT NULL THEN true ELSE false END) AS r110,
 
-        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 14:00'))::timestamp AND end_date <= (CONCAT(date::text, ' 14:30'))::timestamp THEN true ELSE false END) AS r200,
-        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 14:30'))::timestamp AND end_date <= (CONCAT(date::text, ' 15:00'))::timestamp THEN true ELSE false END) AS r230,
-        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 15:00'))::timestamp AND end_date <= (CONCAT(date::text, ' 15:30'))::timestamp THEN true ELSE false END) AS r300,
+        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 14:00'))::timestamp AND end_date <= (CONCAT(date::text, ' 14:30'))::timestamp AND is_valid IS NOT NULL THEN true ELSE false END) AS r200,
+        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 14:30'))::timestamp AND end_date <= (CONCAT(date::text, ' 15:00'))::timestamp AND is_valid IS NOT NULL THEN true ELSE false END) AS r230,
+        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 15:00'))::timestamp AND end_date <= (CONCAT(date::text, ' 15:30'))::timestamp AND is_valid IS NOT NULL THEN true ELSE false END) AS r300,
 
-        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 15:30'))::timestamp AND end_date <= (CONCAT(date::text, ' 16:00'))::timestamp THEN true ELSE false END) AS r330,
-        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 16:00'))::timestamp AND end_date <= (CONCAT(date::text, ' 16:30'))::timestamp THEN true ELSE false END) AS r400,
-        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 16:30'))::timestamp AND end_date <= (CONCAT(date::text, ' 17:00'))::timestamp THEN true ELSE false END) AS r430
+        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 15:30'))::timestamp AND end_date <= (CONCAT(date::text, ' 16:00'))::timestamp AND is_valid IS NOT NULL THEN true ELSE false END) AS r330,
+        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 16:00'))::timestamp AND end_date <= (CONCAT(date::text, ' 16:30'))::timestamp AND is_valid IS NOT NULL THEN true ELSE false END) AS r400,
+        bool_or(CASE WHEN start_date >= (CONCAT(date::text, ' 16:30'))::timestamp AND end_date <= (CONCAT(date::text, ' 17:00'))::timestamp AND is_valid IS NOT NULL THEN true ELSE false END) AS r430
     FROM app.rendez_vous;
 $$ LANGUAGE SQL STABLE;
 
@@ -438,7 +449,8 @@ CREATE FUNCTION app.create_patient(
         niveau INT DEFAULT NULL,
         specialite SPECIALITE DEFAULT NULL,
         family_status FAMILY_STATUS DEFAULT NULL,
-        role ROLE DEFAULT 'ETUDIANT'
+        role ROLE DEFAULT 'ETUDIANT',
+        groupe INT DEFAULT NULL
     ) 
     RETURNS TABLE (id uuid) AS $$
         WITH
@@ -447,7 +459,7 @@ CREATE FUNCTION app.create_patient(
         ins_bio AS(INSERT INTO app.biometrique (id) VALUES ((SELECT id FROM ins_ds_mdc))),
         ins_atc_prs AS (INSERT INTO app.antecedents_personnelles (id) VALUES ((SELECT id FROM ins_ds_mdc))),
         ins_mdc_chgc AS (INSERT INTO app.antecedents_medico_chirugicaux (id) VALUES ((SELECT id FROM ins_ds_mdc)))
-        INSERT INTO app.user_account(user_id, email, role, nom, prenom, dateDeNaissance, sexe, niveau, specialite, adresse, telephone, profile_picture, family_status) 
+        INSERT INTO app.user_account(user_id, email, role, nom, prenom, dateDeNaissance, sexe, niveau, specialite, adresse, telephone, profile_picture, family_status, groupe) 
         VALUES (
             (SELECT id FROM ins_pvt_acc), 
             create_patient.email, 
@@ -461,12 +473,13 @@ CREATE FUNCTION app.create_patient(
             create_patient.adresse, 
             create_patient.telephone,
             create_patient.profile_picture,
-            create_patient.family_status
+            create_patient.family_status,
+            create_patient.groupe
             ) 
             RETURNING user_id AS id;
 $$ LANGUAGE sql VOLATILE;
 
-GRANT EXECUTE ON FUNCTION app.create_patient(uuid, varchar, varchar, varchar, varchar, varchar, varchar, varchar, char, date, sexe, int, specialite, family_status, role) TO ANONYMOUS;
+GRANT EXECUTE ON FUNCTION app.create_patient(uuid, varchar, varchar, varchar, varchar, varchar, varchar, varchar, char, date, sexe, int, specialite, family_status, role, int) TO ANONYMOUS;
 
 -- assign medecin to patient
 
@@ -856,9 +869,9 @@ SELECT app.create_medecin('cc04529e-8e39-456f-b1f7-80bc6c726e02', 'a.boussaid', 
 
 SELECT app.create_patient('767f4741-4473-4d19-9e96-39b9abb01bc6', 'etudiant1', 'password', 'etudiant1@esi-sba.dz', 'Alimaia', 'Bouchiba', 'https://images.unsplash.com/photo-1560329072-17f59dcd30a4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=767&q=80', '102 Rue Haddad Layachi, 19600', '0678569874', '2000-05-17', 'F', '3', 'SIW', 'Celibataire');
 SELECT app.create_patient('84fa94cc-cd5d-449d-a4fa-197d0bf195b7', 'etudiant2', 'password', 'etudiant2@esi-sba.dz', 'Amrouche', 'Aleser', 'https://images.pexels.com/photos/3812011/pexels-photo-3812011.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260', '93 RUE EMIR KHALED, Oran El M Naouer', '0123654789', '2001-04-10', 'M');
-SELECT app.create_patient('346be089-fbf2-47ca-b356-21726341f56f', 'etudiant3', 'password', 'etudiant3@esi-sba.dz', 'Hadya', 'Madani', 'https://images.unsplash.com/photo-1611590027211-b954fd027b51?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=677&q=80', '93 RUE EMIR KHALED, Oran El M Naouer', '0123654789', '2001-04-10', 'F');
-SELECT app.create_patient('a98ae20e-24f1-415d-b65c-279895e1ce95', 'etudiant4', 'password', 'etudiant4@esi-sba.dz', 'Haris', 'Zakaria', 'https://images.unsplash.com/photo-1616707694728-599b59672d82?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=634&q=80', '93 RUE EMIR KHALED, Oran El M Naouer', '0123654789', '2001-04-10', 'M');
-SELECT app.create_patient('4881920c-c965-4f24-95a2-0c0071f25b79', 'etudiant5', 'password', 'etudiant5@esi-sba.dz', 'Ameena ', 'Rachedi', 'https://images.unsplash.com/photo-1611558709798-e009c8fd7706?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzh8fHBvcnRhaXR8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60', '93 RUE EMIR KHALED, Oran El M Naouer', '0123654789', '2001-04-10', 'F');
+SELECT app.create_patient('346be089-fbf2-47ca-b356-21726341f56f', 'etudiant3', 'password', 'etudiant3@esi-sba.dz', 'Hadya', 'Madani', 'https://images.unsplash.com/photo-1611590027211-b954fd027b51?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=677&q=80', '93 RUE EMIR KHALED, Oran El M Naouer', '0123654789', '2001-04-10', 'F', null, null, null, 'ETUDIANT', 5);
+SELECT app.create_patient('a98ae20e-24f1-415d-b65c-279895e1ce95', 'etudiant4', 'password', 'etudiant4@esi-sba.dz', 'Haris', 'Zakaria', 'https://images.unsplash.com/photo-1616707694728-599b59672d82?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=634&q=80', '93 RUE EMIR KHALED, Oran El M Naouer', '0123654789', '2001-04-10', 'M', null, null, null, 'ETUDIANT', 4);
+SELECT app.create_patient('4881920c-c965-4f24-95a2-0c0071f25b79', 'etudiant5', 'password', 'etudiant5@esi-sba.dz', 'Ameena ', 'Rachedi', 'https://images.unsplash.com/photo-1611558709798-e009c8fd7706?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzh8fHBvcnRhaXR8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60', '93 RUE EMIR KHALED, Oran El M Naouer', '0123654789', '2001-04-10', 'F', null, null, null, 'ETUDIANT', 2);
 
 SELECT app.create_patient('419d7a76-fcc6-4ed0-b95d-4d215d6b1dc9', 'enseignant1', 'password', 'enseignant1@esi-sba.dz', 'Omer', 'Benguigui', 'https://images.unsplash.com/photo-1559548331-f9cb98001426?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80', '93 RUE EMIR KHALED, Oran El M Naouer', '0123654789', '1980-04-10', 'M', null, null, null, 'ENSEIGNANT');
 SELECT app.create_patient('8102452c-f667-4979-bf23-ec485356573d', 'enseignant2', 'password', 'enseignant2@esi-sba.dz', 'Tariq', 'Timsit', 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80', '93 RUE EMIR KHALED, Oran El M Naouer', '0123654789', '1980-04-10', 'M', null, null, null, 'ENSEIGNANT');

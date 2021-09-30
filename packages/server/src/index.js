@@ -68,7 +68,7 @@ app.use(
       }
 
       return {
-        role: 'medecin'
+        role: 'anonymous'
       }
     }
   })

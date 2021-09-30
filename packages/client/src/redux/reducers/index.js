@@ -6,6 +6,7 @@ import typeRdvModalReducer from './typeRdv'
 import aprouvRdvModalReducer from './aprouvRdv'
 import archiveModalReducer from './archiver'
 import bringPatientReducer from './bringPatient'
+import bringNotificationReducer from './bringNotification'
 
 const allReducers = combineReducers({
   showSidebar: showSidebarReducer,
@@ -15,7 +16,8 @@ const allReducers = combineReducers({
   toggleIndividuelleRdvModal: IndividuelleRdvModalReducer,
   toggleAprouvRdv : aprouvRdvModalReducer,
   toggleArchive : archiveModalReducer,
-  bringPatient : bringPatientReducer
+  bringPatient : bringPatientReducer,
+  bringNotification : bringNotificationReducer
 })
 
 export default allReducers

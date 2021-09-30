@@ -4,12 +4,15 @@ import avatar  from '../../assets/images/avatar.jpg';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faBars} from '@fortawesome/free-solid-svg-icons'
-import { Avatar } from '@material-ui/core';
+import {faBars, faLessThanEqual} from '@fortawesome/free-solid-svg-icons'
+import { Avatar, LinearProgress } from '@material-ui/core';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import RdvDemand from './rdvDemand';
 import { AprouvRdvAction } from '../../redux/actions';
 import { useDispatch } from 'react-redux';
+import { capitalizeFirstLetter } from '../../utils'
+import { useQuery } from '@apollo/client';
+import { GET_DEMENDES_RDV } from '../../graphql/queries/GET_DEMENDES_RDV';
 
 
 
@@ -17,6 +20,12 @@ const DoctorHeader = ({ nom, prenom, profilePictureUrl }) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const toggle = () => setDropdownOpen(prevState => !prevState);
     const dispatch = useDispatch();
+
+    const { loading, error, data } = useQuery(GET_DEMENDES_RDV)
+
+    if (loading) return <LinearProgress />
+    if (error) return <p>Error(:</p>;
+
     return (
         <div className="patients__head  d-flex justify-content-between align-items-center">
             <button className="d-block d-sm-none burger"><FontAwesomeIcon icon={faBars}/></button>
@@ -44,18 +53,28 @@ const DoctorHeader = ({ nom, prenom, profilePictureUrl }) => {
                      </DropdownItem>
                      <DropdownItem divider />
                      <h6 className="demand__rdv__txt ml-3 my-1">Demandes de rendez-vous</h6>
-                     <DropdownItem className="notifs" onClick={() => dispatch(AprouvRdvAction())}>
-                        <RdvDemand />
-                     </DropdownItem>
-                     <DropdownItem className="notifs " onClick={() => dispatch(AprouvRdvAction())}>
-                        <RdvDemand />
-                     </DropdownItem>
-                     <DropdownItem className="notifs" onClick={() => dispatch(AprouvRdvAction())}>
-                        <RdvDemand />
-                     </DropdownItem>
-                     <DropdownItem className="notifs" onClick={() => dispatch(AprouvRdvAction())}>
-                        <RdvDemand />
-                     </DropdownItem>
+
+                     {data.allRendezVous.nodes.map((v, i) => {
+                        const props = {
+                           id: v.id,
+                           startDate: v.startDate,
+                           endDate: v.endDate,
+                           nom: v.userAccountByUserId.nom,
+                           prenom: v.userAccountByUserId.prenom,
+                           role: capitalizeFirstLetter(v.userAccountByUserId.role),
+                           profilePicture: v.userAccountByUserId.profilePicture,
+                           niveau: v.userAccountByUserId.niveau,
+                           specialite: v.userAccountByUserId.specialite,
+                           groupe: v.userAccountByUserId.groupe
+                        }
+                        if (v.isValid !== null) {
+                           return (
+                              <DropdownItem key={i} className="notifs" onClick={() => dispatch(AprouvRdvAction(props))}>
+                                 <RdvDemand {...props} />
+                              </DropdownItem>
+                           )
+                        }
+                     })}
                      
                    </DropdownMenu>
                  </Dropdown>
